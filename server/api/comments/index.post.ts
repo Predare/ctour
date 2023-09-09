@@ -3,31 +3,9 @@ import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-
   const prisma = new PrismaClient();
-
   var result: any = null;
-
-  const colors = [
-    '#EF9A9A',
-    '#F48FB1',
-    '#CE93D8',
-    '#B39DDB',
-    '#9FA8DA',
-    '#90CAF9',
-    '#81D4FA',
-    '#80DEEA',
-    '#80CBC4',
-    '#A5D6A7',
-    '#C5E1A5',
-    '#E6EE9C',
-  ];
-
   const session = await getServerSession(event);
-
-  function getRandomArbitrary(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min) + min);
-  }
 
   async function create() {
     return await prisma.comment.create({

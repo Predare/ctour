@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
   }
   async function upsert() {
     var request = {};
-    request = await prisma.commentVote.upsert({
+    request = await prisma.vote.upsert({
       where: {
         ['commentId_userId']: {
           commentId: body.commentId,
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
   }
 
   async function groupCommentVotes() {
-    return await prisma.commentVote.groupBy({
+    return await prisma.vote.groupBy({
       by: ['status'],
       _count: {
         id: true
@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
   const groupCommentVotesResult = await groupCommentVotes();
   return { 
     status: true, 
-    positiveCount: groupCommentVotesResult.find(groupedCommentVote => groupedCommentVote.status === 1)?._count?.id, 
-    negativeCount: groupCommentVotesResult.find(groupedCommentVote => groupedCommentVote.status === -1)?._count?.id 
+    positiveCount: groupCommentVotesResult.find(groupedCommentVote => groupedCommentVote.status === 1)?._count?.id ?? 0, 
+    negativeCount: groupCommentVotesResult.find(groupedCommentVote => groupedCommentVote.status === -1)?._count?.id ?? 0, 
   };
 })

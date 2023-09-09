@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
     });
 
     async function groupCommentVotes() {
-      return await prisma.commentVote.groupBy({
+      return await prisma.vote.groupBy({
         by: ['commentId', 'status'],
         _count: {
           id: true
@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
 
     const groupedCommentVotes = await groupCommentVotes();
 
-    const userVotes = await prisma.commentVote.findMany({
+    const userVotes = await prisma.vote.findMany({
       where: {
         commentId: { in: comments.map(comment => comment.id) },
         userId: session?.user.id,

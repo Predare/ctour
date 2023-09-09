@@ -52,7 +52,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   comments      Comment[]
-  commentVotes  CommentVote[]
+  commentVotes  Vote[]
   rank          Rank?         @relation("rank", fields: [rankId], references: [id])
   rankId        Int?
   nextRank      Rank?         @relation("nextRank", fields: [nextRankId], references: [id])
@@ -71,14 +71,15 @@ enum Pole {
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @db.Timestamp()
-  author    User     @relation(fields: [authorId], references: [id])
+  id        Int           @id @default(autoincrement())
+  createdAt DateTime      @default(now()) @db.Timestamp()
+  author    User          @relation(fields: [authorId], references: [id])
   authorId  String
-  film      Film     @relation(fields: [filmId], references: [id])
+  film      Film          @relation(fields: [filmId], references: [id])
   filmId    Int
   text      String
-  rating    Pole     @default(POSITIVE)
+  rating    Pole          @default(POSITIVE)
+  votes     Vote[]
 
   @@unique([filmId, authorId])
 }
@@ -151,13 +152,13 @@ model Comment {
   user      User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?       @map("user_id")
   createdAt DateTime      @default(now()) @db.Timestamp()
-  votes     CommentVote[]
+  votes     Vote[]
   text      String
   film      Film          @relation(fields: [filmId], references: [id])
   filmId    Int
 }
 
-model CommentVote {
+model Vote {
   id        Int      @id @default(autoincrement())
   comment   Comment  @relation(fields: [commentId], references: [id])
   commentId Int
@@ -165,6 +166,8 @@ model CommentVote {
   userId    String
   status    Int      @default(0)
   createdAt DateTime @default(now()) @db.Timestamp()
+  Review    Review?  @relation(fields: [reviewId], references: [id])
+  reviewId  Int?
 
   @@unique([commentId, userId])
 }

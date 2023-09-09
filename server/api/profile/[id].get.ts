@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
   }
 
   async function groupCommentVotes() {
-    return await prisma.commentVote.groupBy({
+    return await prisma.vote.groupBy({
       by: ['status'],
       _count: {
         id: true
@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
   });
 
   async function userRating(user: any) {
-    return await prisma.commentVote.aggregate({
+    return await prisma.vote.aggregate({
       where: {
         comment: {
           userId: user.id,
