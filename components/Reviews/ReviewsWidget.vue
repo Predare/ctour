@@ -3,11 +3,10 @@ const props = defineProps({
     filmId: Number,
     authorId: String,
 });
-
 const items = ref();
 
 onMounted(() => {
-    $fetch(`/api/review/get/?${props.filmId ? 'filmId' + props.filmId : 'authorId' +props.authorId}`).then(response => {
+    $fetch(`/api/review/get/?${props.filmId ? 'filmId=' + props.filmId : 'authorId=' + props.authorId}`).then(response => {
         items.value = response;
     });
 })
