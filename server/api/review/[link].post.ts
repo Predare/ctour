@@ -6,13 +6,15 @@ export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient();
   const session = await getServerSession(event);
 
+  const link: any  = event.context.params?.link;
+  if(!link) return {status: 404};
   async function upsertReview() {
     return await prisma.review.upsert({
       where: {
-        ['filmId_authorId']: {
-          filmId: Number(event.context.params?.id),
-          authorId: session?.user.id
-        },
+        'filmLink_authorId': {
+          filmLink: link,
+          authorId: session?.user.id,
+        }
       },
       create: {
         author: {
@@ -23,7 +25,7 @@ export default defineEventHandler(async (event) => {
         text: body.text,
         film: {
           connect: {
-            id: Number(event.context.params?.id)
+            link: link
           }
         },
       },

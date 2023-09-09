@@ -24,12 +24,12 @@ async function loadFilmInfo() {
         </v-row>
         <v-row>
             <v-col>
-                <ReviewsWidget class="mt-10 bg-surface-lighten-1 p-10" :filmId="filmStore.film.id"/>
+                <ReviewsWidget class="mt-10 bg-surface-lighten-1 p-10" :filmLink="filmStore.film.link"/>
             </v-col>
         </v-row>
         <v-row>
             <v-col>
-                <NuxtLink :to="'/reviews/create/?id=' + filmStore.film.id">
+                <NuxtLink :to="`/reviews/create/${route.params.link}`">
                     <v-btn >Написать рецензию</v-btn>
                 </NuxtLink>
             </v-col>

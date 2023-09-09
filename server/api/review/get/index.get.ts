@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient();
   const query = getQuery(event);
   const session = await getServerSession(event);
-  const where: any = query.filmId ? { filmId: Number(query.filmId) } : {authorId: query.authorId};
+  const where: any = query.filmLink ? { filmLink: query.filmLink } : {authorId: query.authorId};
   
   async function getReviews() {
     return await prisma.review.findMany({

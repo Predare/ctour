@@ -1,13 +1,14 @@
 <script setup>
-const query = useRoute().query;
 const text = ref('');
+const route = useRoute();
 async function sendReview(){
-    await $fetch(`/api/review/${query['id']}`, {
+    await $fetch(`/api/review/${route.params.link}`, {
         method: 'POST', body: {
             text: text.value,
         }
-    }).catch(error => console.log(error)).then(response => {
-    });
+    }).catch(error => console.log(error));
+
+    await navigateTo('/film/' + route.params.link);
 }
 </script>
 

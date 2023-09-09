@@ -1,19 +1,19 @@
 <script setup>
 const props = defineProps({
-    filmId: Number,
+    filmLink: String,
     authorId: String,
 });
-const items = ref();
+const items = ref([]);
 
 onMounted(() => {
-    $fetch(`/api/review/get/?${props.filmId ? 'filmId=' + props.filmId : 'authorId=' + props.authorId}`).then(response => {
+    $fetch(`/api/review/get/?${props.filmLink ? 'filmLink=' + props.filmLink : 'authorId=' + props.authorId}`).then(response => {
         items.value = response;
     });
 })
 </script>
 
 <template>
-    <div class="flex flex-col rounded-md gap-8 overflow-auto">
+    <div v-if="items.length > 0" class="flex flex-col rounded-md gap-8 overflow-auto">
         <ReviewsItem v-for="item in items" :key="item.id" :id="item.id" :viewsCount="item.viewsCount" :name="item.author.name"
             :avatar="item.author.avatar" :avatarColor="item.author.color" :userId="item.author.id" :text="item.text"
             :pole="item.rating" :createdAt="item.createdAt" :voteStatus="item.voteStatus"
