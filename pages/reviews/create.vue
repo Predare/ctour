@@ -7,7 +7,6 @@ async function sendReview(){
             text: text.value,
         }
     }).catch(error => console.log(error)).then(response => {
-        console.log(response);
     });
 }
 </script>
