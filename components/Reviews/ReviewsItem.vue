@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-    review: Object,
+    id: Number,
     name: String,
     text: String,
     avatar: String,
@@ -8,6 +8,12 @@ const props = defineProps({
     pole: String,
     avatarColor: String,
     createdAt: String,
+    voteStatus: Number,
+    positiveVotes: Number,
+    negativeVotes: Number,
+    userReviewsCount: Number,
+    viewsCount: Number,
+    commentsCount: Number,
 });
 const content = ref(null);
 const expand = ref(false);
@@ -25,6 +31,15 @@ const colors = {
     'POSITIVE': 'green',
     'NEGATIVE': 'darkred',
 }
+
+const reviewsCountText = computed(() => {
+    if (props.userReviewsCount === 1) {
+        return props.userReviewsCount + ' рецензия';
+    } else {
+        return props.userReviewsCount + ' рецензии';
+    }
+});
+
 </script>
 
 <template>
@@ -37,12 +52,14 @@ const colors = {
                         <p class="text-body-1">{{ name }}</p>
                         <DateLine class="text-caption" :date="createdAt"></DateLine>
                     </div>
-                    <p class="text-caption">33 рецензии</p>
+                    <p class="text-caption">{{reviewsCountText}}</p>
                 </div>
             </div>
             <div class="flex flex-row gap-2">
-                <v-btn variant="plain" density="comfortable" prepend-icon="mdi-thumb-up-outline">&nbsp;144</v-btn>
-                <v-btn variant="plain" density="comfortable" prepend-icon="mdi-thumb-down-outline">&nbsp;144</v-btn>
+                <v-btn variant="plain" density="comfortable"
+                    :prepend-icon="voteStatus === 1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'">&nbsp;{{positiveVotes}}</v-btn>
+                <v-btn variant="plain" density="comfortable"
+                    :prepend-icon="voteStatus === -1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'">&nbsp;{{negativeVotes}}</v-btn>
             </div>
         </div>
         <v-divider class="my-3" />
@@ -50,9 +67,9 @@ const colors = {
             <div v-dompurify-html="text"></div>
         </div>
 
-        <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain"
-            @click="expand = !expand" v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
+        <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
+            v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
         <v-divider class="my-3" />
-        <ReviewsFooter />
+        <ReviewsFooter :viewsCount="viewsCount" :reviewId="id" :commentsCount="commentsCount"/>
     </div>
 </template>

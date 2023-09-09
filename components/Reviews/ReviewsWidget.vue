@@ -14,8 +14,10 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col rounded-md gap-8 overflow-auto">
-        <ReviewsItem v-for="item in items" :key="item.id" :review="item" :name="item.author.name"
+        <ReviewsItem v-for="item in items" :key="item.id" :id="item.id" :viewsCount="item.viewsCount" :name="item.author.name"
             :avatar="item.author.avatar" :avatarColor="item.author.color" :userId="item.author.id" :text="item.text"
-            :pole="item.rating" :createdAt="item.createdAt" />
+            :pole="item.rating" :createdAt="item.createdAt" :voteStatus="item.voteStatus"
+            :positiveVotes="item.positiveVotes" :negativeVotes="item.negativeVotes" :userReviewsCount="item.author._count.reviews"
+            :commentsCount="item._count.comments" />
     </div>
 </template>

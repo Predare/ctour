@@ -41,26 +41,27 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  createdAt     DateTime      @default(now()) @db.Timestamp()
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now()) @db.Timestamp()
   name          String?
-  email         String?       @unique
-  emailVerified DateTime?     @map("email_verified")
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
   image         String?
-  avatar        Emoji         @default(ALIEN)
-  color         String        @default("#FFFFFF")
+  avatar        Emoji     @default(ALIEN)
+  color         String    @default("#FFFFFF")
   accounts      Account[]
   sessions      Session[]
   comments      Comment[]
   commentVotes  Vote[]
-  rank          Rank?         @relation("rank", fields: [rankId], references: [id])
+  rank          Rank?     @relation("rank", fields: [rankId], references: [id])
   rankId        Int?
-  nextRank      Rank?         @relation("nextRank", fields: [nextRankId], references: [id])
+  nextRank      Rank?     @relation("nextRank", fields: [nextRankId], references: [id])
   nextRankId    Int?
-  expirence     Int           @default(0)
-  followers     User[]        @relation("subscriptions")
-  subscribes    User[]        @relation("subscriptions")
+  expirence     Int       @default(0)
+  followers     User[]    @relation("subscriptions")
+  subscribes    User[]    @relation("subscriptions")
   reviews       Review[]
+  views         Views[]
 
   @@map("users")
 }
@@ -71,17 +72,30 @@ enum Pole {
 }
 
 model Review {
-  id        Int           @id @default(autoincrement())
-  createdAt DateTime      @default(now()) @db.Timestamp()
-  author    User          @relation(fields: [authorId], references: [id])
-  authorId  String
-  film      Film          @relation(fields: [filmId], references: [id])
-  filmId    Int
-  text      String
-  rating    Pole          @default(POSITIVE)
-  votes     Vote[]
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now()) @db.Timestamp()
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String
+  film       Film      @relation(fields: [filmId], references: [id])
+  filmId     Int
+  text       String
+  rating     Pole      @default(POSITIVE)
+  votes      Vote[]
+  viewsCount Int       @default(0)
+  views      Views[]
+  comments   Comment[]
 
   @@unique([filmId, authorId])
+}
+
+model Views {
+  id       Int    @id @default(autoincrement())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId Int
+
+  @@unique([reviewId, userId])
 }
 
 model Rank {
@@ -148,14 +162,16 @@ enum Emoji {
 }
 
 model Comment {
-  id        Int           @id @default(autoincrement())
-  user      User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String?       @map("user_id")
-  createdAt DateTime      @default(now()) @db.Timestamp()
+  id        Int      @id @default(autoincrement())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?  @map("user_id")
+  createdAt DateTime @default(now()) @db.Timestamp()
   votes     Vote[]
   text      String
-  film      Film          @relation(fields: [filmId], references: [id])
-  filmId    Int
+  film      Film?     @relation(fields: [filmId], references: [id])
+  filmId    Int?
+  review    Review?   @relation(fields: [reviewId], references: [id])
+  reviewId  Int?
 }
 
 model Vote {
