@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     var cursor: number | undefined = Number(query.cursor);
     const comments = await prisma.comment.findMany({
       where: {
-        filmId: Number(event.context.params?.filmId)
+        filmLink: event.context.params?.link
       },
       select: {
         id: true,

@@ -21,6 +21,9 @@ export default defineEventHandler(async (event) => {
             email: session?.user.email,
           },
         }
+      },
+      include: {
+        user: { include: { rank: true } },
       }
     });
   }
@@ -34,7 +37,8 @@ export default defineEventHandler(async (event) => {
   })
 
   return {
-    id: result.id, name: result.name, text: result.text, avatar: result.avatar, color: result.color, createdAt: result.createdAt,
-    _count: { negativeVotes: 0, positiveVotes: 0 }, voteStatus: 'NEUTRAL',
+    id: result.id, text: result.text, createdAt: result.createdAt, user: {id: result.user.id, name: result.user.name, avatar: result.user.avatar, color: result.user.color,
+    rank: { name: result.user.rank.name, color: result.user.rank.color}}, 
+    _count: { negativeVotes: 0, positiveVotes: 0 }, voteStatus: 0,
   };
 })

@@ -22,11 +22,11 @@ const filmStore = useFilmStore();
 async function postComment() {
     await $fetch(`/api/comments/`, {
         method: 'POST', body: {
-            name: name.value,
+            name: profileInfo.value.data.name,
             email: 'example.email',
             text: text.value,
             filmId: filmStore.film.id,
-            avatar: avatarEmoji.value.name,
+            avatar: profileInfo.value.data.avatar,
         }
     }).catch(error => console.log(error)).then(response => {
         clearForm();

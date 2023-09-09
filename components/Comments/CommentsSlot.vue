@@ -26,7 +26,7 @@ const props = defineProps({
         type: String
     },
     voteStatus: {
-        type: Number
+        type: Number,
     },
     rank: {
         type: String,

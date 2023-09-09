@@ -77,7 +77,7 @@ model Review {
   author     User      @relation(fields: [authorId], references: [id])
   authorId   String
   film       Film      @relation(fields: [filmLink], references: [link], onDelete: Cascade)
-  filmLink String
+  filmLink   String
   text       String
   rating     Pole      @default(POSITIVE)
   votes      Vote[]
@@ -168,15 +168,15 @@ model Comment {
   createdAt DateTime @default(now()) @db.Timestamp()
   votes     Vote[]
   text      String
-  film      Film?     @relation(fields: [filmId], references: [id], onDelete: Cascade)
-  filmId    Int?
-  review    Review?   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  film      Film?    @relation(fields: [filmLink], references: [link], onDelete: Cascade)
+  filmLink  String?
+  review    Review?  @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId  Int?
 }
 
 model Vote {
   id        Int      @id @default(autoincrement())
-  comment   Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId Int?
   user      User     @relation(fields: [userId], references: [id])
   userId    String
