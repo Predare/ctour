@@ -53,10 +53,36 @@ async function sendVote(value) {
     actualNegativeVotes.value = result.negativeCount;
     actualVoteStatus.value = result.status;
 }
+
+const componentRef = ref(null);
+
+onMounted(() => {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(async entry => {
+            if (entry.isIntersecting) {
+                await addView();
+                observer.disconnect();
+            }
+        })
+    })
+
+    observer.observe(componentRef.value);
+    return () => {
+        observer.disconnect();
+    }
+});
+
+const actualViewsCount = ref(props.viewsCount);
+
+async function addView() {
+    const review = await $fetch(`/api/review/views/${props.id}`, { method: 'POST' });
+    if(!review) return;
+    actualViewsCount.value++;
+}
 </script>
 
 <template>
-    <div class="rounded-md p-5" :style="{ backgroundColor: colors[pole] }">
+    <div ref="componentRef" class="rounded-md p-5" :style="{ backgroundColor: colors[pole] }">
         <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-4 items-start">
                 <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="avatar" :icon-color="avatarColor" />
@@ -83,6 +109,6 @@ async function sendVote(value) {
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
             v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
         <v-divider class="my-3" />
-        <ReviewsFooter :viewsCount="viewsCount" :reviewId="id" :commentsCount="commentsCount"/>
+        <ReviewsFooter :viewsCount="actualViewsCount" :reviewId="id" :commentsCount="commentsCount"/>
     </div>
 </template>
