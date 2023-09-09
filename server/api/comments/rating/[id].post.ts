@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 
   async function getComment() {
     return await prisma.comment.findFirst({
-      where: { id: body.commentId },
+      where: { id: Number(event.context.params?.id) },
       select: {
         userId: true,
       }
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     request = await prisma.vote.upsert({
       where: {
         ['commentId_userId']: {
-          commentId: body.commentId,
+          commentId: Number(event.context.params?.id),
           userId: session?.user.id
         }
       },
@@ -51,7 +51,7 @@ export default defineEventHandler(async (event) => {
         id: true
       },
       where: {
-        commentId: body.commentId,
+        commentId: Number(event.context.params?.id),
       }
     })
   }

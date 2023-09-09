@@ -15,6 +15,7 @@ const props = defineProps({
     viewsCount: Number,
     commentsCount: Number,
 });
+
 const content = ref(null);
 const expand = ref(false);
 const overflow = ref(false);
@@ -40,6 +41,18 @@ const reviewsCountText = computed(() => {
     }
 });
 
+const actualPositiveVotes = ref(props.positiveVotes);
+const actualNegativeVotes = ref(props.negativeVotes);
+
+const actualVoteStatus = ref(props.voteStatus);
+
+async function sendVote(value) {
+    const result = await $fetch(`/api/review/vote/${props.id}`, { method: 'POST', body: { status: value } });
+    if(!result.status) return;
+    actualPositiveVotes.value = result.positiveCount;
+    actualNegativeVotes.value = result.negativeCount;
+    actualVoteStatus.value = result.status;
+}
 </script>
 
 <template>
@@ -57,9 +70,9 @@ const reviewsCountText = computed(() => {
             </div>
             <div class="flex flex-row gap-2">
                 <v-btn variant="plain" density="comfortable"
-                    :prepend-icon="voteStatus === 1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'">&nbsp;{{positiveVotes}}</v-btn>
+                    :prepend-icon="actualVoteStatus === 1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'" @click="sendVote(1)">&nbsp;{{actualPositiveVotes}}</v-btn>
                 <v-btn variant="plain" density="comfortable"
-                    :prepend-icon="voteStatus === -1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'">&nbsp;{{negativeVotes}}</v-btn>
+                    :prepend-icon="actualVoteStatus === -1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'" @click="sendVote(-1)">&nbsp;{{actualNegativeVotes}}</v-btn>
             </div>
         </div>
         <v-divider class="my-3" />

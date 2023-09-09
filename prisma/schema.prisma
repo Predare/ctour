@@ -176,15 +176,16 @@ model Comment {
 
 model Vote {
   id        Int      @id @default(autoincrement())
-  comment   Comment  @relation(fields: [commentId], references: [id])
-  commentId Int
+  comment   Comment?  @relation(fields: [commentId], references: [id])
+  commentId Int?
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   status    Int      @default(0)
   createdAt DateTime @default(now()) @db.Timestamp()
-  Review    Review?  @relation(fields: [reviewId], references: [id])
+  review    Review?  @relation(fields: [reviewId], references: [id])
   reviewId  Int?
 
+  @@unique([reviewId, userId])
   @@unique([commentId, userId])
 }
 

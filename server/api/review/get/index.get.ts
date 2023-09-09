@@ -72,7 +72,7 @@ export default defineEventHandler(async (event) => {
   const result = reviews.map((review: { id: any; }) => {
     return {
       ...review,
-      voteStatus: userVotes.find(vote => vote.userId === session?.user.id && vote.commentId === review.id)?.status ?? 0,
+      voteStatus: userVotes.find(vote => vote.userId === session?.user.id && vote.reviewId === review.id)?.status ?? 0,
       positiveVotes: groupedVotes.find(groupedVote => groupedVote.reviewId === review.id
         && groupedVote.status === 1)?._count?.id ?? 0,
       negativeVotes: groupedVotes.find(groupedVote => groupedVote.reviewId === review.id
