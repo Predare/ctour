@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col bg-surface-lighten-1 p-10 rounded-md mt-10 gap-8 overflow-auto">
+    <div class="flex flex-col rounded-md gap-8 overflow-auto">
         <ReviewsItem v-for="item in items" :key="item.id" :review="item" :name="item.author.name"
             :avatar="item.author.avatar" :avatarColor="item.author.color" :userId="item.author.id" :text="item.text"
             :pole="item.rating" :createdAt="item.createdAt" />

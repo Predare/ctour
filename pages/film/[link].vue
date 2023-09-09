@@ -24,7 +24,7 @@ async function loadFilmInfo() {
         </v-row>
         <v-row>
             <v-col>
-                <ReviewsWidget :id="filmStore.film.id"/>
+                <ReviewsWidget class="mt-10 bg-surface-lighten-1 p-10" :id="filmStore.film.id"/>
             </v-col>
         </v-row>
         <v-row>

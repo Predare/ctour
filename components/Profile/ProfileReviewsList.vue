@@ -6,7 +6,6 @@
             <ReviewsSortButtonToggles />
             <v-btn icon="mdi-sort-ascending" variant="plain"></v-btn>
         </div>
-
-        <ReviewsWidget />
+        <ReviewsWidget/>
     </div>
 </template>
