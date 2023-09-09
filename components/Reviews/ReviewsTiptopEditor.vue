@@ -21,12 +21,14 @@ const value = computed({
   set(value) {
     emit('update:modelValue', value)
   }
-})
+});
 </script>
 
 <template>
-    <vuetify-tiptap v-model="value" label="Написать рецензию" :hide-toolbar="hideToolbar" :disable-toolbar="disableToolbar"
-        :outlined="outlined" :dense="dense" :error-messages="errorMessages" rounded :max-height="465"
-        :max-width="maxWidth" />
+  <div>
+    <vuetify-tiptap v-model=" value " label="Написать рецензию" :hide-toolbar=" hideToolbar "
+      :disable-toolbar=" disableToolbar " :outlined=" outlined " :dense=" dense " :error-messages=" errorMessages " rounded
+      :max-height=" 465 " :max-width=" maxWidth " />
     <div v-dompurify-html="value"></div>
+  </div>
 </template>

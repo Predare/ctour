@@ -5,7 +5,7 @@ const props = defineProps({
     text: String,
     avatar: String,
     userId: String,
-    pole: String,
+    rating: Number,
     avatarColor: String,
     createdAt: String,
     voteStatus: Number,
@@ -29,8 +29,8 @@ watch(content, () => {
 });
 
 const colors = {
-    'POSITIVE': 'green',
-    'NEGATIVE': 'darkred',
+    '1': 'green',
+    '-1': 'darkred',
 }
 
 const reviewsCountText = computed(() => {
@@ -82,7 +82,7 @@ async function addView() {
 </script>
 
 <template>
-    <div ref="componentRef" class="rounded-md p-5" :style="{ backgroundColor: colors[pole] }">
+    <div ref="componentRef" class="rounded-md p-5" :style="{ backgroundColor: colors[rating] }">
         <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-4 items-start">
                 <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="avatar" :icon-color="avatarColor" />

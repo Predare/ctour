@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
           },
         },
         text: body.text,
+        rating: body.rating,
         film: {
           connect: {
             link: link
@@ -31,6 +32,7 @@ export default defineEventHandler(async (event) => {
       },
       update: {
         text: body.text,
+        rating: body.rating,
       }
 
     });
