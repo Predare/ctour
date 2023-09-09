@@ -1,0 +1,58 @@
+<script setup>
+const props = defineProps({
+    review: Object,
+    name: String,
+    text: String,
+    avatar: String,
+    userId: String,
+    pole: String,
+    avatarColor: String,
+    createdAt: String,
+});
+const content = ref(null);
+const expand = ref(false);
+const overflow = ref(false);
+
+watch(content, () => {
+    if (content.value) {
+        setTimeout(() => {
+            overflow.value = content.value ? content.value.scrollHeight > content.value.clientHeight : true;
+        }, 300);
+    }
+});
+
+const colors = {
+    'POSITIVE': 'green',
+    'NEGATIVE': 'darkred',
+}
+</script>
+
+<template>
+    <div class="rounded-md p-5" :style="{ backgroundColor: colors[pole] }">
+        <div class="flex flex-row justify-between">
+            <div class="flex flex-row gap-4 items-start">
+                <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="avatar" :icon-color="avatarColor" />
+                <div class="flex flex-col">
+                    <div class="flex flex-row items-center gap-2">
+                        <p class="text-body-1">{{ name }}</p>
+                        <DateLine class="text-caption" :date="createdAt"></DateLine>
+                    </div>
+                    <p class="text-caption">33 рецензии</p>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2">
+                <v-btn variant="plain" density="comfortable" prepend-icon="mdi-thumb-up-outline">&nbsp;144</v-btn>
+                <v-btn variant="plain" density="comfortable" prepend-icon="mdi-thumb-down-outline">&nbsp;144</v-btn>
+            </div>
+        </div>
+        <v-divider class="my-3" />
+        <div ref="content" class="overflow-hidden" :class="{ 'max-h-[100px]': !expand }">
+            <div v-dompurify-html="text"></div>
+        </div>
+
+        <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain"
+            @click="expand = !expand" v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
+        <v-divider class="my-3" />
+        <ReviewsFooter />
+    </div>
+</template>

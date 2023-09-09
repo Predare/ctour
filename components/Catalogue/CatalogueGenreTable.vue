@@ -1,0 +1,23 @@
+<script setup>
+const { data: genres } = await useFetch('/api/catalogueFilters/genre');
+
+import { useFilmFilterStore } from '@/stores/filmFilter';
+const filmFilterStore = useFilmFilterStore();
+
+function setNewGenre(genre){
+    filmFilterStore.pureFilters();
+    filmFilterStore.setGenre(genre);
+    filmFilterStore.setFullreload(true);
+}
+</script>
+
+<template>
+    <v-card title="Жанры" color="surface-lighten-2">
+        <v-card-text>
+            <div class="grid grid-cols-6 gap-1">
+                <CatalogueEmojiButton v-for="i in genres" :key="i.id" :text="i.name" :emoji="i.emoji"
+                    @click="setNewGenre(i.name)" />
+            </div>
+        </v-card-text>
+    </v-card>
+</template>
