@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
         text: body.text,
         film: {
           connect: {
-            id: body.filmId
+            link: event.context.params?.link
           }
         },
         user: {

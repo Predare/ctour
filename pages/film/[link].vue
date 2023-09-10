@@ -1,10 +1,23 @@
 <script setup>
 import { useFilmStore } from '@/stores/film';
-const filmStore = useFilmStore();
+import { useCommentsStore } from '@/stores/comments';
+
 const route = useRoute();
+const filmStore = useFilmStore();
+const commentsStore = useCommentsStore();
 
+function setCommentLinks() {
+    commentsStore.$reset();
+    commentsStore.$patch(
+        {
+            getLink: `/api/comments/film/${route.params.link}`,
+            postLink: `/api/comments/film/${route.params.link}`,
+        }
+    );
+}
+
+setCommentLinks();
 await loadFilmInfo();
-
 async function loadFilmInfo() {
     await useFetch(`/api/film/${route.params.link}`).then(response => {
         filmStore.film = response.data.value;
@@ -24,13 +37,13 @@ async function loadFilmInfo() {
         </v-row>
         <v-row>
             <v-col>
-                <ReviewsWidget class="mt-10 bg-surface-lighten-1 p-10" :filmLink="filmStore.film.link"/>
+                <ReviewsWidget class="mt-10 bg-surface-lighten-1 p-10" :filmLink="route.params.link" />
             </v-col>
         </v-row>
         <v-row>
             <v-col>
                 <NuxtLink :to="`/reviews/create/${route.params.link}`">
-                    <v-btn >Написать рецензию</v-btn>
+                    <v-btn>Написать рецензию</v-btn>
                 </NuxtLink>
             </v-col>
         </v-row>

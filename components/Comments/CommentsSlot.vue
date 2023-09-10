@@ -1,50 +1,15 @@
 <script setup>
 
 const props = defineProps({
-    id: {
-        type: Number,
-    },
-    title: {
-        type: String,
-    },
-    text: {
-        type: String,
-    },
-    ratingPositive: {
-        type: Number,
-    },
-    ratingNegative: {
-        type: Number,
-    },
-    avatar: {
-        type: String
-    },
-    createdAt: {
-        type: String
-    },
-    color: {
-        type: String
-    },
-    voteStatus: {
-        type: Number,
-    },
-    rank: {
-        type: String,
-    },
-    rankColor: {
-        type: String,
-    },
-    userId: {
-        type: String
-    }
+    data: Object
 });
 
-const actualVote = ref(props.voteStatus);
-const actualPositiveRating = ref(props.ratingPositive);
-const actualNegativeRating = ref(props.ratingNegative);
+const actualVote = ref(props.data.voteStatus);
+const actualPositiveRating = ref(props.data.positiveVotes);
+const actualNegativeRating = ref(props.data.negativeVotes);
 
 const createdDate = computed(() => {
-    const date = new Date(props.createdAt);
+    const date = new Date(props.data.createdAt);
     return `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()} ${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}:${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}:${date.getFullYear()}`;
 });
 
@@ -58,13 +23,12 @@ const emojis = {
     'PUMPKIN': '🎃',
 };
 
-const avatarEmoji = computed(() => emojis[props.avatar]);
-
+const avatarEmoji = computed(() => emojis[props.data.user.avatar]);
 function changeRating(type) {
     if (actualVote.value === type) {
         return;
     }
-    $fetch(`/api/comments/rating/${props.id}`,
+    $fetch(`/api/comments/rating/${props.data.id}`,
         {
             method: 'POST',
             body:
@@ -91,15 +55,15 @@ getSession().then((res) => {
 
 <template>
     <div class="flex flex-row gap-4">
-        <p :style="{ backgroundColor: props.color }" class="text-[30px] rounded-full bg-opacity-25 px-2 max-h-[50px]">{{
+        <p :style="{ backgroundColor: props.data.user.color }" class="text-[30px] rounded-full bg-opacity-25 px-2 max-h-[50px]">{{
             avatarEmoji }}</p>
         <div class="w-100">
-            <NuxtLink :to="userId ? `/profile/${userId}` : ''">
-                <h3 class="opacity-60 font-bold">{{ title + ' / ' }}<span :style="{ color: props.rankColor }"
-                        v-text="props.rank"></span> <v-icon :color="props.rankColor" icon="mdi-star"></v-icon></h3>
+            <NuxtLink :to="props.data.user.id ? `/profile/${props.data.user.id}` : ''">
+                <h3 class="opacity-60 font-bold">{{ data.user.name + ' / ' }}<span :style="{ color: props.data.user.rank.color }"
+                        v-text="props.data.user.rank.name"></span> <v-icon :color="props.data.user.rank.color" icon="mdi-star"></v-icon></h3>
             </NuxtLink>
-            <p class="opacity-60 text-caption">{{ createdDate }}</p>
-            <p class="opacity-60 text-body-2">{{ text }}</p>
+            <p class="opacity-60 text-caption">{{ data.createdDate }}</p>
+            <p class="opacity-60 text-body-2">{{ data.text }}</p>
             <div class="flex flex-row justify-start items-center mt-1">
                 <div class="flex flex-row items-center me-3">
                     <v-btn variant="plain" size="small" :icon="actualVote === 1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"

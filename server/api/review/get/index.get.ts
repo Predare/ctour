@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
         text: true,
         rating: true,
         viewsCount: true,
+        filmLink: true,
         _count: {
           select: {
             comments: true
@@ -50,6 +51,7 @@ export default defineEventHandler(async (event) => {
         text: true,
         rating: true,
         viewsCount: true,
+        filmLink: true,
         _count: {
           select: {
             comments: true

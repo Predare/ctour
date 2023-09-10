@@ -1,4 +1,5 @@
 <script setup>
+import { useCommentsStore } from '@/stores/comments';
 const { getSession } = useAuth();
 const session = ref();
 var profileInfo = ref();
@@ -12,25 +13,15 @@ await getSession().then(async (res) => {
 });
 
 const text = ref('');
-const valid = ref(false);
-
-import { useCommentsStore } from '@/stores/comments';
 const commentsStore = useCommentsStore();
-
-import { useFilmStore } from '@/stores/film';
-const filmStore = useFilmStore();
 async function postComment() {
-    await $fetch(`/api/comments/`, {
+    await $fetch(commentsStore.postLink, {
         method: 'POST', body: {
-            name: profileInfo.value.data.name,
-            email: 'example.email',
             text: text.value,
-            filmId: filmStore.film.id,
-            avatar: profileInfo.value.data.avatar,
         }
     }).catch(error => console.log(error)).then(response => {
         clearForm();
-        commentsStore.shiftComments([response]);
+        commentsStore.comments.unshift(response);
     });
 }
 
