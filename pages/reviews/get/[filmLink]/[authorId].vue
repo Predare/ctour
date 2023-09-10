@@ -44,12 +44,7 @@ await getFilmName();
         </NuxtLink>
         <div class="bg-surface-lighten-1 p-4 rounded-md">
             <ClientOnly>
-                <ReviewsItem v-for="item in items" :key="item.id" :filmLink="filmLink" :authorId="item.authorId"
-                    :id="item.id" :viewsCount="item.viewsCount" :name="item.author.name" :avatar="item.author.avatar"
-                    :avatarColor="item.author.color" :userId="item.author.id" :text="item.text" :rating="item.rating"
-                    :createdAt="item.createdAt" :voteStatus="item.voteStatus" :positiveVotes="item.positiveVotes"
-                    :negativeVotes="item.negativeVotes" :userReviewsCount="item.author._count.reviews"
-                    :commentsCount="item._count.comments" />
+                <ReviewsItem v-for="item in items" :key="item.id" :data="item"/>
             </ClientOnly>
         </div>
         <div class="flex flex-col bg-surface-lighten-1 p-4 rounded-md">
