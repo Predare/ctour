@@ -14,7 +14,7 @@ await getSession().then(async (res) => {
 
 <template>
     <div class="bg-surface-lighten-1 p-4 rounded-md">
-        <SidebarHeader :name="session?.user?.name" :icon-name="session?.user?.avatar" :icon-color="session?.user?.color"/>
+        <SidebarHeader :id="session?.user?.id" :name="session?.user?.name" :icon-name="session?.user?.avatar" :icon-color="session?.user?.color"/>
         <v-divider class="my-3 mb-4" />
         <ProfileExpProgress :expierence="profileInfo?.data?.expirence" :next-rank-expirence="profileInfo?.data?.nextRank.requiredExpirence"/>
         <ProfileRank :rank-color="profileInfo?.data?.rank?.color" :rank-name="profileInfo?.data?.rank?.name"/>

@@ -1,8 +1,9 @@
 <script setup>
 const props = defineProps({
-    reviewId: Number,
     viewsCount: Number,
     commentsCount: Number,
+    filmLink: String,
+    authorId: String,
 });
 
 const viewsCountText = computed(() => {
@@ -17,7 +18,7 @@ const viewsCountText = computed(() => {
 <template>
     <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-3">
-            <v-btn variant="plain" prepend-icon="mdi-comment-outline">{{commentsCount}}</v-btn>
+            <v-btn variant="plain" prepend-icon="mdi-comment-outline" @click="navigateTo(`/reviews/get/${props.filmLink}/${props.authorId}`)">{{commentsCount}}</v-btn>
             <v-btn variant="plain" prepend-icon="mdi-eye">{{viewsCountText}}</v-btn>
             <v-btn variant="plain" size="small" icon="mdi-share-variant"></v-btn>
         </div>

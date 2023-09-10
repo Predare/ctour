@@ -14,7 +14,7 @@ onMounted(() => {
 
 <template>
     <div v-if="items.length > 0" class="flex flex-col rounded-md gap-8 overflow-auto">
-        <ReviewsItem v-for="item in items" :key="item.id" :id="item.id" :viewsCount="item.viewsCount" :name="item.author.name"
+        <ReviewsItem v-for="item in items" :key="item.id" :filmLink="props.filmLink" :authorId="item.authorId" :id="item.id" :viewsCount="item.viewsCount" :name="item.author.name"
             :avatar="item.author.avatar" :avatarColor="item.author.color" :userId="item.author.id" :text="item.text"
             :rating="item.rating" :createdAt="item.createdAt" :voteStatus="item.voteStatus"
             :positiveVotes="item.positiveVotes" :negativeVotes="item.negativeVotes" :userReviewsCount="item.author._count.reviews"

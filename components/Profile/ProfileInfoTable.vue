@@ -5,25 +5,25 @@ const profileInfo = ref(await useFetch(`/api/profile/${route.params.id}`));
 
 onMounted(async () => {
     await profileInfo.value.refresh();
-    if(profileInfo?.value.data.positiveVotesCount === 0){
+    if (profileInfo?.value.data.positiveVotesCount === 0) {
         positiveVotesCountText.value = ' плюсов и ';
-    }else if(profileInfo?.value.data.positiveVotesCount === 1){
+    } else if (profileInfo?.value.data.positiveVotesCount === 1) {
         positiveVotesCountText.value = ' плюс и ';
-    }else if(profileInfo?.value.data.positiveVotesCount > 1){
+    } else if (profileInfo?.value.data.positiveVotesCount > 1) {
         positiveVotesCountText.value = ' плюса и ';
     }
-    if(profileInfo?.value.data.negativeVotesCount === 0){
+    if (profileInfo?.value.data.negativeVotesCount === 0) {
         negativeVotesCountText.value = ' минусов ';
-    }else if(profileInfo?.value.data.negativeVotesCount === 1){
+    } else if (profileInfo?.value.data.negativeVotesCount === 1) {
         negativeVotesCountText.value = ' минус ';
-    }else if(profileInfo?.value.data.negativeVotesCount > 1){
+    } else if (profileInfo?.value.data.negativeVotesCount > 1) {
         negativeVotesCountText.value = ' минуса ';
     }
     refreshDate();
 })
 
 const positiveVotesCountText = ref('');
-const negativeVotesCountText = ref(''); 
+const negativeVotesCountText = ref('');
 const userTime = ref(null);
 const userTimeString = ref('');
 function refreshDate() {
@@ -45,18 +45,18 @@ function refreshDate() {
     <div class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 1rem; padding-top: 2rem;">
         <AvatarIcon width="100px" height="100px" icon-size="60px" :icon-name="profileInfo?.data.avatar"
             :icon-color="profileInfo?.data.color" />
+
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-col mt-4 gap-3">
                 <p class="text-body-1" v-text="profileInfo?.data.name"></p>
                 <p class="text-body-2" v-text="userTimeString"></p>
             </div>
-            <p class="text-h6">Рейтинг критика: 137</p>
+            <p class="text-h6">Рейтинг критика: {{ profileInfo?.data.criticRating }}</p>
         </div>
         <v-divider class="my-3" />
         <p class="text-body-2">Поставил
             <span class="text-green" v-text="profileInfo?.data.positiveVotesCount ?? 0"></span>
-            <span
-                v-text="positiveVotesCountText"></span>
+            <span v-text="positiveVotesCountText"></span>
             <span class="text-red" v-text="profileInfo?.data.negativeVotesCount ?? 0"></span>
             <span v-text="negativeVotesCountText"></span>
         </p>

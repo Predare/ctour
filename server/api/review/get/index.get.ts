@@ -6,7 +6,41 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const session = await getServerSession(event);
   const where: any = query.filmLink ? { filmLink: query.filmLink } : {authorId: query.authorId};
-  
+
+  async function getSingle() {
+    return await prisma.review.findFirst({
+      where: {
+        filmLink: String(query.filmLink),
+        authorId: String(query.authorId),
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        text: true,
+        rating: true,
+        viewsCount: true,
+        _count: {
+          select: {
+            comments: true
+          }
+        },
+        author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+              color: true,
+              _count: {
+                select: {
+                  reviews: true,
+                },
+              }
+            },
+        },
+      }
+    })
+  }
+
   async function getReviews() {
     return await prisma.review.findMany({
       where: where,
@@ -39,14 +73,23 @@ export default defineEventHandler(async (event) => {
   }
 
   var reviews: any;
-  await getReviews().then(async response => {
-    reviews = response
-    await prisma.$disconnect();
-  }).catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-  });
-
+  if(query.signle){
+    await getSingle().then(async response => {
+      reviews = response
+      await prisma.$disconnect();
+    }).catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+    });
+  }else{
+    await getReviews().then(async response => {
+      reviews = response
+      await prisma.$disconnect();
+    }).catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+    });
+  }
 
   async function groupVotes() {
     return await prisma.vote.groupBy({

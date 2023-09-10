@@ -65,10 +65,23 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  async function criticRating(user: any) {
+    return await prisma.vote.aggregate({
+      where: {
+        review: {
+          authorId: user.id,
+        },
+      },
+      _sum: {
+        status: true,
+      }
+    });
+  }
   return {
     ...user,
     positiveVotesCount: groupCommentVotesResult.find(groupedCommentVote => groupedCommentVote.status === 1)?._count?.id ?? 0,
     negativeVotesCount: groupCommentVotesResult.find(groupedCommentVote => groupedCommentVote.status === -1)?._count?.id ?? 0,
     rating: (await userRating(user))._sum.status ?? 0,
+    criticRating: (await criticRating(user))._sum.status ?? 0,
   };
 })

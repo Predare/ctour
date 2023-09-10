@@ -2,6 +2,24 @@
 const text = ref('');
 const rating = ref(1);
 const route = useRoute();
+const { getSession } = useAuth();
+const session = ref();
+
+watch (session, async () => {
+    getReview();
+});
+
+async function getReview() {
+    await useFetch(`/api/review/get/content/one/?link=${route.params.link}&authorId=${session.value?.user.id}`).then(response => {
+        text.value = response.data.value.text;
+        rating.value = response.data.value.rating;
+    })
+}
+
+await getSession().then(async (res) => {
+    session.value = res;
+});
+
 async function sendReview() {
     await $fetch(`/api/review/${route.params.link}`, {
         method: 'POST', body: {

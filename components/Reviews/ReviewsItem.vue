@@ -14,6 +14,7 @@ const props = defineProps({
     userReviewsCount: Number,
     viewsCount: Number,
     commentsCount: Number,
+    filmLink: String,
 });
 
 const content = ref(null);
@@ -109,6 +110,6 @@ async function addView() {
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
             v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
         <v-divider class="my-3" />
-        <ReviewsFooter :viewsCount="actualViewsCount" :reviewId="id" :commentsCount="commentsCount"/>
+        <ReviewsFooter :filmLink="props.filmLink" :author-id="userId" :viewsCount="actualViewsCount" :commentsCount="commentsCount" />
     </div>
 </template>
