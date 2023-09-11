@@ -1,7 +1,13 @@
 <script setup>
+import { useCommentsStore } from '@/stores/comments';
+const commentsStore = useCommentsStore();
 
 const props = defineProps({
-    data: Object
+    data: Object,
+});
+
+const postStylesClass = computed(() => {
+    return commentsStore.postStyle === 'single' ? 'bg-surface-lighten-2 p-3 pb-1 rounded-md' : '';
 });
 
 const actualVote = ref(props.data.voteStatus);
@@ -44,29 +50,24 @@ function changeRating(type) {
         });
 }
 
-const { getSession } = useAuth();
-
-const session = ref();
-getSession().then((res) => {
-    session.value = res;
-});
-
 const reportDialog = ref(false);
 </script>
 
 <template>
-    <div class="flex flex-row gap-4">
-        <p :style="{ backgroundColor: props.data.user.color }" class="text-[30px] rounded-full bg-opacity-25 px-2 max-h-[50px]">{{
-            avatarEmoji }}</p>
+    <div class="flex flex-row gap-4" :class="postStylesClass">
+        <p :style="{ backgroundColor: props.data.user.color }"
+            class="text-[30px] rounded-full bg-opacity-25 px-2 max-h-[50px]">{{
+                avatarEmoji }}</p>
         <div class="w-100">
             <NuxtLink :to="props.data.user.id ? `/profile/${props.data.user.id}` : ''">
-                <h3 class="opacity-60 font-bold">{{ data.user.name + ' / ' }}<span :style="{ color: props.data.user.rank.color }"
-                        v-text="props.data.user.rank.name"></span> <v-icon :color="props.data.user.rank.color" icon="mdi-star"></v-icon></h3>
-            </NuxtLink>
-            <p class="opacity-60 text-caption">{{ createdDate }}</p>
-            <p class="opacity-60 text-body-2">{{ data.text }}</p>
-            <div class="flex flex-row justify-start items-center mt-1">
-                <div class="flex flex-row items-center me-3">
+                    <p class=" text-body-1 font-bold">{{ data.user.name + ' / ' }}<span
+                            :style="{ color: props.data.user.rank.color }" v-text="props.data.user.rank.name"></span>
+                        <v-icon :color="props.data.user.rank.color" icon="mdi-star"></v-icon></p>
+                </NuxtLink>
+                <p class="opacity-50 text-caption">{{ createdDate }}</p>
+            <p class="text-body-2 mt-2">{{ data.text }}</p>
+            <div class="flex flex-row justify-start items-center">
+                <div class="flex flex-row items-center">
                     <v-btn variant="plain" size="small" :icon="actualVote === 1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
                         color="green" @click="changeRating(1)" />
                     <p class="text-green-500 text-body-2">{{ actualPositiveRating ?? '0' }}</p>
@@ -75,10 +76,13 @@ const reportDialog = ref(false);
                         @click="changeRating(-1)" />
                     <p class="text-red-500 text-body-2">{{ actualNegativeRating ?? '0' }}</p>
                 </div>
-                <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Ответить" />
-                <span class="opacity-60 text-h6">/</span>
-                <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Пожаловаться" @click="reportDialog = true" />
-                <ReportDialog :link="`/api/report/comment/${props.data.id}`" v-model="reportDialog"></ReportDialog>
+                <div class="flex flex-row items-center" v-if="!commentsStore.hideReplayReportButton">
+                    <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Ответить" />
+                    <span class="opacity-60 text-h6">/</span>
+                    <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Пожаловаться"
+                        @click="reportDialog = true" />
+                    <ReportDialog :link="`/api/report/comment/${props.data.id}`" v-model="reportDialog"></ReportDialog>
+                </div>
             </div>
         </div>
     </div>

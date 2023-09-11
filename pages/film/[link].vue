@@ -12,6 +12,7 @@ function setCommentLinks() {
         {
             getLink: `/api/comments/film/${route.params.link}`,
             postLink: `/api/comments/film/${route.params.link}`,
+            hideReplayReportButton: false,
         }
     );
 }

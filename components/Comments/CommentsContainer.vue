@@ -3,7 +3,7 @@ import { useCommentsStore } from '@/stores/comments';
 const commentsStore = useCommentsStore();
 await getComments();
 async function getComments() {
-    if(!commentsStore.getLink) return;
+    if (!commentsStore.getLink) return;
     commentsStore.getNext = false;
     const link = computed(() => { return `${commentsStore.getLink}/?cursor=${commentsStore.cursor}` });
     $fetch(link.value).then(response => {
@@ -13,7 +13,7 @@ async function getComments() {
 }
 
 commentsStore.$subscribe((mutation, state) => {
-    if(state.getNext) {
+    if (state.getNext) {
         getComments();
     }
 })
@@ -23,5 +23,6 @@ commentsStore.$subscribe((mutation, state) => {
 <template>
     <div class="flex flex-col mt-5 gap-4 px-2">
         <CommentsSlot v-for="i in commentsStore.comments" :key="i.id" :data="i"/>
+        <CommentsLoadNextButton />
     </div>
 </template>

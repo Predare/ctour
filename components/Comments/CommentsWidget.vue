@@ -1,18 +1,22 @@
+<script setup>
+const props = defineProps({
+    showForm: {type: Boolean, default: true},
+    title: {type: String, default: 'Комментарии'},
+})
+</script>
+
 <template>
     <v-container>
         <v-row>
-            <p class="text-h6">Комментарии</p>
+            <slot name="title"><p class="text-h6">{{title}}</p></slot>
         </v-row>
         <v-row>
             <ClientOnly>
-                <CommentsContainer />
+                <CommentsContainer class="w-[100%]"/>
             </ClientOnly>
         </v-row>
-        <v-row class="justify-center mt-5">
-            <CommentsLoadNextButton />
-        </v-row>
-        <v-row>
-            <CommentsForm></CommentsForm>
+        <v-row v-if="showForm">
+            <CommentsForm ></CommentsForm>
         </v-row>
     </v-container>
 </template>

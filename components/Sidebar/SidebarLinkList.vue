@@ -1,9 +1,20 @@
+<script setup>
+const props = defineProps({
+    id: String,
+})
+</script>
+
 <template>
     <div class="flex flex-col gap-2 items-start">
-        <v-btn class="pa-0" variant="plain" density="compact">Ответы</v-btn>
-        <v-btn class="pa-0" variant="plain" density="compact">Комментарии</v-btn>
-        <v-btn class="pa-0" variant="plain" density="compact">Избранное</v-btn>
-        <v-btn class="pa-0" variant="plain" density="compact">Просмотренное</v-btn>
-        <v-btn class="pa-0" variant="plain" density="compact">Подписки</v-btn>
+        <NuxtLink :to="`/profile/${id}/replies`">
+            <v-btn variant="plain" density="comfortable">Ответы</v-btn>
+        </NuxtLink>
+        
+        <NuxtLink :to="`/profile/${id}/comments`">
+            <v-btn variant="plain" density="comfortable">Комментарии</v-btn>
+        </NuxtLink>
+        <v-btn variant="plain" density="comfortable">Избранное</v-btn>
+        <v-btn variant="plain" density="comfortable">Просмотренное</v-btn>
+        <v-btn variant="plain" density="comfortable">Подписки</v-btn>
     </div>
 </template>

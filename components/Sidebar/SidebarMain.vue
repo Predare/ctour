@@ -22,6 +22,6 @@ await getSession().then(async (res) => {
         <ProfileRatingCounter :rating="profileInfo?.data?.rating" />
         <ProfileFollowersCounter :followers-count="profileInfo?.data._count.followers" />
         <v-divider class="my-3" />
-        <SidebarLinkList />
+        <SidebarLinkList :id="session?.user?.id" />
     </div>
 </template>

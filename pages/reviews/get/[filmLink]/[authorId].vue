@@ -22,6 +22,7 @@ function setCommentLinks() {
         {
             getLink: `/api/comments/review/${reviewId}`,
             postLink: `/api/comments/review/${reviewId}`,
+            hideReplayReportButton: false,
         }
     );
 }

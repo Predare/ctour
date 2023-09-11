@@ -170,6 +170,9 @@ model Comment {
   review    Review?  @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId  Int?
   report Report[]
+  replyComment Comment? @relation(name: "subComments", fields: [replyCommentId], references: [id], onDelete: Cascade)
+  replyCommentId Int?
+  subComments Comment[] @relation(name: "subComments")
 }
 
 model Vote {
