@@ -24,6 +24,14 @@ async function loadFilmInfo() {
         filmStore.film = response.data.value;
     });
 }
+
+async function addFilmToViewedList() {
+    await $fetch(`/api/user/films/viewed/${route.params.link}/`, { method: 'POST' });
+}
+
+onMounted(() => {
+    addFilmToViewedList();
+})
 </script>
 
 <template>
@@ -52,7 +60,7 @@ async function loadFilmInfo() {
             <v-col>
                 <div class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 0; padding-top: 2rem;">
                     <p class="text-h6">Каталог</p>
-                    <FilmsTable :count="12" />
+                    <FilmsTable/>
                 </div>
             </v-col>
         </v-row>

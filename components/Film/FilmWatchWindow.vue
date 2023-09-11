@@ -4,6 +4,17 @@ const filmStore = useFilmStore();
 
 import { useFilmFilterStore } from '@/stores/filmFilter';
 const filmFilterStore = useFilmFilterStore();
+
+const route = useRoute();
+async function addFilmToFavoriteList() {
+    filmStore.film._count.favoritedByUsers = true;
+    await $fetch(`/api/user/films/favorited/${route.params.link}/`, { method: 'POST' });
+}
+
+async function removeFilmFromFavoriteList() {
+    filmStore.film._count.favoritedByUsers = false;
+    await $fetch(`/api/user/films/favorited/${route.params.link}/`, { method: 'DELETE' });
+}
 </script>
 
 <template>
@@ -20,8 +31,10 @@ const filmFilterStore = useFilmFilterStore();
                             {{ filmStore.film.season[1] }} серия {{ filmStore.film.ageRestriction }}+</span></h1>
                     <v-tooltip location="right" text="В закладки">
                         <template v-slot:activator="{ props }">
-                            <v-btn density="comfortable" color="secondary-darken-1" icon="mdi-bookmark-outline"
-                                v-bind="props"></v-btn>
+                            <v-btn density="comfortable" color="secondary-darken-1"
+                                :icon="filmStore.film._count.favoritedByUsers ? 'mdi-bookmark' : 'mdi-bookmark-outline'"
+                                v-bind="props"
+                                @click="filmStore.film._count.favoritedByUsers ? removeFilmFromFavoriteList() : addFilmToFavoriteList()"></v-btn>
                         </template>
                     </v-tooltip>
                 </div>
@@ -37,28 +50,33 @@ const filmFilterStore = useFilmFilterStore();
                         {{ filmStore.film.imdbRating }}</span>
                 </div>
                 <FilmDescriptionRow title="Год выпуска">
-                    <FilmTextLink :title="filmStore.film.yearStart + ''" :setter="filmFilterStore.setYearFrom" :value="filmStore.film.yearStart+''"  />
+                    <FilmTextLink :title="filmStore.film.yearStart + ''" :setter="filmFilterStore.setYearFrom"
+                        :value="filmStore.film.yearStart + ''" />
                 </FilmDescriptionRow>
                 <FilmDescriptionRow title="Жанры">
-                    <FilmTextLink v-for="genre in filmStore.film.genres" :title="genre.name + ' ' + genre.emoji" :setter="filmFilterStore.setGenre" :value="genre.name"/>
+                    <FilmTextLink v-for="genre in filmStore.film.genres" :title="genre.name + ' ' + genre.emoji"
+                        :setter="filmFilterStore.setGenre" :value="genre.name" />
                 </FilmDescriptionRow>
                 <FilmDescriptionRow title="Страна">
-                    <FilmTextLink v-for="country in filmStore.film.country" :title="country.name + ' ' + country.emoji" :setter="filmFilterStore.setCountry" :value="country.name"/>
+                    <FilmTextLink v-for="country in filmStore.film.country" :title="country.name + ' ' + country.emoji"
+                        :setter="filmFilterStore.setCountry" :value="country.name" />
                 </FilmDescriptionRow>
                 <FilmDescriptionRow title="Режиссёр">
-                    <FilmTextLink v-for="director in filmStore.film.directors" :title="director.name" :setter="filmFilterStore.setDirector" :value="director.name" />
+                    <FilmTextLink v-for="director in filmStore.film.directors" :title="director.name"
+                        :setter="filmFilterStore.setDirector" :value="director.name" />
                 </FilmDescriptionRow>
                 <FilmDescriptionRow title="Актёры">
-                    <FilmTextLink v-for="actor in filmStore.film.actors" :title="actor.name" :setter="filmFilterStore.setActor" :value="actor.name" />
+                    <FilmTextLink v-for="actor in filmStore.film.actors" :title="actor.name"
+                        :setter="filmFilterStore.setActor" :value="actor.name" />
                 </FilmDescriptionRow>
                 <FilmDescriptionRow title="В категориях">
-                    <FilmTextLink v-for="selection in filmStore.film.selections" :title="selection.name" :setter="filmFilterStore.setSelection" :value="selection.name"/>
+                    <FilmTextLink v-for="selection in filmStore.film.selections" :title="selection.name"
+                        :setter="filmFilterStore.setSelection" :value="selection.name" />
                 </FilmDescriptionRow>
                 <FilmScreenshotSpoiler />
-                <p class="mt-2 text-left text-body-2 max-w-[800px]">{{ filmStore.film.description }}</p>
+            <p class="mt-2 text-left text-body-2 max-w-[800px]">{{ filmStore.film.description }}</p>
 
-            </div>
         </div>
-        <FilmPlayerWidget class="mt-10"></FilmPlayerWidget>
     </div>
-</template>
+    <FilmPlayerWidget class="mt-10"></FilmPlayerWidget>
+</div></template>

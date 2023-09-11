@@ -25,7 +25,16 @@ export default defineEventHandler(async (event) => {
         actors: true,
         directors: true,
         voice: true,
-        country: true
+        country: true,
+        _count: {
+          select: {
+            favoritedByUsers: {
+              where: {
+                id: session?.user?.id,
+              }
+            }
+          }
+        }
       }
     });
   }

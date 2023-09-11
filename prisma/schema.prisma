@@ -63,6 +63,8 @@ model User {
   reviews       Review[]
   views         Views[]
   createdReport Report[]
+  viewedFilms Film[] @relation(name: "viewedFilms")
+  favoriteFilms Film[] @relation(name: "favoriteFilms")
 
   @@map("users")
 }
@@ -146,6 +148,8 @@ model Film {
   popularity         Float
   country            Country[]
   reviews            Review[]
+  favoritedByUsers User[] @relation(name: "favoriteFilms")
+  viewedByUsers User[] @relation(name: "viewedFilms")
 }
 
 enum Emoji {
