@@ -51,6 +51,7 @@ getSession().then((res) => {
     session.value = res;
 });
 
+const reportDialog = ref(false);
 </script>
 
 <template>
@@ -62,7 +63,7 @@ getSession().then((res) => {
                 <h3 class="opacity-60 font-bold">{{ data.user.name + ' / ' }}<span :style="{ color: props.data.user.rank.color }"
                         v-text="props.data.user.rank.name"></span> <v-icon :color="props.data.user.rank.color" icon="mdi-star"></v-icon></h3>
             </NuxtLink>
-            <p class="opacity-60 text-caption">{{ data.createdDate }}</p>
+            <p class="opacity-60 text-caption">{{ createdDate }}</p>
             <p class="opacity-60 text-body-2">{{ data.text }}</p>
             <div class="flex flex-row justify-start items-center mt-1">
                 <div class="flex flex-row items-center me-3">
@@ -76,7 +77,8 @@ getSession().then((res) => {
                 </div>
                 <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Ответить" />
                 <span class="opacity-60 text-h6">/</span>
-                <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Пожаловаться" />
+                <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Пожаловаться" @click="reportDialog = true" />
+                <ReportDialog :link="`/api/report/comment/${props.data.id}`" v-model="reportDialog"></ReportDialog>
             </div>
         </div>
     </div>

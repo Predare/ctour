@@ -4,7 +4,10 @@ const props = defineProps({
     commentsCount: Number,
     filmLink: String,
     authorId: String,
+    id: Number,
 });
+
+const reportDialog = ref(false);
 
 const viewsCountText = computed(() => {
     if (props.viewsCount < 1000) {
@@ -22,6 +25,7 @@ const viewsCountText = computed(() => {
             <v-btn variant="plain" prepend-icon="mdi-eye">{{viewsCountText}}</v-btn>
             <v-btn variant="plain" size="small" icon="mdi-share-variant"></v-btn>
         </div>
-        <v-btn icon="mdi-alert" size="small" variant="plain" />
+        <v-btn icon="mdi-alert" size="small" variant="plain" @click="reportDialog = true"/>
+        <ReportDialog :link="`/api/report/review/${props.id}`" v-model="reportDialog"></ReportDialog>
     </div>
 </template>

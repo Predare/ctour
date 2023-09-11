@@ -62,6 +62,7 @@ model User {
   subscribes    User[]    @relation("subscriptions")
   reviews       Review[]
   views         Views[]
+  createdReport Report[]
 
   @@map("users")
 }
@@ -74,11 +75,12 @@ model Review {
   film       Film      @relation(fields: [filmLink], references: [link], onDelete: Cascade)
   filmLink   String
   text       String
-  rating     Int      @default(1)
+  rating     Int       @default(1)
   votes      Vote[]
   viewsCount Int       @default(0)
   views      Views[]
   comments   Comment[]
+  report     Report[]
 
   @@unique([filmLink, authorId])
 }
@@ -167,6 +169,7 @@ model Comment {
   filmLink  String?
   review    Review?  @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId  Int?
+  report Report[]
 }
 
 model Vote {
@@ -218,4 +221,15 @@ model Country {
   name  String
   emoji String @default("😎")
   films Film[]
+}
+
+model Report {
+  id       Int     @id @default(autoincrement())
+  review   Review? @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewId Int?
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int? 
+  text String?
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
 }

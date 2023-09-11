@@ -2,13 +2,6 @@
 const props = defineProps({
     data: Object,
 });
-/**
- *  :filmLink="item.filmLink" :authorId="item.authorId" :id="item.id" :viewsCount="item.viewsCount" :name="item.author.name"
-            :avatar="item.author.avatar" :avatarColor="item.author.color" :userId="item.author.id" :text="item.text"
-            :rating="item.rating" :createdAt="item.createdAt" :voteStatus="item.voteStatus"
-            :positiveVotes="item.positiveVotes" :negativeVotes="item.negativeVotes" :userReviewsCount="item.author._count.reviews"
-            :commentsCount="item._count.comments"
- */
 const content = ref(null);
 const expand = ref(false);
 const overflow = ref(false);
@@ -102,6 +95,6 @@ async function addView() {
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
             v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
         <v-divider class="my-3" />
-        <ReviewsFooter :filmLink="data.filmLink" :author-id="data.author.id" :viewsCount="actualViewsCount" :commentsCount="data._count.comments" />
+        <ReviewsFooter :id="data.id" :filmLink="data.filmLink" :author-id="data.author.id" :viewsCount="actualViewsCount" :commentsCount="data._count.comments" />
     </div>
 </template>
