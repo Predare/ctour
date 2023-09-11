@@ -34,6 +34,7 @@ export const useCatalogueFilmStore = defineStore('catalogueFilms', {
             $fetch(link.value).then(response => {
                 this.push(response.films);
                 this.cursor = response.cursor;
+                this.count = response.count;
                 filmFiltersStore.setFullreload(false);
             });
         },
@@ -42,19 +43,5 @@ export const useCatalogueFilmStore = defineStore('catalogueFilms', {
             this.page = page;
             this.nextPage();
         },
-        calculateCount() {
-            const filmFiltersStore = useFilmFilterStore();
-            const filters = filmFiltersStore.getFilters;
-            var params = '';
-            for (var key of Object.keys(filters)) {
-                if (filters[key]) {
-                    params += key + '=' + filters[key] + '&';
-                }
-            }
-            const link = computed(() => { return `/api/catalogue/all?&${params}`});
-            $fetch(link.value).then(response => {
-                this.count = response;
-            });
-        }
     },
 })

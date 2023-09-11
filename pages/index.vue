@@ -6,7 +6,6 @@ const filmFilterStore = useFilmFilterStore();
 
 onMounted(() => {
     catalogueFilmStore.nextPage();
-    catalogueFilmStore.calculateCount();
 });
 
 filmFilterStore.$subscribe((mutation, state) => {
