@@ -8,8 +8,7 @@ const catalogueFilmStore = useCatalogueFilmStore();
             <v-container>
                 <v-row no-gutters>
                     <v-col cols="2" v-for="film in catalogueFilmStore.films" :key="film.id">
-                        <InfoPoster class="ma-2" :yearStart="film.yearStart" :genres="film.genres" :poster="film.posterLink"
-                            :title="film.name" :link="film.link" :kp="film.kinopoiskRating" :imdb="film.imdbRating" />
+                        <InfoPoster class="ma-2" :filmInfo="film"/>
                     </v-col>
                 </v-row>
                 <v-row>
