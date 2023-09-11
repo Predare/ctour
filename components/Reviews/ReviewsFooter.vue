@@ -22,7 +22,7 @@ const viewsCountText = computed(() => {
     <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-3">
             <v-btn variant="plain" prepend-icon="mdi-comment-outline" @click="navigateTo(`/reviews/get/${props.filmLink}/${props.authorId}`)">{{commentsCount}}</v-btn>
-            <v-btn variant="plain" prepend-icon="mdi-eye">{{viewsCountText}}</v-btn>
+            <v-btn variant="plain" prepend-icon="mdi-eye" :ripple="false">{{viewsCountText}}</v-btn>
             <v-btn variant="plain" size="small" icon="mdi-share-variant"></v-btn>
         </div>
         <v-btn icon="mdi-alert" size="small" variant="plain" @click="reportDialog = true"/>

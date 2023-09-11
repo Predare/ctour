@@ -86,7 +86,6 @@ export default defineEventHandler(async (event) => {
   }
 
   await findMany().then(async response => {
-    console.log(response);
     result = response;
     await prisma.$disconnect();
   }).catch(async (e) => {
