@@ -2,68 +2,24 @@ import { PrismaClient } from "@prisma/client";
 import { FilmType } from "@prisma/client";
 
 export default defineEventHandler(async (event) => {
+    const prisma = new PrismaClient();
     const query = getQuery(event);
     var cursor: number | undefined = Number(query.cursor);
     var page: number = Number(query.page);
-
-    const prisma = new PrismaClient();
-
     var elementsInPage = 2;
-    
+
     const filtersWhere = {
         type: query.type === 'FILM' ? FilmType.FILM : FilmType.SERIAL,
-        ...(query.voice ? {
-            voice: {
-                some: {
-                    name: String(query.voice),
-                }
-            }
-        } : undefined),
-        ...(query.selection ? {
-            selections: {
-                some: {
-                    name: String(query.selection),
-                }
-            },
-        } : undefined),
-        ...(query.genre ? {
-            genres: {
-                some: {
-                    name: String(query.genre),
-                }
-            },
-        } : undefined),
-        ...(query.yearFrom ? {
-            yearStart: {
-                gte: Number(query.yearFrom) ?? undefined,
-            },
-        } : undefined),
-        ...(query.yearTo ? {
-            yearStart: {
-                lte: Number(query.yearTo) ?? undefined,
-            },
-        } : undefined),
-        ...(query.country ? {
-            country: {
-                some: {
-                    name: String(query.country),
-                }
-            },
-        } : undefined),
-        ...(query.actor ? {
-            actors: {
-                some: {
-                    name: String(query.actor),
-                }
-            },
-        } : undefined),
-        ...(query.director ? {
-            directors: {
-                some: {
-                    name: String(query.director),
-                }
-            },
-        } : undefined),
+        voice: query.voice ? { some: { name: String(query.voice), } } : undefined,
+        selections: query.selection ? { some: { name: String(query.selection), } } : undefined,
+        genres: query.genre ? { some: { name: String(query.genre), } } : undefined,
+        yearStart: query.yearFrom ? {
+            gte: Number(query.yearFrom) ?? undefined,
+            lte: Number(query.yearTo) ?? undefined,
+        } : undefined,
+        country: query.country ? { some: { name: String(query.country), } } : undefined,
+        actors: query.actor ? { some: { name: String(query.actor), } } : undefined,
+        directors: query.director ? { some: { name: String(query.director), } } : undefined,
     }
 
     async function filmsCount() {
