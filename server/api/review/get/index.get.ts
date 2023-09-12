@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
         filmLink: true,
         _count: {
           select: {
-            comments: true
+            comments: true,
           }
         },
         author: {
@@ -31,9 +31,18 @@ export default defineEventHandler(async (event) => {
               name: true,
               avatar: true,
               color: true,
+              followers: {
+                where: {
+                  id: session?.user?.id
+                },
+                select: {
+                  id: true,
+                }
+              },
               _count: {
                 select: {
                   reviews: true,
+                  followers: true,
                 },
               }
             },
@@ -63,9 +72,18 @@ export default defineEventHandler(async (event) => {
               name: true,
               avatar: true,
               color: true,
+              followers: {
+                where: {
+                  id: session?.user?.id
+                },
+                select: {
+                  id: true,
+                }
+              },
               _count: {
                 select: {
                   reviews: true,
+                  followers: true,
                 },
               }
             },
