@@ -6,26 +6,20 @@ const filmFilterStore = useFilmFilterStore();
 
 onMounted(() => {
     catalogueFilmStore.nextPage();
+    filmFilterStore.$subscribe((mutation, state) => {
+        if (mutation.events.key = 'fullreload' && mutation.events.newValue === true) {
+            catalogueFilmStore.clear();
+            catalogueFilmStore.nextPage();
+        }
+    });
 });
-
-filmFilterStore.$subscribe((mutation, state) => {
-    if (mutation.events.key = 'fullreload' && mutation.events.newValue === true) {
-        catalogueFilmStore.clear();
-        catalogueFilmStore.nextPage();
-    }
-});
-
-function clearFilter(setter) {
-    setter('');
-    filmFilterStore.setFullreload(true);
-}
 </script>
 
 <template>
     <v-container class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 0; padding-top: 2rem;">
         <v-row>
             <v-col>
-                <CatalogueSearchForm/>
+                <CatalogueSearchForm />
             </v-col>
         </v-row>
         <v-row>
@@ -40,32 +34,38 @@ function clearFilter(setter) {
                     <CatalogueSortButtons />
                 </div>
                 <div class="flex flex-row gap-2 mt-3">
+                    <v-chip v-if="filmFilterStore.favorite" closable variant="elevated"
+                        @click:close="() => { filmFilterStore.favorite = false; filmFilterStore.setFullreload(true); }"
+                        color="light-blue" class="capitalize" text="Избранное" />
+                    <v-chip v-if="filmFilterStore.viewed" closable variant="elevated"
+                        @click:close="() => { filmFilterStore.viewed = false; filmFilterStore.setFullreload(true); }"
+                        color="light-red" class="capitalize" text="Просмотренное" />
                     <v-chip v-if="filmFilterStore.genre" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setGenre)" color="purple" class="capitalize"
-                        :text="filmFilterStore.genre" />
+                        @click:close="() => { filmFilterStore.setGenre(''); filmFilterStore.setFullreload(true); }"
+                        color="purple" class="capitalize" :text="filmFilterStore.genre" />
                     <v-chip v-if="filmFilterStore.selection" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setSelection)" color="light-green" class="capitalize"
-                        :text="filmFilterStore.selection" />
+                        @click:close="() => { filmFilterStore.setSelection(''); filmFilterStore.setFullreload(true); }"
+                        color="light-green" class="capitalize" :text="filmFilterStore.selection" />
                     <v-chip v-if="filmFilterStore.country" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setCountry)" color="blue" class="capitalize"
-                        :text="filmFilterStore.country" />
+                        @click:close="() => { filmFilterStore.setCountry(''); filmFilterStore.setFullreload(true); }"
+                        color="blue" class="capitalize" :text="filmFilterStore.country" />
                     <v-chip v-if="filmFilterStore.voice" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setVoice)" color="yellow" class="capitalize"
-                        :text="filmFilterStore.voice" />
+                        @click:close="() => { filmFilterStore.setVoice(''); filmFilterStore.setFullreload(true); }"
+                        color="yellow" class="capitalize" :text="filmFilterStore.voice" />
                     <v-chip v-if="filmFilterStore.actor" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setActor)" color="pink" class="capitalize"
-                        :text="'Актёр:' + ' ' + filmFilterStore.actor" />
+                        @click:close="() => { filmFilterStore.setActor(''); filmFilterStore.setFullreload(true); }"
+                        color="pink" class="capitalize" :text="'Актёр:' + ' ' + filmFilterStore.actor" />
                     <v-chip v-if="filmFilterStore.director" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setDirector)" color="red" class="capitalize"
-                        :text="'Режиссёр:' + ' ' + filmFilterStore.director" />
+                        @click:close="() => { filmFilterStore.setDirector(''); filmFilterStore.setFullreload(true); }"
+                        color="red" class="capitalize" :text="'Режиссёр:' + ' ' + filmFilterStore.director" />
                     <v-chip v-if="filmFilterStore.yearFrom" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setYearFrom)" color="green" class="capitalize"
-                        :text="'От:' + ' ' + filmFilterStore.yearFrom" />
+                        @click:close="() => { filmFilterStore.setYearFrom(''); filmFilterStore.setFullreload(true); }"
+                        color="green" class="capitalize" :text="'От:' + ' ' + filmFilterStore.yearFrom" />
                     <v-chip v-if="filmFilterStore.yearTo" closable variant="elevated"
-                        @click:close="() => clearFilter(filmFilterStore.setYearTo)" color="orange" class="capitalize"
-                        :text="'До:' + ' ' + filmFilterStore.yearTo" />
+                        @click:close="() => { filmFilterStore.setYearTo(''); filmFilterStore.setFullreload(true); }"
+                        color="orange" class="capitalize" :text="'До:' + ' ' + filmFilterStore.yearTo" />
                 </div>
-                <FilmsTable/>
+                <FilmsTable />
             </v-col>
         </v-row>
     </v-container>

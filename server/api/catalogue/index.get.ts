@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { FilmType } from "@prisma/client";
+import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
+    const session = await getServerSession(event);
     const prisma = new PrismaClient();
     const query = getQuery(event);
     var cursor: number | undefined = Number(query.cursor);
@@ -20,6 +22,8 @@ export default defineEventHandler(async (event) => {
         country: query.country ? { some: { name: String(query.country), } } : undefined,
         actors: query.actor ? { some: { name: String(query.actor), } } : undefined,
         directors: query.director ? { some: { name: String(query.director), } } : undefined,
+        favoritedByUsers: query.favorite ? { some: { id: String(session?.user?.id) } } : undefined,
+        viewedByUsers: query.viewed ? { some: { id: String(session?.user?.id) } } : undefined,
     }
 
     async function filmsCount() {

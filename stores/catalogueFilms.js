@@ -14,6 +14,7 @@ export const useCatalogueFilmStore = defineStore('catalogueFilms', {
         clear() {
             this.cursor = null;
             this.films = [];
+            this.count = 0;
         },
         push(films) {
             this.films.push(...films);

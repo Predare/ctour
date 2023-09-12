@@ -17,7 +17,10 @@ export const useFilmFilterStore = defineStore('filmFilter', {
         director: '',
         page: 0,
         sort: sortTypes.popularLatest,
+        viewed: false,
+        favorite: false,
         fullreload: false,
+        random: false,
     }),
     actions: {
         setType(type) {
@@ -67,6 +70,9 @@ export const useFilmFilterStore = defineStore('filmFilter', {
             this.setCountry('');
             this.setActor('');
             this.setPage(0);
+            this.viewed = false;
+            this.favorite = false;
+            this.random = false;
         }
     },
     getters: {
@@ -82,6 +88,9 @@ export const useFilmFilterStore = defineStore('filmFilter', {
                 actor: state.actor,
                 page: state.page,
                 sort: state.sort,
+                viewed: state.viewed,
+                favorite: state.favorite,
+                random: state.random,
             };
         }
     }

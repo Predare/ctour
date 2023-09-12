@@ -25,6 +25,8 @@ const selectCountry = ref('');
 const selectVoice = ref('');
 const selectSelection = ref('');
 const year = ref([1894, 2023]);
+const selectFavorite = ref(false);
+const selectViewed = ref(false);
 
 const { data: genres } = await useFetch('/api/catalogueFilters/genre');
 const { data: voices } = await useFetch('/api/catalogueFilters/voice');
@@ -68,6 +70,8 @@ function applyFilters(){
     filmFilterStore.setYearFrom(year.value[0]);
     filmFilterStore.setYearTo(year.value[1]);
     filmFilterStore.setSelection(selectSelection.value);
+    filmFilterStore.favorite = selectFavorite.value;
+    filmFilterStore.viewed = selectViewed.value;
     filmFilterStore.setFullreload(true);
 }
 
@@ -115,8 +119,14 @@ function clearForm(){
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="12" md="6">
-                                <CatalogueRangeSlider v-model:year="year" />
+                            <v-col cols="12" md="7">
+                                <CatalogueRangeSlider class="max-w-[550px]" v-model:year="year" />
+                            </v-col>
+                            <v-col cols="12" md="5">
+                                <div class="flex flex-row gap-2 justify-end">
+                                    <v-checkbox v-model="selectFavorite" label="Избранное"></v-checkbox>
+                                    <v-checkbox v-model="selectViewed" label="Просмотренное"></v-checkbox>
+                                </div>
                             </v-col>
                         </v-row>
                         <v-row>

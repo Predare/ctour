@@ -72,12 +72,17 @@ async function addView() {
         <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-4 items-start">
                 <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="data.author.avatar" :icon-color="data.author.color" />
-                <div class="flex flex-col">
+                <div class="flex flex-col justify-start items-start">
                     <div class="flex flex-row items-center gap-2">
                         <p class="text-body-1">{{ data.author.name }}</p>
                         <DateLine class="text-caption" :date="data.createdAt"></DateLine>
+                        
                     </div>
-                    <p class="text-caption">{{reviewsCountText}}</p>
+                    <div class="flex flex-row items-center gap-2">
+                        <p class="text-caption">{{reviewsCountText}}</p>
+                        <v-btn class="text-caption" variant="tonal" density="compact">Подписаться</v-btn>
+                    </div>
+                    
                 </div>
             </div>
             <div class="flex flex-row gap-2">
