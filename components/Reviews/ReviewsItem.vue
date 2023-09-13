@@ -28,8 +28,7 @@ const actualFollowersCount = ref(props.data.author._count.followers);
 const actualPositiveVotes = ref(props.data.positiveVotes);
 const actualNegativeVotes = ref(props.data.negativeVotes);
 
-const actualVoteStatus = ref(props.voteStatus);
-
+const actualVoteStatus = ref(props.data.voteStatus);
 async function sendVote(value) {
     const result = await $fetch(`/api/review/vote/${props.data.id}`, { method: 'POST', body: { status: value } });
     if (!result.status) return;
