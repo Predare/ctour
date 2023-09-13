@@ -35,5 +35,5 @@ export default defineEventHandler(async (event) => {
         await prisma.$disconnect();
     })
     
-    return result;
+    return {status: true, user: result};
 })

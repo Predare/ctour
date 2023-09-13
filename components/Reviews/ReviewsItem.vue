@@ -69,14 +69,14 @@ const actualSubscribeStatus = ref(props.data.author.followers.length === 0 ? fal
 async function subscribe() {
     const result = await $fetch(`/api/user/followers/${props.data.author.id}/subscribe`, { method: 'POST' });
     if (!result || !result.status) return;
-    actualFollowersCount.value = result.author._count.followers;
+    actualFollowersCount.value = result.user._count.followers;
     actualSubscribeStatus.value = true;
 }
 
 async function unsubscribe() {
     const result = await $fetch(`/api/user/followers/${props.data.author.id}/unsubscribe`, { method: 'DELETE' });
     if (!result || !result.status) return;
-    actualFollowersCount.value = result.author._count.followers;
+    actualFollowersCount.value = result.user._count.followers;
     actualSubscribeStatus.value = false;
 }
 </script>
