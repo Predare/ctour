@@ -26,6 +26,7 @@ export default defineEventHandler(async (event) => {
           take: 5,
           select: {
             id: true,
+            authorId: true,
             votes: {
               where: {
                 userId: event.context.params?.id

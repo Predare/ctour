@@ -1,5 +1,7 @@
 <script setup>
 const props = defineProps({
+    authorId: {type: String},
+    filmLink: {type: String},
     name: { type: String, default: 'Этот безумный, безумный, безумный мир' },
     genre: { type: String, default: 'комедия' },
     year: { type: Number, default: 1964 },
@@ -9,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <NuxtLink to="/">
+    <NuxtLink :to="`/reviews/get/${filmLink}/${authorId}`">
         <v-tooltip :text="`${name}, ${genre} (${year})`">
             <template v-slot:activator="{ props }">
                 <div v-bind="props" class="flex flex-row gap-2">

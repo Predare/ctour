@@ -31,7 +31,8 @@ const props = defineProps({
                 <v-divider class="my-2"></v-divider>
                 <div class="flex flex-col gap-1">
                     <CriticCardFilmReviewRow v-for="review in reviews" :key="review.id" :name="review.film.name"
-                        :genre="review.film.genres.length > 0 ? review.genre[0] : ''" :year="review.film.yearStart" :rating="review.votes[0].status"/>
+                        :genre="review.film.genres.length > 0 ? review.genre[0] : ''" :year="review.film.yearStart" :rating="review.votes[0].status"
+                        :author-id="review.authorId" :film-link="review.film.link"/>
 
                 </div>
             </v-card-text>
