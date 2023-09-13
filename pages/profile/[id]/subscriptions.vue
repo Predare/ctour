@@ -4,10 +4,8 @@ const users = ref([]);
 const reviews = ref([]);
 async function getFollowedUsersReviews() {
     const result = await $fetch(followedUsersReviewsLink);
-    console.log(result);
     users.value.push(...result.users);
     reviews.value.push(...result.reviews);
-    console.log(reviews);
 }
 
 await getFollowedUsersReviews();
