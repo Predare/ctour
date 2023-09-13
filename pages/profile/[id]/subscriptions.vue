@@ -17,7 +17,7 @@ await getFollowedUsersReviews();
             <p class="text-h5 mb-3">Подписки</p>
             <div class="flex flex-row gap-4 overflow-hidden mx-2">
                 <CriticCard v-for="user in users" :key="user.id" :name="user.name" :iconName="user.avatar"
-                    :iconColor="user.color" :reviewsCount="user._count.reviews" :followersCount="user._count.followers"/>
+                    :iconColor="user.color" :reviewsCount="user._count.reviews" :followersCount="user._count.followers" :reviews="user.reviews"/>
             </div>
         </div>
         <div class="flex flex-col gap-4 bg-surface-lighten-1 p-4 rounded-md">

@@ -6,6 +6,7 @@ const props = defineProps({
     newReviewsCount: { type: Number, default: 1 },
     reviewsCount: { type: Number, default: 0 },
     followersCount: { type: Number, default: 0 },
+    reviews: { type: Array, default: () => [] },
 });
 </script>
 
@@ -29,10 +30,9 @@ const props = defineProps({
                 <p class="text-body-1">Последнее: {{ newReviewsCount > 0 ? `(+${newReviewsCount})` : '' }}</p>
                 <v-divider class="my-2"></v-divider>
                 <div class="flex flex-col gap-1">
-                    <CriticCardFilmReviewRow />
-                    <CriticCardFilmReviewRow name="Спайдер мен"/>
-                    <CriticCardFilmReviewRow />
-                    <CriticCardFilmReviewRow />
+                    <CriticCardFilmReviewRow v-for="review in reviews" :key="review.id" :name="review.film.name"
+                        :genre="review.film.genres.length > 0 ? review.genre[0] : ''" :year="review.film.yearStart" :rating="review.votes[0].status"/>
+
                 </div>
             </v-card-text>
             <v-card-actions>

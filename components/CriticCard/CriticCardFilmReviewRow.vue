@@ -2,7 +2,7 @@
 const props = defineProps({
     name: { type: String, default: 'Этот безумный, безумный, безумный мир' },
     genre: { type: String, default: 'комедия' },
-    year: { type: String, default: '1964' },
+    year: { type: Number, default: 1964 },
     rating: { type: Number, default: 1 },
     seen: { type: Boolean, default: true },
 });
