@@ -38,6 +38,11 @@ function setFilmType(name) {
 }
 
 const route = useRoute();
+
+async function navigateToRandomFilm() {
+  const filmLink = await $fetch('/api/film/get/random'); 
+  await navigateTo(`/film/${filmLink}`);
+}
 </script>
 
 <template>
@@ -70,10 +75,8 @@ const route = useRoute();
     <div class="flex flex-row items-center">
       <v-tooltip location="bottom" text="Случайное">
         <template v-slot:activator="{ props }">
-          <NuxtLink to="/">
-            <v-btn rounded="0" v-bind="props" variant="text" class="min-h-[50px]" icon="mdi-dice-5"
-              @click="() => { filmFilterStore.pureFilters(); filmFilterStore.random = true; filmFilterStore.setFullreload(true); }" />
-          </NuxtLink>
+          <v-btn rounded="0" v-bind="props" variant="text" class="min-h-[50px]" icon="mdi-dice-5"
+            @click="navigateToRandomFilm" />
         </template>
       </v-tooltip>
       <v-tooltip location="bottom" text="Закладки">

@@ -20,7 +20,6 @@ export const useFilmFilterStore = defineStore('filmFilter', {
         viewed: false,
         favorite: false,
         fullreload: false,
-        random: false,
     }),
     actions: {
         setType(type) {
@@ -72,7 +71,6 @@ export const useFilmFilterStore = defineStore('filmFilter', {
             this.setPage(0);
             this.viewed = false;
             this.favorite = false;
-            this.random = false;
         }
     },
     getters: {
@@ -90,7 +88,6 @@ export const useFilmFilterStore = defineStore('filmFilter', {
                 sort: state.sort,
                 viewed: state.viewed,
                 favorite: state.favorite,
-                random: state.random,
             };
         }
     }
