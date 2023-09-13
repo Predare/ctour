@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
           take: 5,
           select: {
             id: true,
-            authorId: true,
+            rating: true,
             votes: {
               where: {
                 userId: event.context.params?.id
@@ -149,6 +149,7 @@ export default defineEventHandler(async (event) => {
         && groupedVote.status === -1)?._count?.id ?? 0,
     }
   });
+  result['subscribed'] = true;
 
   return result;
 })

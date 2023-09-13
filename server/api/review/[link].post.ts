@@ -8,6 +8,8 @@ export default defineEventHandler(async (event) => {
 
   const link: any  = event.context.params?.link;
   if(!link) return {status: 404};
+  if(body.rating != 1 || body.rating !=1) return {status: 400};
+
   async function upsertReview() {
     return await prisma.review.upsert({
       where: {

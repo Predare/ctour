@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
     }).catch(async (e) => {
         console.error(e);
         await prisma.$disconnect();
-    })
+    });
     
-    return {status: true, user: result};
+    return {status: true, user : result};
 })
