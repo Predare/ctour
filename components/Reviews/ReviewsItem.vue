@@ -1,4 +1,8 @@
 <script setup>
+const { getSession } = useAuth();
+const session = ref();
+session.value = await getSession();
+
 const props = defineProps({
     data: Object,
 });
@@ -19,25 +23,7 @@ const colors = {
     '-1': 'darkred',
 }
 
-const reviewsCountText = computed(() => {
-    if (props.data.author._count.reviews === 1) {
-        return props.data.author._count.reviews + ' рецензия';
-    } else {
-        return props.data.author._count.reviews + ' рецензии';
-    }
-});
-
-const actualFollowersCount = ref(0);
-//props.data.author._count.followers
-const followersCountText = computed(() => {
-    if (unref(actualFollowersCount) === 1) {
-        return unref(actualFollowersCount) + ' подписчик';
-    } else if (unref(actualFollowersCount) === 0) {
-        return unref(actualFollowersCount) + ' подписчиков';
-    } else {
-        return unref(actualFollowersCount) + ' подписчика';
-    }
-});
+const actualFollowersCount = ref(props.data.author._count.followers);
 
 const actualPositiveVotes = ref(props.data.positiveVotes);
 const actualNegativeVotes = ref(props.data.negativeVotes);
@@ -83,14 +69,14 @@ const actualSubscribeStatus = ref(props.data.author.followers.length === 0 ? fal
 async function subscribe() {
     const result = await $fetch(`/api/user/followers/${props.data.author.id}/subscribe`, { method: 'POST' });
     if (!result || !result.status) return;
-    actualFollowersCount.value = result._count.followers;
+    actualFollowersCount.value = result.author._count.followers;
     actualSubscribeStatus.value = true;
 }
 
 async function unsubscribe() {
     const result = await $fetch(`/api/user/followers/${props.data.author.id}/unsubscribe`, { method: 'DELETE' });
     if (!result || !result.status) return;
-    actualFollowersCount.value = result._count.followers;
+    actualFollowersCount.value = result.author._count.followers;
     actualSubscribeStatus.value = false;
 }
 </script>
@@ -107,10 +93,10 @@ async function unsubscribe() {
                         <DateLine class="text-caption" :date="data.createdAt"></DateLine>
                     </div>
                     <div class="flex flex-row items-center gap-2">
-                        <p class="text-caption">{{ reviewsCountText }}</p>
-                        <p class="text-caption">{{ followersCountText }}</p>
+                        <CriticCardReviewsRow :reviews-count="data.author._count.reviews"></CriticCardReviewsRow>
+                        <CriticCardFollowersRow :followers-count="actualFollowersCount"></CriticCardFollowersRow>
                     </div>
-                    <v-btn class="text-body-2 px-1" variant="text" density="compact"
+                    <v-btn v-if="session?.user?.id != data.author.id" class="text-body-2 px-1" variant="text" density="compact"
                             @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
                             v-text="actualSubscribeStatus ? 'Отписаться' : 'Подписаться'"></v-btn>
                 </div>

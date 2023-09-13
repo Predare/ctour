@@ -5,7 +5,10 @@ export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient();
   const query = getQuery(event);
   const session = await getServerSession(event);
-  const where: any = query.filmLink ? { filmLink: query.filmLink } : {authorId: query.authorId};
+  const where : any = {};
+
+  if(query.authorId) where['authorId'] = query.authorId;
+  if(query.filmLink) where['filmLink'] = query.filmLink;
 
   async function getSingle() {
     return await prisma.review.findFirst({
@@ -93,9 +96,9 @@ export default defineEventHandler(async (event) => {
   }
 
   var reviews: any;
-  if(query.signle){
+  if(query.single){
     await getSingle().then(async response => {
-      reviews = response
+      reviews = [response];
       await prisma.$disconnect();
     }).catch(async (e) => {
       console.error(e);
@@ -103,7 +106,7 @@ export default defineEventHandler(async (event) => {
     });
   }else{
     await getReviews().then(async response => {
-      reviews = response
+      reviews = response;
       await prisma.$disconnect();
     }).catch(async (e) => {
       console.error(e);

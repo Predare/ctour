@@ -24,6 +24,9 @@ const props = defineProps({
             <v-btn variant="plain" density="comfortable"
                 @click="() => { filmFilterStore.pureFilters(); filmFilterStore.viewed = true; filmFilterStore.setFullreload(true); }">Просмотренное</v-btn>
         </NuxtLink>
-        <v-btn variant="plain" density="comfortable">Подписки</v-btn>
+        <NuxtLink :to="`/profile/${id}/subscriptions`">
+            <v-btn variant="plain" density="comfortable">Подписки</v-btn>
+        </NuxtLink>
+        
     </div>
 </template>
