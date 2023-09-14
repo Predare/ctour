@@ -65,6 +65,7 @@ model User {
   createdReport Report[]
   viewedFilms Film[] @relation(name: "viewedFilms")
   favoriteFilms Film[] @relation(name: "favoriteFilms")
+  completedAchievements Achievement[]
 
   @@map("users")
 }
@@ -247,5 +248,6 @@ model Achievement {
   name String
   description String
   reward Int
-  conditions Json
+  conditions Json // properties: model, property, required value
+  completedUsers User[]
 }
