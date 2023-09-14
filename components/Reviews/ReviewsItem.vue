@@ -84,20 +84,27 @@ async function unsubscribe() {
     <div ref="componentRef" class="rounded-md p-5" :style="{ backgroundColor: colors[data.rating] }">
         <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-4 items-start">
-                <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="data.author.avatar"
-                    :icon-color="data.author.color" />
+                <NuxtLink :to="`/profile/${data.author.id}`">
+                    <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="data.author.avatar"
+                        :icon-color="data.author.color" />
+                    <v-tooltip activator="parent" location="bottom">Профиль</v-tooltip>
+                </NuxtLink>
                 <div class="flex flex-col justify-start items-start">
-                    <div class="flex flex-row items-center gap-2">
-                        <p class="text-body-1">{{ data.author.name }}</p>
-                        <DateLine class="text-caption" :date="data.createdAt"></DateLine>
-                    </div>
-                    <div class="flex flex-row items-center gap-2">
-                        <CriticCardReviewsRow :reviews-count="data.author._count.reviews"></CriticCardReviewsRow>
-                        <CriticCardFollowersRow :followers-count="actualFollowersCount"></CriticCardFollowersRow>
-                    </div>
-                    <v-btn v-if="session?.user?.id != data.author.id" class="text-body-2 px-1" variant="text" density="compact"
-                            @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
-                            v-text="actualSubscribeStatus ? 'Отписаться' : 'Подписаться'"></v-btn>
+                    <NuxtLink :to="`/profile/${data.author.id}`">
+                        <div class="flex flex-row items-center gap-2">
+                            <p class="text-body-1">{{ data.author.name }}</p>
+                            <DateLine class="text-caption" :date="data.createdAt"></DateLine>
+                        </div>
+                        <div class="flex flex-row items-center gap-2">
+                            <CriticCardReviewsRow :reviews-count="data.author._count.reviews"></CriticCardReviewsRow>
+                            <CriticCardFollowersRow :followers-count="actualFollowersCount"></CriticCardFollowersRow>
+                        </div>
+                        <v-tooltip activator="parent" location="bottom">Профиль</v-tooltip>
+                    </NuxtLink>
+
+                    <v-btn v-if="session?.user?.id != data.author.id" class="text-body-2 px-1" variant="text"
+                        density="compact" @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
+                        v-text="actualSubscribeStatus ? 'Отписаться' : 'Подписаться'"></v-btn>
                 </div>
             </div>
             <div class="flex flex-row gap-2">
@@ -116,7 +123,8 @@ async function unsubscribe() {
 
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
             v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
-    <v-divider class="my-3" />
-    <ReviewsFooter :id="data.id" :filmLink="data.filmLink" :author-id="data.author.id" :viewsCount="actualViewsCount"
-        :commentsCount="data._count.comments" />
-</div></template>
+        <v-divider class="my-3" />
+        <ReviewsFooter :id="data.id" :filmLink="data.filmLink" :author-id="data.author.id" :viewsCount="actualViewsCount"
+            :commentsCount="data._count.comments" />
+    </div>
+</template>
