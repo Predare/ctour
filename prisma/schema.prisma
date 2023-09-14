@@ -240,3 +240,12 @@ model Report {
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 }
+
+model Achievement {
+  id Int @id @default(autoincrement())
+  icon String
+  name String
+  description String
+  reward Int
+  conditions Json
+}
