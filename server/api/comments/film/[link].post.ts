@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { AchievementTarget, PrismaClient } from "@prisma/client";
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -23,7 +23,9 @@ export default defineEventHandler(async (event) => {
         }
       },
       include: {
-        user: { include: { rank: true } },
+        user: {
+          include: { rank: true, _count: { select: { comments: true } } },
+        },
       }
     });
   }
@@ -36,9 +38,45 @@ export default defineEventHandler(async (event) => {
     await prisma.$disconnect();
   })
 
+  async function findCompletedAchievements() {
+    return await prisma.achievement.findFirst({
+      where: {
+        target: AchievementTarget.CommentAmount,
+        targetAmount: { lte: result.user._count.comments},
+        completedUsers: {
+          none: {
+            id: session?.user.id
+          }
+        }
+      },
+      select: {
+        id: true
+      }
+    })
+  }
+
+  async function updateUserAchievements() {
+    var completeAchivements = await findCompletedAchievements();
+    if(!completeAchivements) return null;
+    await prisma.user.update({
+      where: {
+        id: session?.user.id
+      },
+      data: {
+        completedAchievements: {
+          connect: {id: completeAchivements?.id}
+        },
+      },
+    });
+    return completeAchivements?.id;
+  }
+
   return {
-    id: result.id, text: result.text, createdAt: result.createdAt, user: {id: result.user.id, name: result.user.name, avatar: result.user.avatar, color: result.user.color,
-    rank: { name: result.user.rank.name, color: result.user.rank.color}}, 
+    id: result.id, text: result.text, createdAt: result.createdAt, user: {
+      id: result.user.id, name: result.user.name, avatar: result.user.avatar, color: result.user.color,
+      rank: { name: result.user.rank.name, color: result.user.rank.color }
+    },
     _count: { negativeVotes: 0, positiveVotes: 0 }, voteStatus: 0,
+    completedAchievements: await updateUserAchievements(),
   };
 })

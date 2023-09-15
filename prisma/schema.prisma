@@ -242,12 +242,22 @@ model Report {
   authorId String
 }
 
+enum AchievementTarget {
+  None
+  CommentAmount
+  RatingAmount
+  GivedVotesAmount
+} 
+
 model Achievement {
   id Int @id @default(autoincrement())
   icon String
   name String
   description String
   reward Int
-  conditions Json // properties: model, property, required value
+  target AchievementTarget @default(None)
+  targetAmount Int @default(0)
   completedUsers User[]
+
+  @@unique([target, targetAmount])
 }

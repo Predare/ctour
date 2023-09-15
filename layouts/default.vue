@@ -1,9 +1,38 @@
+<script setup>
+useSeoMeta({
+    title: '[title]',
+    description: '[description]',
+    ogTitle: '[og:title]',
+    ogDescription: '[og:description]',
+    ogImage: '[og:image]',
+    ogUrl: '[og:url]',
+    twitterTitle: '[twitter:title]',
+    twitterDescription: '[twitter:description]',
+    twitterImage: '[twitter:image]',
+    twitterCard: 'summary'
+})
+
+useHead({
+    htmlAttrs: {
+        lang: 'en'
+    },
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/png',
+            href: '/favicon.png'
+        }
+    ]
+})
+</script>
+
 <template>
     <v-layout>
         <NuxtLoadingIndicator />
         <Navbar></Navbar>
         <div class="flex flex-col w-full">
-            <v-container fluid class="bg-surface-lighten-2 pb-10 pt-[20px] px-10" style="max-width: 1500px; padding-top: 5rem;">
+            <v-container fluid class="bg-surface-lighten-2 pb-10 pt-[20px] px-10"
+                style="max-width: 1500px; padding-top: 5rem;">
                 <v-row justify="center" align="start">
                     <v-col cols="9" class="pt-0">
                         <slot></slot>

@@ -46,7 +46,7 @@ const { data, pending, error, refresh} = await useFetch(`/api/profile/${route.pa
                 :name="i.name" :description="i.description" :reward="i.reward" />
         </div>
         <div class="mt-5">
-            <NuxtLink to="/">
+            <NuxtLink :to="`/profile/${data?.id}/achievements`">
                 <v-btn variant="plain">Все достижения</v-btn>
             </NuxtLink>
         </div>
