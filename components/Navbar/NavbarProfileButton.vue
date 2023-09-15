@@ -1,7 +1,7 @@
 <script setup>
 const { getSession } = useAuth();
 const session = ref();
-getSession().then((res) => {
+await getSession().then((res) => {
     session.value = res;
 })
 </script>

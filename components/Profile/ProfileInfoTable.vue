@@ -1,6 +1,5 @@
 <script setup>
 const route = useRoute()
-
 const ratingCountText = ref(ratingTextFormatter(-1));
 const positiveVotesCountText = ref('');
 const negativeVotesCountText = ref('');

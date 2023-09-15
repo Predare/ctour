@@ -1,5 +1,4 @@
 <script setup>
-const { getSession } = useAuth();
 const props = defineProps({
     width: String,
     height: String,
@@ -17,11 +16,6 @@ const avatarEmojis = [
     {name: 'CAT', emoji: '🐱'},
     {name: 'PUMPKIN', emoji: '🎃'},
 ];
-
-const session = ref();
-getSession().then((res) => {
-    session.value = res;
-});
 
 const avatar = computed(() => {return avatarEmojis.find(emoji => emoji.name === props.iconName)?.emoji;
 });
