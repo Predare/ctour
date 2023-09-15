@@ -26,5 +26,5 @@ export default NuxtAuthHandler({
             session.user.id = user.id;
             return session;
         },
-    }
+    },
 });

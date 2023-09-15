@@ -1,19 +1,17 @@
 <script setup>
 const props = defineProps({
-    rating: Number,
+    rating: {
+        type: Number,
+        default: 0,
+    },
 });
 
-const ratingCountText = computed(() => {
-    if (props.rating === 1) {
-        return ' Рейтинг';
-    } else if (props.rating === 0) {
-        return ' Рейтинга';
-    } else {
-        return ' Рейтинга';
-    }
+const ratingCountText = ref(ratingTextFormatter(props.rating));
+watch(() => props.rating, () => {
+    ratingCountText.value = ratingTextFormatter(props.rating);
 });
 </script>
 
 <template>
-    <p class="mt-2"><span class="font-bold" v-text="rating"></span> {{ ratingCountText }}</p>
+    <p class="mt-2"><span class="font-bold" v-text="ratingCountText.value"></span> {{ ratingCountText.text }}</p>
 </template>

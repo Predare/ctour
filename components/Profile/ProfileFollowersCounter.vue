@@ -2,7 +2,7 @@
 const props = defineProps({
     followersCount: Number
 });
-console.log(props.followersCount);
+
 const followersCountText = computed(() => {
     if (props.followersCount === 1) {
         return ' Подписчик';

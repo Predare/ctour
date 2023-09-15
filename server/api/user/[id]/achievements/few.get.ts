@@ -6,19 +6,18 @@ export default defineEventHandler(async (event) => {
     async function findMany() {
         return await prisma.achievement.findMany({
             where: {
-                id: event.context.params?.id,
+                completedUsers: {
+                    none: {
+                        id: event.context.params?.id
+                    }
+                }
             },
             select: {
                 id: true,
-                avatar: true,
-                color: true,
+                icon: true,
                 name: true,
-                rank: {
-                    select: {
-                        name: true,
-                        color: true,
-                    },
-                },
+                description: true,
+                reward: true,
             }
         })
     }
