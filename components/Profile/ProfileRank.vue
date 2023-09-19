@@ -1,5 +1,6 @@
 <script setup>
 const props = defineProps({
+    id: String,
     rankName: String,
     rankColor: String,
 });
@@ -10,9 +11,12 @@ const props = defineProps({
         <p class="text-left">Текущий ранг: <span class="font-semibold" :style="{ color: props.rankColor }"
                 v-text="props.rankName"></span></p>
         <v-icon :color="props.rankColor" icon="mdi-star"></v-icon>
-        <v-btn variant="text" density="comfortable" icon="">
-            <v-icon icon="mdi-seal" />
-            <v-tooltip activator="parent" location="bottom">Все достижения</v-tooltip>
-        </v-btn>
+        <NuxtLink :to="`/profile/${id}/achievements`">
+            <v-btn variant="text" density="comfortable" icon="">
+                <v-icon icon="mdi-seal" />
+                <v-tooltip activator="parent" location="bottom">Все достижения</v-tooltip>
+            </v-btn>
+        </NuxtLink>
+
     </div>
 </template>

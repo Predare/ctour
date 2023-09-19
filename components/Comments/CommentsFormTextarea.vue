@@ -1,4 +1,7 @@
 <script setup>
+import { useCommentsFormStore } from '@/stores/commentForm';
+const commentFormStore = useCommentsFormStore();
+
 const props = defineProps({
     modelValue: String
 });
@@ -7,7 +10,6 @@ const counter = computed(() => {
     return props.modelValue.length
 });
 const maxTextLength = ref(1200);
-const cols = ref(70);
 const textArea = ref(null);
 const height = ref('2rem');
 
@@ -26,6 +28,15 @@ function addText(text) {
             <CommentsFormEmojiTable :addText="addText" />
             <v-btn icon="mdi-send" variant="plain" :ripple="false" density="compact" type="submit"></v-btn>
         </div>
-        <p class="ms-4" v-text="counter + ' / ' + maxTextLength + ' символов'"></p>
+        <div class="flex flex-row gap-2 ms-4">
+            <p v-text="counter + ' / ' + maxTextLength + ' символов'"></p>
+            <v-divider vertical />
+            <div class="flex flex-row gap-2" v-show="commentFormStore.repliedComment">
+                <p class="text-truncate">Ответ на комментарий <span class="text-primary">{{ commentFormStore.repliedComment?.user.name
+                + ': ' + commentFormStore.repliedComment?.text}}</span></p>
+                <v-btn size="small" density="compact" color="secondary" icon="mdi-close"
+                    @click="commentFormStore.repliedComment = null"></v-btn>
+            </div>
+        </div>
     </div>
 </template>

@@ -17,7 +17,7 @@ await getSession().then(async (res) => {
         <SidebarHeader :id="session?.user?.id" :name="session?.user?.name" :icon-name="session?.user?.avatar" :icon-color="session?.user?.color"/>
         <v-divider class="my-3 mb-4" />
         <ProfileExpProgress :expierence="profileInfo?.data?.expirence" :next-rank-expirence="profileInfo?.data?.nextRank.requiredExpirence"/>
-        <ProfileRank :rank-color="profileInfo?.data?.rank?.color" :rank-name="profileInfo?.data?.rank?.name"/>
+        <ProfileRank :id="profileInfo?.data?.id" :rank-color="profileInfo?.data?.rank?.color" :rank-name="profileInfo?.data?.rank?.name"/>
         <SidebarAchievementExpPanel :achievements="profileInfo?.data?.achievements" />
         <ProfileRatingCounter :rating="profileInfo?.data?.rating" />
         <ProfileFollowersCounter :followers-count="profileInfo?.data._count.followers" />

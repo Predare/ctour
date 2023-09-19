@@ -40,7 +40,7 @@ const { data, pending, error, refresh} = await useFetch(`/api/profile/${route.pa
         <p class="text-h6">Достижения на текущем уровне:</p>
         <ProfileExpProgress style="margin-top: 1rem" :expierence="data?.expirence"
             :next-rank-expirence="data?.nextRank.requiredExpirence" />
-        <ProfileRank :rank-color="data?.rank.color" :rank-name="data?.rank.name" />
+        <ProfileRank :id="data?.id" :rank-color="data?.rank.color" :rank-name="data?.rank.name" />
         <div class="flex flex-col gap-5 mt-3">
             <ProfileAchievement v-for="i in data?.achievements" :key="i.id" :id="i.id" :icon="i.icon"
                 :name="i.name" :description="i.description" :reward="i.reward" />

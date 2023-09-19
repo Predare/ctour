@@ -22,7 +22,7 @@ const props = defineProps({
     },
     completed: {
         type: Boolean,
-        required: true
+        default: false,
     }
 })
 </script>

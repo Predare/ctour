@@ -102,8 +102,8 @@ async function unsubscribe() {
                         <v-tooltip activator="parent" location="bottom">Профиль</v-tooltip>
                     </NuxtLink>
 
-                    <v-btn v-if="session?.user?.id != data.author.id" class="text-body-2 px-1" variant="text"
-                        density="compact" @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
+                    <v-btn v-if="session?.user?.id != data.author.id" class="text-subtitle-2 px-1" variant="text"
+                         @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
                         v-text="actualSubscribeStatus ? 'Отписаться' : 'Подписаться'"></v-btn>
                 </div>
             </div>

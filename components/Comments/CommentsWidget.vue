@@ -1,7 +1,14 @@
 <script setup>
+import { useCommentsFormStore } from '@/stores/commentForm';
+const commentFormStore = useCommentsFormStore();
+
 const props = defineProps({
     showForm: { type: Boolean, default: true },
     title: { type: String, default: 'Комментарии' },
+});
+
+onMounted(() => {
+    commentFormStore.repliedComment = null;
 })
 </script>
 
