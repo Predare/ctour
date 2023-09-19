@@ -14,14 +14,13 @@ await getSession().then(async (res) => {
     session.value = res;
 });
 
-const text = ref('');
 const commentsStore = useCommentsStore();
 async function postComment() {
     
     await $fetch(commentsStore.postLink, {
         
         method: 'POST', body: {
-            text: text.value,
+            text: commentFormStore.text,
         }
     }).catch(error => console.log(error)).then(response => {
         clearForm();
@@ -31,7 +30,7 @@ async function postComment() {
 
 function clearForm() {
     commentFormStore.repliedComment = null;
-    text.value = '';
+    commentFormStore.text = '';
 }
 </script>
 
@@ -39,7 +38,7 @@ function clearForm() {
     <div class="w-full mt-7">
         <v-form @submit.prevent="postComment">
             <div class="flex flex-row items-start rounded gap-3">
-                <CommentsFormTextarea v-model="text"></CommentsFormTextarea>
+                <CommentsFormTextarea v-model="commentFormStore.text"></CommentsFormTextarea>
             </div>
         </v-form>
     </div>

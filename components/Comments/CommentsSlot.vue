@@ -88,7 +88,8 @@ async function loadSubcomments() {
                 </div>
                 <div class="flex flex-row items-center" v-if="!commentsStore.hideReplayReportButton">
                     <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Ответить"
-                        @click="commentFormStore.repliedComment = props.data; commentsStore.postLink = `/api/comments/reply/${props.data.id}`" />
+                        @click="commentFormStore.repliedComment = props.data; commentFormStore.text = `@${props.data.user.name} ` + commentFormStore.text
+                        commentsStore.postLink = `/api/comments/reply/${props.data.replyCommentId ?? props.data.id}`" />
                     <span class="opacity-60 text-h6">/</span>
                     <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Пожаловаться"
                         @click="reportDialog = true" />
@@ -100,7 +101,7 @@ async function loadSubcomments() {
                 v-text="showReplies ? 'Скрыть ответы' : `Показать ответы (${data._count.subComments})`"
                 :ripple="false"></v-btn>
             <div v-show="showReplies" class="flex flex-col mt-[1rem] gap-3">
-                <CommentsSlot v-for="i in data.subComments" :key="i.id" :data="i" :rootCommentId="i.id" />
+                <CommentsSlot v-for="i in data.subComments" :key="i.id" :data="i" />
             </div>
         </div>
     </div>

@@ -22,7 +22,9 @@ commentsStore.$subscribe((mutation, state) => {
 
 <template>
     <div class="flex flex-col mt-5 gap-4 px-2">
-        <CommentsSlot v-for="i in commentsStore.comments" :key="i.id" :data="i"/>
-        <CommentsLoadNextButton />
+        <CommentsSlot v-for="i in commentsStore.comments" :key="i.id" :data="i" />
+        <v-btn v-if="commentsStore.cursor != -1" @click="commentsStore.getNext = true" color="surface-lighten-2" block
+            size="small">Загрузить
+            ещё</v-btn>
     </div>
 </template>

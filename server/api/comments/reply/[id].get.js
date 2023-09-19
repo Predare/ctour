@@ -27,7 +27,8 @@ export default defineEventHandler(async (event) => {
                             },
                         }
                     },
-                }
+                },
+                replyCommentId: true,
             },
             orderBy: {
                 createdAt: 'desc'
