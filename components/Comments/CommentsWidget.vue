@@ -8,8 +8,6 @@ const props = defineProps({
     api: { type: Object, required: true },
 });
 
-provide('api', props.api);
-
 onMounted(() => {
     commentFormStore.repliedComment = null;
 })
@@ -23,7 +21,7 @@ onMounted(() => {
             </slot>
         </v-row>
         <v-row>
-            <CommentsContainer class="w-[100%]" />
+            <CommentsContainer :getLink="api.get" class="w-[100%]" />
         </v-row>
         <v-row v-if="showForm">
             <CommentsForm :postLink="api.post"></CommentsForm>

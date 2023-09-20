@@ -1,11 +1,16 @@
 <script setup>
-const getApi = inject('api').get;
+const props = defineProps({
+    getLink: {
+        type: String,
+    }
+});
+
 const cursor = ref(-1);
 const comments = ref([]);
-await useFetch(getApi).then(res => { comments.value = res.data.value.comments; cursor.value = res.data.value.cursor; });
+await useFetch(props.getLink).then(res => { comments.value = res.data.value.comments; cursor.value = res.data.value.cursor; });
 
 async function loadComments() {
-    $fetch(getApi, { method: 'GET', params: { cursor: unref(cursor) } }).then(res => {
+    $fetch(props.getLink, { method: 'GET', params: { cursor: unref(cursor) } }).then(res => {
         comments.value = unref(comments).concat(res.comments);
         cursor.value = res.cursor;
     })
