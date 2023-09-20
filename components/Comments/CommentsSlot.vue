@@ -1,42 +1,39 @@
 <script setup>
-import { useCommentsFormStore } from '@/stores/commentForm';
-import { useCommentsStore } from '@/stores/comments';
-const commentsStore = useCommentsStore();
-const commentFormStore = useCommentsFormStore();
+import DateTimeTextFormatter from '~/composables/DateTimeTextFormatter';
 
 const props = defineProps({
-    data: Object,
+    hideReplayReportButton: { type: Boolean, default: false },
+    id: { type: Number, required: true },
+    replyCommentId: { type: Number, required: false },
+    userId: { type: String, required: true },
+    userName: { type: String, required: true },
+    userAvatar: { type: String, required: true },
+    userAvatarColor: { type: String, required: true },
+    userRankColor: { type: String, required: true },
+    userRankName: { type: String, required: true },
+    text: { type: String, required: true },
+    subcommentCount: { type: Number, required: false, default: 0 },
+    voteStatus: { type: Number, required: true },
+    positiveVotes: { type: Number, required: true },
+    negativeVotes: { type: Number, required: true },
+    createdAt: { type: String, required: true }
 });
+const actualVote = ref(props.voteStatus);
+const actualPositiveRating = ref(unref(props.positiveVotes));
+const actualNegativeRating = ref(unref(props.negativeVotes));
+const createdDate = ref(DateTimeTextFormatter(unref(props.createdAt)));
+const avatarEmoji = ref(getAvatar(unref(props.userAvatar)));
+const reportDialog = ref(false);
+const showReplies = ref(false);
+const subComments = ref([]);
+const cursor = ref(-1);
+const api = ref(formatGetCommentsLink().replies(props.id, props.replyCommentId ?? props.id));
 
-const postStylesClass = computed(() => {
-    return commentsStore.postStyle === 'single' ? 'bg-surface-lighten-2 p-3 pb-1 rounded-md' : '';
-});
-
-const actualVote = ref(props.data.voteStatus);
-const actualPositiveRating = ref(props.data.positiveVotes);
-const actualNegativeRating = ref(props.data.negativeVotes);
-
-const createdDate = computed(() => {
-    const date = new Date(props.data.createdAt);
-    return `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()} ${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}:${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}:${date.getFullYear()}`;
-});
-
-const emojis = {
-    'ALIEN': '👽',
-    'GHOST': '👻',
-    'CRAB': '👾',
-    'ROBOT': '🤖',
-    'CLOWN': '🤡',
-    'CAT': '🐱',
-    'PUMPKIN': '🎃',
-};
-
-const avatarEmoji = computed(() => emojis[props.data.user.avatar]);
 function changeRating(type) {
     if (actualVote.value === type) {
         return;
     }
-    $fetch(`/api/comments/rating/${props.data.id}`,
+    $fetch(`/api/comments/rating/${props.id}`,
         {
             method: 'POST',
             body:
@@ -52,30 +49,32 @@ function changeRating(type) {
         });
 }
 
-const reportDialog = ref(false);
-const showReplies = ref(false);
-
 async function loadSubcomments() {
-    var getSubComments = await useFetch(`/api/comments/reply/${props.data.id}`);
-    const rootCommentId = commentsStore.comments.findIndex(comment => comment.id === props.data.id);
-    if (rootCommentId !== -1) commentsStore.comments[rootCommentId].subComments = getSubComments.data.value.comments;
+    $fetch(unref(api).get, { method: 'GET', params: { cursor: unref(cursor) } }).then(res => {
+        subComments.value = unref(subComments).concat(res.comments);
+        cursor.value = res.cursor;
+    });
+}
+
+function setReply() {
+    //commentFormStore.repliedComment = data; 
+    //commentFormStore.text = `@${data.user.name} ` + commentFormStore.text;
 }
 </script>
 
 <template>
-    <div class="flex flex-row gap-4" :class="postStylesClass">
-        <p :style="{ backgroundColor: props.data.user.color }"
-            class="text-[30px] rounded-full bg-opacity-25 px-2 max-h-[50px]">{{
-                avatarEmoji }}</p>
+    <div class="flex flex-row gap-4">
+        <p :style="{ backgroundColor: userAvatarColor }" class="text-[30px] rounded-full bg-opacity-25 px-2 max-h-[50px]">{{
+            avatarEmoji }}</p>
         <div class="w-100">
-            <NuxtLink :to="props.data.user.id ? `/profile/${props.data.user.id}` : ''">
-                <p class=" text-body-1 font-bold">{{ data.user.name + ' / ' }}<span
-                        :style="{ color: props.data.user.rank.color }" v-text="props.data.user.rank.name"></span>
-                    <v-icon :color="props.data.user.rank.color" icon="mdi-star"></v-icon>
+            <NuxtLink :to="userId ? `/profile/${userId}` : ''">
+                <p class=" text-body-1 font-bold">{{ userName + ' / ' }}<span :style="{ color: userRankColor }"
+                        v-text="userRankName"></span>
+                    <v-icon :color="userRankColor" icon="mdi-star"></v-icon>
                 </p>
             </NuxtLink>
             <p class="opacity-50 text-caption">{{ createdDate }}</p>
-            <p class="text-body-2 mt-2">{{ data.text }}</p>
+            <p class="text-body-2 mt-2">{{ text }}</p>
             <div class="flex flex-row justify-start items-center">
                 <div class="flex flex-row items-center">
                     <v-btn variant="plain" size="small" :icon="actualVote === 1 ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'"
@@ -86,23 +85,27 @@ async function loadSubcomments() {
                         @click="changeRating(-1)" />
                     <p class="text-red-500 text-body-2">{{ actualNegativeRating ?? '0' }}</p>
                 </div>
-                <div class="flex flex-row items-center" v-if="!commentsStore.hideReplayReportButton">
+                <div class="flex flex-row items-center" v-if="!hideReplayReportButton">
                     <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Ответить"
-                        @click="commentFormStore.repliedComment = props.data; commentFormStore.text = `@${props.data.user.name} ` + commentFormStore.text
-                        commentsStore.postLink = `/api/comments/reply/${props.data.replyCommentId ?? props.data.id}`" />
+                        @click="setReply" />
                     <span class="opacity-60 text-h6">/</span>
                     <v-btn class="font-weight-bold" variant="plain" size="x-small" :ripple="false" text="Пожаловаться"
                         @click="reportDialog = true" />
-                    <ReportDialog :link="`/api/report/comment/${props.data.id}`" v-model="reportDialog"></ReportDialog>
+                    <ReportDialog :link="`/api/report/comment/${id}`" v-model="reportDialog"></ReportDialog>
                 </div>
             </div>
-            <v-btn v-if="data?._count?.subComments > 0" density="compact" variant="plain"
-                @click="showReplies = !showReplies; loadSubcomments();" class="text-body-2"
-                v-text="showReplies ? 'Скрыть ответы' : `Показать ответы (${data._count.subComments})`"
-                :ripple="false"></v-btn>
+            <v-btn v-show="subcommentCount > 0" density="compact" variant="plain"
+                @click="showReplies = !showReplies; if(subComments.length === 0)loadSubcomments();" class="text-body-2"
+                v-text="showReplies ? 'Скрыть ответы' : `Показать ответы (${subcommentCount})`" :ripple="false"></v-btn>
             <div v-show="showReplies" class="flex flex-col mt-[1rem] gap-3">
-                <CommentsSlot v-for="i in data.subComments" :key="i.id" :data="i" />
+                <CommentsSlot v-for="i in subComments" :key="i.id" :id="i.id" :reply-comment-id="i.replyCommentId"
+                    :userId="i.user.id" :userName="i.user.name" :user-avatar="i.user.avatar" :userAvatarColor="i.user.color"
+                    :userRankColor="i.user.rank.color" :userRankName="i.user.rank.name" :text="i.text"
+                    :created-at="i.createdAt" :positive-votes="i.positiveVotes" :negative-votes="i.negativeVotes"
+                    :vote-status="i.voteStatus" />
             </div>
+            <v-btn v-show="showReplies && cursor != -1" @click="loadSubcomments" color="surface-lighten-2" block size="small">Загрузить
+            ещё</v-btn>
         </div>
     </div>
 </template>

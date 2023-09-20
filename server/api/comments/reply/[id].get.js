@@ -5,6 +5,9 @@ export default defineEventHandler(async (event) => {
     const session = await getServerSession(event);
 
     var result;
+    const elementsInPage = 5;
+    const query = getQuery(event);
+    const cursor = Number(query.cursor);
     async function findMany() {
         const comments = await db.comment.findMany({
             where: {
@@ -33,6 +36,11 @@ export default defineEventHandler(async (event) => {
             orderBy: {
                 createdAt: 'desc'
             },
+            take: elementsInPage + 1,
+            skip: cursor && cursor != -1 ? 1 : 0,
+            cursor: cursor && cursor != -1 ? {
+                id: cursor
+            } : undefined,
         });
 
         async function groupCommentVotes() {
@@ -67,7 +75,9 @@ export default defineEventHandler(async (event) => {
             }
         });
 
-        return { comments: result };
+        var newCursor = result.length === elementsInPage + 1 ? result[result.length - 2].id : -1;
+        if (newCursor != -1) result.pop();
+        return { comments: result, cursor: newCursor };
     }
 
     await findMany().then(async response => {

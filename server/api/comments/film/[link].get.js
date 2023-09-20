@@ -89,11 +89,7 @@ export default defineEventHandler(async (event) => {
 
   await findMany().then(async response => {
     result = response;
-    await db.$disconnect();
-  }).catch(async (e) => {
-    console.error(e);
-    await db.$disconnect();
-  })
+  });
 
   return result;
 })

@@ -14,23 +14,25 @@ await getSession().then(async (res) => {
     session.value = res;
 });
 
+const props = defineProps({
+    postLink: String,
+});
+
 const commentsStore = useCommentsStore();
 async function postComment() {
-    
-    await $fetch(commentsStore.postLink, {
-        
+    await $fetch(props.postLink, {
         method: 'POST', body: {
             text: commentFormStore.text,
         }
     }).catch(error => console.log(error)).then(response => {
         clearForm();
-        commentsStore.comments.unshift(response);
+        //commentsStore.comments.unshift(response);
     });
 }
 
 function clearForm() {
-    commentFormStore.repliedComment = null;
-    commentFormStore.text = '';
+    //commentFormStore.repliedComment = null;
+    //commentFormStore.text = '';
 }
 </script>
 

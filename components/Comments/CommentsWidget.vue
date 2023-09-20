@@ -5,7 +5,10 @@ const commentFormStore = useCommentsFormStore();
 const props = defineProps({
     showForm: { type: Boolean, default: true },
     title: { type: String, default: 'Комментарии' },
+    api: { type: Object, required: true },
 });
+
+provide('api', props.api);
 
 onMounted(() => {
     commentFormStore.repliedComment = null;
@@ -23,6 +26,6 @@ onMounted(() => {
             <CommentsContainer class="w-[100%]" />
         </v-row>
         <v-row v-if="showForm">
-            <CommentsForm></CommentsForm>
+            <CommentsForm :postLink="api.post"></CommentsForm>
         </v-row>
     </v-container></template>

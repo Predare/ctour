@@ -9,7 +9,6 @@ const props = defineProps({
 const content = ref(null);
 const expand = ref(false);
 const overflow = ref(false);
-
 watch(content, () => {
     if (content.value) {
         setTimeout(() => {

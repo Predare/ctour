@@ -22,6 +22,11 @@ export default defineEventHandler(async (event) => {
         rating: true,
         viewsCount: true,
         filmLink: true,
+        film: {
+          select: {
+            name: true
+          }
+        },
         _count: {
           select: {
             comments: true,
