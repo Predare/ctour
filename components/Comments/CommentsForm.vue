@@ -1,28 +1,13 @@
 <script setup>
-import { useCommentsStore } from '@/stores/comments';
-import { useCommentsFormStore } from '@/stores/commentForm';
-const commentFormStore = useCommentsFormStore();
-const { getSession } = useAuth();
-const session = ref();
-var profileInfo = ref();
-
-watch (session, async () => {
-    profileInfo.value = await useFetch(`/api/profile/${session.value?.user.id}`);
-});
-
-await getSession().then(async (res) => {
-    session.value = res;
-});
-
 const props = defineProps({
     postLink: String,
 });
+const text = ref('');
 
-const commentsStore = useCommentsStore();
 async function postComment() {
     await $fetch(props.postLink, {
         method: 'POST', body: {
-            text: commentFormStore.text,
+            text: text.value,
         }
     }).catch(error => console.log(error)).then(response => {
         clearForm();
@@ -31,8 +16,8 @@ async function postComment() {
 }
 
 function clearForm() {
+    text.value = '';
     //commentFormStore.repliedComment = null;
-    //commentFormStore.text = '';
 }
 </script>
 
@@ -40,7 +25,7 @@ function clearForm() {
     <div class="w-full mt-7">
         <v-form @submit.prevent="postComment">
             <div class="flex flex-row items-start rounded gap-3">
-                <CommentsFormTextarea v-model="commentFormStore.text"></CommentsFormTextarea>
+                <CommentsFormTextarea v-model="text"></CommentsFormTextarea>
             </div>
         </v-form>
     </div>

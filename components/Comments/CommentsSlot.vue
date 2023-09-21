@@ -19,10 +19,10 @@ const props = defineProps({
     createdAt: { type: String, required: true }
 });
 const actualVote = ref(props.voteStatus);
-const actualPositiveRating = ref(unref(props.positiveVotes));
-const actualNegativeRating = ref(unref(props.negativeVotes));
-const createdDate = ref(DateTimeTextFormatter(unref(props.createdAt)));
-const avatarEmoji = ref(getAvatar(unref(props.userAvatar)));
+const actualPositiveRating = ref(props.positiveVotes);
+const actualNegativeRating = ref(props.negativeVotes);
+const createdDate = ref(DateTimeTextFormatter(props.createdAt));
+const avatarEmoji = ref(getAvatar(props.userAvatar));
 const reportDialog = ref(false);
 const showReplies = ref(false);
 const subComments = ref([]);

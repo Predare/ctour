@@ -1,9 +1,8 @@
 <script setup>
-import { useCommentsFormStore } from '@/stores/commentForm';
-const commentFormStore = useCommentsFormStore();
-
 const props = defineProps({
-    modelValue: String
+    modelValue: String,
+    repliedUserName: String,
+    repliedUserText: String,
 });
 const emits = defineEmits(['update:modelValue']);
 const counter = computed(() => {
@@ -31,11 +30,11 @@ function addText(text) {
         <div class="flex flex-row gap-2 ms-4">
             <p v-text="counter + ' / ' + maxTextLength + ' символов'"></p>
             <v-divider vertical />
-            <div class="flex flex-row gap-2" v-show="commentFormStore.repliedComment">
-                <p class="text-truncate">Ответ на комментарий <span class="text-primary">{{ commentFormStore.repliedComment?.user.name
-                + ': ' + commentFormStore.repliedComment?.text}}</span></p>
+            <div class="flex flex-row gap-2" v-show="repliedUserName">
+                <p class="text-truncate">Ответ на комментарий <span class="text-primary">{{ repliedUserName
+                + ': ' + repliedUserText}}</span></p>
                 <v-btn size="small" density="compact" color="secondary" icon="mdi-close"
-                    @click="commentFormStore.repliedComment = null"></v-btn>
+                    ></v-btn>
             </div>
         </div>
     </div>
