@@ -28,32 +28,30 @@ const year = ref([1894, 2023]);
 const selectFavorite = ref(false);
 const selectViewed = ref(false);
 
-const { data: genres } = await useFetch('/api/catalogueFilters/genre');
-const { data: voices } = await useFetch('/api/catalogueFilters/voice');
-const { data: selections } = await useFetch('/api/catalogueFilters/selection');
-const { data: countries } = await useFetch('/api/catalogueFilters/country');
+const { data: filters} = await useFetch('/api/catalogueFilters/all');
+const { genres, voices, selections, countries} = filters.value;
 
 const genresNames = computed (() => {
     var names = [''];
-    names = names.concat(genres.value.map(genre => genre.name));
+    names = names.concat(genres.map(genre => genre.name));
     return names;
 })
 
 const voiceNames = computed (() => {
     var names = [''];
-    names = names.concat(voices.value.map(voice => voice.name));
+    names = names.concat(voices.map(voice => voice.name));
     return names;
 })
 
 const selectionNames = computed (() => {
     var names = [''];
-    names = names.concat(selections.value.map(selection => selection.name));
+    names = names.concat(selections.map(selection => selection.name));
     return names;
 })
 
 const countryNames = computed (() => {
     var names = [''];
-    names = names.concat(countries.value.map(country => country.name));
+    names = names.concat(countries.map(country => country.name));
     return names;
 })
 

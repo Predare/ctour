@@ -1,10 +1,12 @@
 <script setup>
-const { status } = useAuth();
-
 import { useSearchFormStore } from '@/stores/searchForm';
-
-const searchFormStore = useSearchFormStore()
-
+import { useFilmStore } from '@/stores/film';
+import { useFilmFilterStore } from '@/stores/filmFilter';
+const filmStore = useFilmStore();
+const { status } = useAuth();
+const route = useRoute();
+const searchFormStore = useSearchFormStore();
+const filmFilterStore = useFilmFilterStore();
 const theme_items = ref([
   {
     name: 'Ретровейв',
@@ -20,24 +22,15 @@ const theme_items = ref([
   },
 ]);
 
-const { data: genres } = await useFetch('/api/catalogueFilters/genre');
-const { data: selections } = await useFetch('/api/catalogueFilters/selection');
-const { data: voices } = await useFetch('/api/catalogueFilters/voice');
-
-import { useFilmStore } from '@/stores/film';
-const filmStore = useFilmStore();
+const { data: filters} = await useFetch('/api/catalogueFilters/all');
+const { genres, voices, selections } = filters.value;
 const filmLink = computed(() => filmStore?.film?.link ? '/film/' + filmStore?.film?.link : '');
-
-import { useFilmFilterStore } from '@/stores/filmFilter';
-const filmFilterStore = useFilmFilterStore();
 
 function setFilmType(name) {
   filmFilterStore.pureFilters();
   filmFilterStore.setType(name);
   filmFilterStore.setFullreload(true);
 }
-
-const route = useRoute();
 
 async function navigateToRandomFilm() {
   const filmLink = await $fetch('/api/film/get/random'); 

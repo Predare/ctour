@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { useTheme } from "vuetify";
-import { locale } from "vuetify-pro-tiptap";
-
-const props = defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue'])
-
-const theme = useTheme();
+const props = defineProps(['modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 const outlined = ref(true);
 const dense = ref(false);

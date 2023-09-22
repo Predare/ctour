@@ -1,7 +1,6 @@
 <script setup>
-const { getSession } = useAuth();
-const session = ref();
-session.value = await getSession();
+import { useSessionStore } from '~/stores/session';
+const session = useSessionStore.session;
 
 const props = defineProps({
     data: Object,
@@ -117,7 +116,9 @@ async function unsubscribe() {
         </div>
         <v-divider class="my-3" />
         <div ref="content" class="overflow-hidden" :class="{ 'max-h-[100px]': !expand }">
-            <div v-dompurify-html="data.text"></div>
+            <ClientOnly>
+                <div v-dompurify-html="data.text"></div>
+            </ClientOnly>
         </div>
 
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
