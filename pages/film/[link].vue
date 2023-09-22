@@ -18,12 +18,8 @@ function setCommentLinks() {
 }
 
 setCommentLinks();
-await loadFilmInfo();
-async function loadFilmInfo() {
-    await useFetch(`/api/film/${route.params.link}`).then(response => {
-        filmStore.film = response.data.value;
-    });
-}
+const { data } = await useFetch(`/api/film/${route.params.link}`)
+filmStore.film =  data.value;
 
 async function addFilmToViewedList() {
     await $fetch(`/api/user/films/viewed/${route.params.link}/`, { method: 'POST' });
@@ -41,7 +37,7 @@ onMounted(() => {
                 <!--<WavingSlider class="mb-10"/>-->
                 <FilmWatchWindow class="bg-surface-lighten-1 py-10 rounded-md"
                     style="padding-left: 5rem; padding-right: 5rem;" />
-                <CommentsWidget class="bg-surface-lighten-1 py-10 p-[2rem] mt-10 rounded-md" 
+                <CommentsWidget class="bg-surface-lighten-1 py-10 p-[2rem] mt-10 rounded-md"
                     :api="formatGetCommentsLink().film(route.params.link)"></CommentsWidget>
             </v-col>
         </v-row>
@@ -61,7 +57,7 @@ onMounted(() => {
             <v-col>
                 <div class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 0; padding-top: 2rem;">
                     <p class="text-h6">Каталог</p>
-                    <FilmsTable/>
+                    <FilmsTable />
                 </div>
             </v-col>
         </v-row>

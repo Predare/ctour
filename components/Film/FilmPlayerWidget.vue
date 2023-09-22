@@ -13,14 +13,14 @@
                 </div>
             </div>
         </div>
-        <div class="m-0 mt-2 opacity-60">Понравилось? Поделитесь!</div>
-        <div class="flex flex-row gap-2 justify-center">
-            <v-btn variant="plain" density="compact" icon="mdi-share" :ripple="false"></v-btn>
-            <v-btn variant="plain" density="compact" icon="mdi-share" :ripple="false"></v-btn>
-            <v-btn variant="plain" density="compact" icon="mdi-share" :ripple="false"></v-btn>
-            <v-btn variant="plain" density="compact" icon="mdi-share" :ripple="false"></v-btn>
-            <v-btn variant="plain" density="compact" icon="mdi-share" :ripple="false"></v-btn>
-            <v-btn variant="plain" density="compact" icon="mdi-share" :ripple="false"></v-btn>
+        <div class="m-0 mt-2 opacity-60 text-subtitle-1">Понравилось? Поделитесь!</div>
+        <div class="flex flex-row gap-3 justify-center">
+            <SocialButtonsVK/>
+            <SocialButtonsFacebook/>
+            <SocialButtonsOK/>
+            <SocialButtonsTelegram/>
+            <SocialButtonsTwitter/>
+            <SocialButtonsMoiMir/>
         </div>
     </div>
 </template>
