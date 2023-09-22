@@ -101,7 +101,7 @@ async function unsubscribe() {
                     </NuxtLink>
 
                     <v-btn v-if="session?.user?.id != data.author.id" class="text-subtitle-2 px-1" variant="text"
-                         @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
+                        @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
                         v-text="actualSubscribeStatus ? 'Отписаться' : 'Подписаться'"></v-btn>
                 </div>
             </div>
@@ -115,11 +115,11 @@ async function unsubscribe() {
             </div>
         </div>
         <v-divider class="my-3" />
-        <div ref="content" class="overflow-hidden" :class="{ 'max-h-[100px]': !expand }">
-            <ClientOnly>
+        <ClientOnly>
+            <div ref="content" class="overflow-hidden" :class="{ 'max-h-[100px]': !expand }">
                 <div v-dompurify-html="data.text"></div>
-            </ClientOnly>
-        </div>
+            </div>
+        </ClientOnly>
 
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
             v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>

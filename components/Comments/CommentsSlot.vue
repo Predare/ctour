@@ -5,7 +5,7 @@ const props = defineProps({
     hideReplayReportButton: { type: Boolean, default: false },
     id: { type: Number, required: true },
     replyCommentId: { type: Number, required: false },
-    addReplySubcomment: {type: Function, default: undefined },
+    addReplySubcomment: { type: Function, default: undefined },
     userId: { type: String, required: true },
     userName: { type: String, required: true },
     userAvatar: { type: String, required: true },
@@ -62,18 +62,13 @@ async function loadSubcomments() {
 }
 
 function addSubcomment(comment) {
-    if (props.addReplySubcomment != undefined) { 
-        props.addReplySubcomment(comment); 
+    if (props.addReplySubcomment != undefined) {
+        props.addReplySubcomment(comment);
         return;
     }
     else if (showReplies.value) subComments.value.push(comment);
     actualSubcommentCount.value = actualSubcommentCount.value + 1;
     freshSubcomment.value = comment;
-}
-
-function setReply() {
-    //commentFormStore.repliedComment = data; 
-    //commentFormStore.text = `@${data.user.name} ` + commentFormStore.text;
 }
 
 function closeForm() {
@@ -120,8 +115,8 @@ function changeSubbranchStatus(status) {
             </div>
             <CommentsForm v-if="showForm" :postLink="api.post" :closeForm="closeForm" :add-comment="addSubcomment"
                 :comments="subComments"></CommentsForm>
-            <v-btn v-show="actualSubcommentCount > 0" density="compact" variant="plain"
-                @click="changeSubbranchStatus(!showReplies); if (!initialized) { loadSubcomments(); initialized = true; }"
+            <v-btn v-if="actualSubcommentCount > 0" density="compact" variant="plain"
+                @click="() => { changeSubbranchStatus(!showReplies); if (!initialized) { loadSubcomments(); initialized = true; } }"
                 class="text-body-2" :ripple="false">{{ showReplies ? 'Скрыть ответы' : `Показать ответы
                 (${actualSubcommentCount})` }}</v-btn>
             <div v-show="showReplies" class="flex flex-col mt-[1rem] gap-3">
@@ -139,7 +134,7 @@ function changeSubbranchStatus(status) {
                 :text="freshSubcomment.text" :created-at="freshSubcomment.createdAt"
                 :positive-votes="freshSubcomment.positiveVotes" :negative-votes="freshSubcomment.negativeVotes"
                 :vote-status="freshSubcomment.voteStatus" :addReplySubcomment="addSubcomment" />
-            <v-btn v-show="showReplies && cursor != -1" @click="loadSubcomments" color="surface-lighten-2" block
+            <v-btn v-if="showReplies && cursor != -1" @click="loadSubcomments" color="surface-lighten-2" block
                 size="small">Загрузить
                 ещё</v-btn>
         </div>

@@ -1,24 +1,12 @@
 <script setup>
+import { useSessionStore } from '~/stores/session';
 const text = ref('');
 const rating = ref(1);
 const route = useRoute();
-const { getSession } = useAuth();
-const session = ref();
-
-watch (session, async () => {
-    getReview();
-});
-
-async function getReview() {
-    await useFetch(`/api/review/get/content/one/?link=${route.params.link}&authorId=${session.value?.user.id}`).then(response => {
-        text.value = response.data.value.text;
-        rating.value = response.data.value.rating;
-    })
-}
-
-await getSession().then(async (res) => {
-    session.value = res;
-});
+const session = ref(useSessionStore.session);
+const { data } = await useFetch(`/api/review/get/content/one/?link=${route.params.link}&authorId=${session.value?.user.id}`);
+text.value = data.value.text;
+rating.value = data.value.rating;
 
 async function sendReview() {
     await $fetch(`/api/review/${route.params.link}`, {
@@ -27,7 +15,6 @@ async function sendReview() {
             rating: rating.value,
         }
     }).catch(error => console.log(error));
-
     await navigateTo('/film/' + route.params.link);
 }
 </script>
