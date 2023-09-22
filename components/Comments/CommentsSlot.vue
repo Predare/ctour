@@ -113,7 +113,7 @@ function changeSubbranchStatus(status) {
                     <ReportDialog :link="`/api/report/comment/${id}`" v-model="reportDialog"></ReportDialog>
                 </div>
             </div>
-            <CommentsForm v-if="showForm" :postLink="api.post" :closeForm="closeForm" :add-comment="addSubcomment"
+            <CommentsForm class="mb-[1rem]" v-if="showForm" :postLink="api.post" :closeForm="closeForm" :add-comment="addSubcomment"
                 :comments="subComments"></CommentsForm>
             <v-btn v-if="actualSubcommentCount > 0" density="compact" variant="plain"
                 @click="() => { changeSubbranchStatus(!showReplies); if (!initialized) { loadSubcomments(); initialized = true; } }"

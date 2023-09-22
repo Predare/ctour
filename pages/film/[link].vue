@@ -41,7 +41,7 @@ onMounted(() => {
                 <!--<WavingSlider class="mb-10"/>-->
                 <FilmWatchWindow class="bg-surface-lighten-1 py-10 rounded-md"
                     style="padding-left: 5rem; padding-right: 5rem;" />
-                <CommentsWidget class="bg-surface-lighten-1 py-10 rounded-md" 
+                <CommentsWidget class="bg-surface-lighten-1 py-10 p-[2rem] mt-10 rounded-md" 
                     :api="formatGetCommentsLink().film(route.params.link)"></CommentsWidget>
             </v-col>
         </v-row>

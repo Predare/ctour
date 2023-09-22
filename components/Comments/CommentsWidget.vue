@@ -17,17 +17,11 @@ function addComment(comment) {
 </script>
 
 <template>
-    <v-container>
-        <v-row>
-            <slot name="title">
-                <p class="text-h6">{{ title }}</p>
-            </slot>
-        </v-row>
-        <v-row>
-            <CommentsContainer :comments="comments" :getLink="api.get" :add-comments="addComments" class="w-[100%]" />
-        </v-row>
-        <v-row v-if="showForm">
-            <CommentsForm :comments="comments" :postLink="api.post" :add-comment="addComment"></CommentsForm>
-        </v-row>
-    </v-container>
+    <div class="flex flex-col">
+        <slot name="title">
+            <p class="text-h6">{{ title }}</p>
+        </slot>
+        <CommentsContainer :comments="comments" :getLink="api.get" :add-comments="addComments" class="w-[100%]" />
+        <CommentsForm class="mt-[1rem]" v-if="showForm" :comments="comments" :postLink="api.post" :add-comment="addComment"></CommentsForm>
+    </div>
 </template>
