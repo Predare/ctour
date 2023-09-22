@@ -1,4 +1,6 @@
 <script setup>
+import { useSessionStore } from '~/stores/session';
+
 useSeoMeta({
     title: '[title]',
     description: '[description]',
@@ -23,7 +25,12 @@ useHead({
             href: '/favicon.png'
         }
     ]
-})
+});
+
+if (!useSessionStore.session) {
+    const { getSession } = useAuth();
+    useSessionStore.session = await getSession();
+}
 </script>
 
 <template>

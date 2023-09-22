@@ -1,15 +1,7 @@
 <script setup>
-const { getSession } = useAuth();
-const session = ref();
-var profileInfo = ref();
-
-watch (session, async () => {
-    profileInfo.value = await useFetch(`/api/profile/${session.value?.user.id}`);
-});
-
-await getSession().then(async (res) => {
-    session.value = res;
-});
+import { useSessionStore } from '~/stores/session';
+const session = ref(useSessionStore.session);
+var profileInfo = ref(await useFetch(`/api/profile/${session.value?.user.id}`));
 </script>
 
 <template>

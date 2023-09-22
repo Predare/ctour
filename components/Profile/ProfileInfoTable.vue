@@ -5,7 +5,7 @@ const positiveVotesCountText = ref('');
 const negativeVotesCountText = ref('');
 const userTimeString = ref('');
 
-const { data, pending, error, refresh} = await useFetch(`/api/profile/${route.params.id}`, {
+const { data } = await useFetch(`/api/profile/${route.params.id}`, {
     onResponse: (response) => {
         const newData = response.response._data;
         ratingCountText.value = ratingTextFormatter(newData.rating);
@@ -19,9 +19,7 @@ const { data, pending, error, refresh} = await useFetch(`/api/profile/${route.pa
 
 <template>
     <div class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 1rem; padding-top: 2rem;">
-        <AvatarIcon width="100px" height="100px" icon-size="60px" :icon-name="data?.avatar"
-            :icon-color="data?.color" />
-
+        <AvatarIcon width="100px" height="100px" icon-size="60px" :icon-name="data?.avatar" :icon-color="data?.color" />
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-col mt-4 gap-3">
                 <p class="text-body-1" v-text="data?.name"></p>
@@ -42,8 +40,8 @@ const { data, pending, error, refresh} = await useFetch(`/api/profile/${route.pa
             :next-rank-expirence="data?.nextRank.requiredExpirence" />
         <ProfileRank :id="data?.id" :rank-color="data?.rank.color" :rank-name="data?.rank.name" />
         <div class="flex flex-col gap-5 mt-3">
-            <ProfileAchievement v-for="i in data?.achievements" :key="i.id" :id="i.id" :icon="i.icon"
-                :name="i.name" :description="i.description" :reward="i.reward" />
+            <ProfileAchievement v-for="i in data?.achievements" :key="i.id" :id="i.id" :icon="i.icon" :name="i.name"
+                :description="i.description" :reward="i.reward" />
         </div>
         <div class="mt-5">
             <NuxtLink :to="`/profile/${data?.id}/achievements`">
@@ -51,20 +49,20 @@ const { data, pending, error, refresh} = await useFetch(`/api/profile/${route.pa
             </NuxtLink>
         </div>
         <v-divider class="my-3" />
-        <div class="flex flex-row gap-5 text-center text-subtitle-1 ms-5 mt-4">
-            <div class="flex flex-col">
+        <div class="flex gap-5 text-center text-subtitle-1 ms-5 mt-4">
+            <div class="flex-col">
                 <p v-text="ratingCountText.value"></p>
                 <p>{{ ratingCountText.text }}</p>
             </div>
-            <div class="flex flex-col">
+            <div class="flex-col">
                 <p v-text="data?._count.followers"></p>
                 <p>Читателей</p>
             </div>
-            <div class="flex flex-col">
+            <div class="flex-col">
                 <p v-text="data?._count.subscribes"></p>
                 <p>Подписок</p>
             </div>
-            <div class="flex flex-col">
+            <div class="flex-col">
                 <p v-text="data?._count.reviews"></p>
                 <p>Рецензий</p>
             </div>
