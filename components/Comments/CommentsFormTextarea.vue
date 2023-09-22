@@ -3,12 +3,9 @@ const props = defineProps({
     modelValue: String,
     repliedUserName: String,
     repliedUserText: String,
+    maxTextLength: Number,
 });
 const emits = defineEmits(['update:modelValue']);
-const counter = computed(() => {
-    return props.modelValue.length
-});
-const maxTextLength = ref(1200);
 const textArea = ref(null);
 const height = ref('2rem');
 
@@ -25,10 +22,8 @@ function addText(text) {
             }" :style="{ height: height }" class="ms-1 resize-none focus-visible:outline-none w-full"
                 placeholder="Поделитесь мнением!"></textarea>
             <CommentsFormEmojiTable :addText="addText" />
-            <v-btn icon="mdi-send" variant="plain" :ripple="false" density="compact" type="submit"></v-btn>
         </div>
         <div class="flex flex-row gap-2 ms-4">
-            <p v-text="counter + ' / ' + maxTextLength + ' символов'"></p>
             <v-divider vertical />
             <div class="flex flex-row gap-2" v-show="repliedUserName">
                 <p class="text-truncate">Ответ на комментарий <span class="text-primary">{{ repliedUserName

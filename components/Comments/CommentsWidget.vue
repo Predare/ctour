@@ -1,16 +1,19 @@
 <script setup>
-import { useCommentsFormStore } from '@/stores/commentForm';
-const commentFormStore = useCommentsFormStore();
-
 const props = defineProps({
     showForm: { type: Boolean, default: true },
     title: { type: String, default: 'Комментарии' },
     api: { type: Object, required: true },
 });
 
-onMounted(() => {
-    commentFormStore.repliedComment = null;
-})
+const comments = ref([]);
+
+function addComments(newComments) {
+    comments.value.push(...newComments);
+}
+
+function addComment(comment) {
+    comments.value.push(comment);
+}
 </script>
 
 <template>
@@ -21,9 +24,10 @@ onMounted(() => {
             </slot>
         </v-row>
         <v-row>
-            <CommentsContainer :getLink="api.get" class="w-[100%]" />
+            <CommentsContainer :comments="comments" :getLink="api.get" :add-comments="addComments" class="w-[100%]" />
         </v-row>
         <v-row v-if="showForm">
-            <CommentsForm :postLink="api.post"></CommentsForm>
+            <CommentsForm :comments="comments" :postLink="api.post" :add-comment="addComment"></CommentsForm>
         </v-row>
-    </v-container></template>
+    </v-container>
+</template>

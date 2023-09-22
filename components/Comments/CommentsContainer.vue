@@ -3,15 +3,20 @@ const props = defineProps({
     getLink: {
         type: String,
         required: true,
-    }
+    },
+    addComments: {
+        type : Function,
+        required: true,
+    },
+    comments: Array,
 });
 
 const {data} = await useFetch(props.getLink);
+props.addComments(data.value.comments);
 const cursor = ref(data.value.cursor);
-const comments = ref(data.value.comments);
 async function loadComments() {
     $fetch(props.getLink, { method: 'GET', params: { cursor: unref(cursor) } }).then(res => {
-        comments.value = unref(comments).concat(res.comments);
+        props.addComments(res.comments);
         cursor.value = res.cursor;
     })
 }

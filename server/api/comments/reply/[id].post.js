@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
         }
       },
       include: {
+        replyComment: { select: { id: true } },
         user: {
           include: { rank: true, _count: { select: { comments: true } } },
         },
@@ -38,7 +39,7 @@ export default defineEventHandler(async (event) => {
     return await db.achievement.findFirst({
       where: {
         target: AchievementTarget.CommentAmount,
-        targetAmount: { lte: result.user._count.comments},
+        targetAmount: { lte: result.user._count.comments },
         completedUsers: {
           none: {
             id: session?.user.id
@@ -53,14 +54,14 @@ export default defineEventHandler(async (event) => {
 
   async function updateUserAchievements() {
     var completeAchivements = await findCompletedAchievements();
-    if(!completeAchivements) return null;
+    if (!completeAchivements) return null;
     await db.user.update({
       where: {
         id: session?.user.id
       },
       data: {
         completedAchievements: {
-          connect: {id: completeAchivements?.id}
+          connect: { id: completeAchivements?.id }
         },
       },
     });
@@ -68,11 +69,11 @@ export default defineEventHandler(async (event) => {
   }
 
   return {
-    id: result.id, text: result.text, createdAt: result.createdAt, user: {
+    id: result.id, text: result.text, createdAt: result.createdAt, replyCommentId: result.replyComment.id, user: {
       id: result.user.id, name: result.user.name, avatar: result.user.avatar, color: result.user.color,
       rank: { name: result.user.rank.name, color: result.user.rank.color }
     },
-    _count: { negativeVotes: 0, positiveVotes: 0 }, voteStatus: 0,
+    negativeVotes: 0, positiveVotes: 0, voteStatus: 0,
     completedAchievements: await updateUserAchievements(),
   };
 })

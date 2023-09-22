@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
                 replyCommentId: true,
             },
             orderBy: {
-                createdAt: 'desc'
+                createdAt: 'asc'
             },
             take: elementsInPage + 1,
             skip: cursor && cursor != -1 ? 1 : 0,
