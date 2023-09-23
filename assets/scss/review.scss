@@ -99,8 +99,4 @@ $value: 'github';
 
 .vuetify-pro-tiptap-editor__content.markdown-theme-#{$value} {
     line-height: 1.5 !important;
-
-    &.__dark {
-        // your dark mode custom styles
-    }
 }
