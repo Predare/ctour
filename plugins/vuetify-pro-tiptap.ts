@@ -37,7 +37,7 @@ import {
         Italic,
         Underline,
         Strike,
-        Heading,
+        Heading.configure({ levels: [5, 6] }),
         TextAlign,
         SubAndSuperScript.configure({ divider: true }),
         Clear.configure({ divider: true }),

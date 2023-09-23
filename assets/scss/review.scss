@@ -1,0 +1,106 @@
+@use 'vuetify/settings';
+@use "sass:map";
+@import 'vuetify/lib/styles/main.sass';
+
+@mixin selectionColor {
+    &::selection {
+        color: white !important;
+        background-color: rgba($color: #f44336, $alpha: 1.0) !important;
+    }
+}
+
+.review {
+    line-height: 1.5 !important;
+
+    h5 {
+        @extend .text-h5;
+        @include selectionColor;
+    }
+
+    h6 {
+        @extend .text-h6;
+        @include selectionColor;
+    }
+
+    h4 {
+        @extend .text-h4;
+        @include selectionColor;
+    }
+
+    h3 {
+        @extend .text-h3;
+        @include selectionColor;
+
+        &::before {
+            content: "" !important;
+        }
+    }
+
+    h2 {
+        @extend .text-h2;
+        @include selectionColor;
+
+        &::after {
+            content: "" !important;
+        }
+
+        &::before {
+            content: "" !important;
+        }
+
+        border-bottom: 0 !important;
+    }
+
+    h1 {
+        @extend .text-h1;
+        @include selectionColor;
+    }
+
+    p {
+        @extend .text-body-1;
+        @include selectionColor;
+        margin-top: 16px !important;
+        margin-bottom: 16px !important;
+        min-height: 24px;
+    }
+
+    blockquote {
+        background-color: rgba($color: white, $alpha: 0.2) !important;
+        border-left: 4px solid rgba($color: white, $alpha: 0.6) !important;
+        padding: 16px 0 16px 24px !important;
+
+        p {
+            min-width: auto;
+            margin: 0px !important;
+            margin-block-end: 0em;
+            margin-block-start: 0em;
+        }
+    }
+
+    strong {
+        @include selectionColor;
+        color: inherit !important;
+    }
+
+    em {
+        @include selectionColor;
+        color: inherit !important;
+    }
+
+    hr {
+        background-color: white !important;
+        background-image: none !important;
+        margin-top: 16px !important;
+        margin-bottom: 16px !important;
+    }
+}
+
+$value: 'github';
+
+.vuetify-pro-tiptap-editor__content.markdown-theme-#{$value} {
+    line-height: 1.5 !important;
+
+    &.__dark {
+        // your dark mode custom styles
+    }
+}

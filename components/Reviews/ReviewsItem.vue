@@ -116,7 +116,7 @@ async function unsubscribe() {
         </div>
         <v-divider class="my-3" />
         <ClientOnly>
-            <div ref="content" class="overflow-hidden" :class="{ 'max-h-[100px]': !expand }">
+            <div ref="content" class="overflow-hidden review" :class="{ 'max-h-[100px]': !expand }">
                 <div v-dompurify-html="data.text"></div>
             </div>
         </ClientOnly>
