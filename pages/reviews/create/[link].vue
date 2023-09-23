@@ -36,7 +36,7 @@ async function sendReview() {
             </div>
         </ClientOnly>
         <div class="flex flex-col gap-2 items-center">
-            <v-btn color="success" @click="sendReview">Отправить</v-btn>
+            <v-btn color="primary" @click="sendReview">Отправить</v-btn>
             <v-btn class="text-subtitle-1" variant="plain" @click="preview = !preview">Предварительный просмотр</v-btn>
 
         </div>
