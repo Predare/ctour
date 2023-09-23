@@ -20,13 +20,11 @@ const value = computed({
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col gap-5">
     <vuetify-tiptap v-model="value" label="Написать рецензию" :hide-toolbar="hideToolbar"
       :disable-toolbar="disableToolbar" :outlined="outlined" :dense="dense" :error-messages="errorMessages"
       rounded :max-height="465" :max-width="maxWidth" editor-class="review" markdown-theme="github" />
-    <div>
-      <div class="review" v-dompurify-html="value"></div>
-    </div>
+
   </div>
 </template>
 

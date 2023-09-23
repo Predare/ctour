@@ -2,6 +2,7 @@
 import { useSessionStore } from '~/stores/session';
 const text = ref('');
 const rating = ref(1);
+const preview = ref(false);
 const route = useRoute();
 const session = ref(useSessionStore.session);
 const { data } = await useFetch(`/api/review/get/content/one/?link=${route.params.link}&authorId=${session.value?.user.id}`);
@@ -29,12 +30,15 @@ async function sendReview() {
                 :icon="rating === -1 ? 'mdi-thumb-down' : 'mdi-thumb-down-outline'"></v-btn>
         </div>
         <ClientOnly>
-            <ReviewsTiptopEditor v-model="text" />
+            <ReviewsTiptopEditor v-show="!preview" v-model="text" />
+            <div v-show="preview" class="rounded-md bg-surface-lighten-1 px-6 py-4">
+                <div class="review" v-dompurify-html="text"></div>
+            </div>
         </ClientOnly>
-        <div class="flex flex-row gap-5 justify-center">
+        <div class="flex flex-col gap-2 items-center">
             <v-btn color="success" @click="sendReview">Отправить</v-btn>
-            <v-btn color="info">Просмотр</v-btn>
-            <v-btn color="error">Отменить</v-btn>
+            <v-btn class="text-subtitle-1" variant="plain" @click="preview = !preview">Предварительный просмотр</v-btn>
+
         </div>
     </div>
 </template>
