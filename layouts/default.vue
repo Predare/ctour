@@ -27,6 +27,7 @@ useHead({
     ]
 });
 
+const { status } = useAuth();
 if (!useSessionStore.session) {
     const { getSession } = useAuth();
     useSessionStore.session = await getSession();
@@ -45,7 +46,7 @@ if (!useSessionStore.session) {
                         <slot></slot>
                     </v-col>
                     <v-col cols="3" class="pt-0 pe-0">
-                        <SidebarMain />
+                        <SidebarMain v-if="status === 'authenticated'"/>
                     </v-col>
                 </v-row>
             </v-container>

@@ -1,15 +1,14 @@
 <script setup>
-const { getSession } = useAuth();
-const session = ref();
-await getSession().then((res) => {
-    session.value = res;
-})
+import { useSessionStore } from '~/stores/session';
+const session = ref(useSessionStore.session);
+var profileInfo = await useFetch(`/api/profile/${session.value?.user.id}`);
 </script>
+
 <template>
-    <NuxtLink :to="`/profile/${session?.user?.id}`">
+    <NuxtLink :to="`/profile/${profileInfo.data.value.id}`">
         <div class="flex flex-row items-center gap-4">
             <v-tooltip activator="parent" location="bottom">Профиль</v-tooltip>
-            <AvatarIcon width="40px" height="40px" :icon-name="session?.user?.avatar" :icon-color="session?.user?.color"/>
+            <AvatarIcon width="40px" height="40px" :icon-name="profileInfo.data.value.avatar" :icon-color="profileInfo.data.value.color"/>
         </div>
     </NuxtLink>
 </template>

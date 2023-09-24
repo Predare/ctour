@@ -1,19 +1,20 @@
 <script setup>
 import { useSessionStore } from '~/stores/session';
 const session = ref(useSessionStore.session);
-var profileInfo = ref(await useFetch(`/api/profile/${session.value?.user.id}`));
+console.log(session);
+var profileInfo = await useFetch(`/api/profile/${session.value?.user.id}`);
 </script>
 
 <template>
     <div class="bg-surface-lighten-1 p-4 rounded-md">
-        <SidebarHeader :id="session?.user?.id" :name="session?.user?.name" :icon-name="session?.user?.avatar" :icon-color="session?.user?.color"/>
+        <SidebarHeader :id="profileInfo?.data?.value.id" :name="profileInfo?.data?.value.name" :icon-name="profileInfo?.data?.value.avatar" :icon-color="profileInfo?.data?.value.color"/>
         <v-divider class="my-3 mb-4" />
-        <ProfileExpProgress :expierence="profileInfo?.data?.expirence" :next-rank-expirence="profileInfo?.data?.nextRank.requiredExpirence"/>
-        <ProfileRank :id="profileInfo?.data?.id" :rank-color="profileInfo?.data?.rank?.color" :rank-name="profileInfo?.data?.rank?.name"/>
-        <SidebarAchievementExpPanel :achievements="profileInfo?.data?.achievements" />
-        <ProfileRatingCounter :rating="profileInfo?.data?.rating" />
-        <ProfileFollowersCounter :followers-count="profileInfo?.data._count.followers" />
+        <ProfileExpProgress :expierence="profileInfo?.data?.value.expirence" :next-rank-expirence="profileInfo?.data?.value.nextRank?.requiredExpirence"/>
+        <ProfileRank :id="profileInfo?.data?.value.id" :rank-color="profileInfo?.data?.value.rank?.color" :rank-name="profileInfo?.data?.value.rank?.name"/>
+        <SidebarAchievementExpPanel :achievements="profileInfo?.data?.value.achievements" />
+        <ProfileRatingCounter :rating="profileInfo?.data?.value.rating" />
+        <ProfileFollowersCounter :followers-count="profileInfo?.data?.value._count.followers" />
         <v-divider class="my-3" />
-        <SidebarLinkList :id="session?.user?.id" />
+        <SidebarLinkList :id="profileInfo?.data?.value.id" />
     </div>
 </template>
