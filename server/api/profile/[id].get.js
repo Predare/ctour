@@ -3,9 +3,8 @@ import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event);
-
+  
   const profileId = event.context.params?.id != undefined ? event.context.params?.id : session?.user?.id;
-
   async function findUser() {
     return await db.user.findFirst({
       where: { id: profileId },

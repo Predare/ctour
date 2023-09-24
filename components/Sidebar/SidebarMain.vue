@@ -1,7 +1,6 @@
 <script setup>
 import { useSessionStore } from '~/stores/session';
 const session = ref(useSessionStore.session);
-console.log(session);
 var profileInfo = await useFetch(`/api/profile/${session.value?.user.id}`);
 </script>
 

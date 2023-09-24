@@ -27,9 +27,8 @@ useHead({
     ]
 });
 
-const { status } = useAuth();
-if (!useSessionStore.session) {
-    const { getSession } = useAuth();
+const { status, getSession } = useAuth();
+if (!useSessionStore?.session?.id) {
     useSessionStore.session = await getSession();
 }
 </script>
