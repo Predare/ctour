@@ -12,20 +12,21 @@ const selectGenre = ref([]);
 const selectDirector = ref([]);
 const selectActor = ref([]);
 const selectSelection = ref([]);
-const selectVoiceStudio = ref('');
+const selectVoiceStudio = ref([]);
 const selectCountry = ref([]);
 
-const { data } = useFetch('/api/admin/film/filters');
-
+const { data } = await useFetch('/api/admin/film/filters');
 const name = ref('');
 const description = ref('');
 const filmTypes = [{ name: 'Фильм', value: 'FILM' }, { name: 'Сериал', value: 'SERIAL' }];
-const genres = ['ACTION', 'COMEDY', 'DRAMA', 'ROMANCE', 'THRILLER'];
+const genres = ref(data.value.genres);
 const directors = ['Torrantino', 'Mikki Rurk', 'Jo Johnson'];
 const actors = ['Torrantino', 'Mikki Rurk', 'Jo Johnson'];
-const selection = ['Весело живём', 'Тупой и ещё тупее', 'Пляшем'];
-const voices = ['Кубик в кубе', 'Кураж Бомбей', 'LostFilm'];
-const countries = ['Казахстан', 'Россия', 'США'];
+const selection = ref(data.selections);
+const voices = ref(data.voiceStudios);
+const countries = ref(data.countries);
+
+const form = ref(null);
 
 function getFormData() {
     return {
@@ -55,15 +56,28 @@ const rules = {
     yearFormat: (value) => {
         return /^\d{4}$/.test(value) || 'Только 4 цифры';
     },
+    moreThanYearStart: (value) => {
+        return value > unref(selectYearStart) || 'Дата окончания не может быть раньше даты выхода';
+    },
     ratingFormat: (value) => {
         return /^\d{1}0{0,1}.\d{1}$/.test(value) || 'Только нецелое число 0 от 10';
+    },
+    ageFormat: (value) => {
+        return /^\d{1,2}$/.test(value) || 'Возраст должен быть от 0 до 99';
     }
 };
+
+async function validate() {
+    const { valid } = await unref(form).validate();
+    if (!valid) return valid;
+    props.sendForm(getFormData());
+}
 </script>
 
 <template>
     <v-sheet width="600" class="mx-auto bg-surface-lighten-1 rounded">
-        <v-form @submit.prevent="sendForm(getFormData())">
+        
+        <v-form ref="form" @submit.prevent="validate">
             <v-container>
                 <v-row>
                     <v-col cols="4">
@@ -71,8 +85,8 @@ const rules = {
                         <v-tooltip location="bottom" text="Добавить постер" activator="parent"></v-tooltip>
                     </v-col>
                     <v-col cols="8">
-                        <v-text-field :rules="[rules.required]" prepend-icon="mdi-format-title" v-model="name" label="Название"
-                            required></v-text-field>
+                        <v-text-field :rules="[rules.required]" prepend-icon="mdi-format-title" v-model="name"
+                            label="Название" required></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -87,12 +101,14 @@ const rules = {
                 </v-row>
                 <v-row>
                     <v-col cols="4">
-                        <v-text-field :rules="[rules.required, rules.onlyNumber, rules.yearFormat]"
-                            v-model="selectYearStart" label="Год выхода" required></v-text-field>
+                        <v-text-field prepend-icon="fa:fa-regular fa-calendar-days"
+                            :rules="[rules.required, rules.yearFormat]" v-model="selectYearStart" label="Год выхода"
+                            required></v-text-field>
                     </v-col>
                     <v-col cols="4">
-                        <v-text-field :rules="[rules.required, rules.onlyNumber, rules.yearFormat]" v-model="selectYearEnd"
-                            label="Год окончания" required></v-text-field>
+                        <v-text-field prepend-icon="fa:fa-regular fa-calendar-plus"
+                            :rules="[rules.onlyNumber, rules.yearFormat, rules.moreThanYearStart]" v-model="selectYearEnd"
+                            label="Год окончания"></v-text-field>
                     </v-col>
                     <v-col cols="4">
                         <div class="flex">
@@ -106,50 +122,57 @@ const rules = {
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-text-field :rules="[rules.required, rules.onlyNumber]" v-model="selectAgeRestriction"
-                            label="Ограничение возраста" required></v-text-field>
+                        <v-text-field prepend-icon="fa:fa-solid fa-children" :rules="[rules.ageFormat]"
+                            v-model="selectAgeRestriction" label="Ограничение возраста" required></v-text-field>
                     </v-col>
                     <v-col cols="6">
-                        <v-text-field :rules="[rules.required]" v-model="selectQuality" label="Качество" required></v-text-field>
+                        <v-text-field prepend-icon="fa:fa-solid fa-video" :rules="[rules.required]" v-model="selectQuality"
+                            label="Качество" required></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="12">
-                        <v-textarea :rules="[rules.required]" prepend-icon="mdi-text-long" v-model="description" label="Описание"
-                            required></v-textarea>
+                        <v-textarea :rules="[rules.required]" prepend-icon="mdi-text-long" v-model="description"
+                            label="Описание" required></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-select :rules="[rules.required]" prepend-icon="mdi-account-group" multiple v-model="selectDirector" :items="directors"
-                            label="Режиссеры" required></v-select>
+                        <v-combobox prepend-icon="mdi-account-group" :rules="[rules.required]" clearable multiple
+                            label="Режиссеры" v-model="selectDirector" :items="directors" required></v-combobox>
                     </v-col>
                     <v-col cols="6">
-                        <v-select :rules="[rules.required]" prepend-icon="mdi-account-group" multiple v-model="selectActor" :items="actors"
-                            label="Актёры" required></v-select>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="6">
-                        <v-select :rules="[rules.required]" multiple v-model="selectGenre" :items="genres" label="Жанр" required></v-select>
-                    </v-col>
-                    <v-col cols="6">
-                        <v-select :rules="[rules.required]" prepend-icon="fa:fa-solid fa-earth-americas" multiple v-model="selectCountry"
-                            :items="countries" label="Страна" required></v-select>
+                        <v-combobox prepend-icon="mdi-account-group" :rules="[rules.required]" clearable multiple
+                            label="Актёры" v-model="selectActor" :items="actors" required></v-combobox>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-select :rules="[rules.required]" prepend-icon="fa:fa-solid fa-puzzle-piece" multiple v-model="selectSelection"
-                            :items="selection" label="Подборка" required></v-select>
+                        <v-combobox prepend-icon="fa:fa-solid fa-masks-theater" :rules="[rules.required]" clearable multiple
+                            label="Жанр" v-model="selectGenre" :items="genres" item-title="name" item-value="name"
+                            required></v-combobox>
                     </v-col>
                     <v-col cols="6">
-                        <v-select prepend-icon="fa:fa-solid fa-microphone" multiple v-model="selectVoiceStudio"
-                            :items="voices" label="Студия озвучки" required></v-select>
+                        <v-combobox prepend-icon="fa:fa-solid fa-earth-americas" :rules="[rules.required]" clearable
+                            multiple label="Страна" v-model="selectCountry" :items="countries" item-title="name"
+                            item-value="name" required></v-combobox>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="6">
+                        <v-combobox prepend-icon="fa:fa-solid fa-puzzle-piece" :rules="[rules.required]" clearable multiple
+                            label="Подборка" v-model="selectSelection" :items="selection" item-title="name"
+                            item-value="name" required></v-combobox>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-combobox prepend-icon="fa:fa-solid fa-microphone" :rules="[rules.required]" clearable multiple
+                            label="Студия озвучки" v-model="selectVoiceStudio" :items="voices" item-title="name"
+                            item-value="name" required></v-combobox>
                     </v-col>
                 </v-row>
             </v-container>
             <v-btn type="submit" color="primary" block class="mt-2">Submit</v-btn>
         </v-form>
+        <AlgoliaSearch></AlgoliaSearch>
     </v-sheet>
 </template>
