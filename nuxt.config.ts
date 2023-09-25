@@ -13,10 +13,10 @@ export default defineNuxtConfig({
     adminApiKey: '3d35732e9a548c0e7c24c6a4970dbd2675d5cd2dbfaac925ef2fffd614cee4f2',
     serverSideUsage: true,
     instantSearch: {
-      theme: 'algolia'
+      theme: 'algolia',
     }
   },
-  plugins: [{ src: '~/plugins/vue-dompurify-html', mode: 'client' }, { src: '~/plugins/instant-search', mode: 'client' },],
+  plugins: [{ src: '~/plugins/vue-dompurify-html', mode: 'client' }, {src: '~/plugins/instant-search', mode: 'client'}],
   pinia: {
     autoImports: [
       'defineStore', // import { defineStore as definePiniaStore } from 'pinia'

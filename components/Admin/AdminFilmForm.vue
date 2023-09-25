@@ -76,7 +76,7 @@ async function validate() {
 
 <template>
     <v-sheet width="600" class="mx-auto bg-surface-lighten-1 rounded">
-        
+        <AdminSearchField></AdminSearchField>
         <v-form ref="form" @submit.prevent="validate">
             <v-container>
                 <v-row>
@@ -173,6 +173,5 @@ async function validate() {
             </v-container>
             <v-btn type="submit" color="primary" block class="mt-2">Submit</v-btn>
         </v-form>
-        <AlgoliaSearch></AlgoliaSearch>
     </v-sheet>
 </template>
