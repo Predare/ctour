@@ -2,10 +2,10 @@
 import { AisInstantSearch, AisSearchBox, AisHits, AisConfigure } from 'vue-instantsearch/vue3/es';
 
 const props = defineProps({
-    addItem: {type: Function, required: true},
-    selectedItems: {type: Array, required: true},
-    placeholder: {type: String, required: true},
-    searchIndex: {type: String, required: true},
+    addItem: { type: Function, required: true },
+    selectedItems: { type: Array, required: true },
+    placeholder: { type: String, required: true },
+    searchIndex: { type: String, required: true },
 })
 
 const client = useMeilisearchClient();
@@ -13,18 +13,32 @@ const focusedSearchBox = ref(false);
 function onFocus(status) {
     focusedSearchBox.value = status;
 }
+function focusOut() {
+    console.log('focus out');
+}
 </script>
 <template>
-    <div @focusin="onFocus(true)">
+    <div tabindex="1" @focusin="onFocus(true)">
         <ais-instant-search :search-client="client" :index-name="searchIndex">
-            <ais-configure :hits-per-page.camel="10"/>
+            <ais-configure :hits-per-page.camel="10" />
             <ais-search-box :placeholder="placeholder" class="searchboxClass text-white">
+                <template v-slot="{ currentRefinement, isSearchStalled, refine }">
+                    <div class="flex flex-row gap-2">
+                        <input :placeholder="placeholder" class="w-full px-2" type="search" :value="currentRefinement" @input="refine($event.currentTarget.value)">
+                        <v-btn density="compact" variant="plain" icon="mdi-plus"
+                            @click="addItem({ title: currentRefinement }); onFocus(false)"></v-btn>
+                        <v-btn density="compact" variant="plain" icon="mdi-close" @click="refine(''); onFocus(false)"></v-btn>
+                    </div>
+                    <span :hidden="!isSearchStalled">Loading...</span>
+                </template>
             </ais-search-box>
             <ais-hits>
                 <template v-slot="{ items }">
-                    <ul v-show="focusedSearchBox" class="absolute bg-surface-lighten-2 z-10">
-                        <li v-for="{ id, title, poster } in items" :key="id" @click="addItem({id, title, poster}); onFocus(false);">
-                            <v-btn :disabled="selectedItems.find(item => item.id === id) !== undefined" variant="plain" >
+                    <ul v-show="focusedSearchBox" class=" bg-surface-lighten-2 z-10">
+                        <li v-for="{ id, title, poster } in items" :key="id"
+                            @click="addItem({ id, title, poster }); onFocus(false);">
+                            <v-btn block :disabled="selectedItems.find(item => item.id === id) !== undefined"
+                                variant="plain">
                                 <h1>{{ title }}</h1>
                             </v-btn>
                         </li>
