@@ -14,9 +14,7 @@ const selectedActors = ref([]);
 const selectedSelections = ref([]);
 const selectedVoiceStudios = ref([]);
 const selectedCountries = ref([]);
-const selectedMovies = ref([]);
 
-const { data } = await useFetch('/api/admin/film/filters');
 const name = ref('');
 const description = ref('');
 const filmTypes = [{ name: 'Фильм', value: 'FILM' }, { name: 'Сериал', value: 'SERIAL' }];
@@ -34,12 +32,12 @@ function getFormData() {
         yearStart: selectYearStart.value,
         yearEnd: selectYearEnd.value,
         ageRestriction: selectAgeRestriction.value,
-        genres: selectGenre.value,
-        directors: selectDirector.value,
-        actors: selectActor.value,
-        selections: selectSelection.value,
-        voiceStudios: selectVoiceStudio.value,
-        countries: selectCountry.value
+        genres: selectedGenres.value,
+        directors: selectedDirectors.value,
+        actors: selectedActors.value,
+        selections: selectedSelections.value,
+        voiceStudios: selectedVoiceStudios.value,
+        countries: selectedCountries.value
     }
 }
 
@@ -159,7 +157,7 @@ function removeItemFromArray(array, item) {
                         <AdminSearchWidget :selectedItems="selectedGenres"
                             :addItem="(item) => addItemToArray(selectedGenres, item)"
                             :removeItem="(item) => removeItemFromArray(selectedGenres, item)" placeholder="Жанр"
-                            searchIndex="movies" icon="fa:fa-solid fa-masks-theater">
+                            searchIndex="genres" icon="fa:fa-solid fa-masks-theater">
                         </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">

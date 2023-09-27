@@ -34,11 +34,11 @@ function onFocus(status) {
             <ais-hits>
                 <template v-slot="{ items }">
                     <ul v-show="focusedSearchBox" class=" bg-surface-lighten-2 z-10">
-                        <li v-for="{ id, title, poster } in items" :key="id"
-                            @click="addItem({ id, title, poster }); onFocus(false);">
+                        <li v-for="{ id, name, } in items" :key="id"
+                            @click="addItem({ id, name, poster }); onFocus(false);">
                             <v-btn block :disabled="selectedItems.find(item => item.id === id) !== undefined"
                                 variant="plain">
-                                <h1>{{ title }}</h1>
+                                <h1>{{ name }}</h1>
                             </v-btn>
                         </li>
                     </ul>

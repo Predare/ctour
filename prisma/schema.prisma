@@ -145,12 +145,14 @@ model Film {
   rating             Float?
   ratingEmoji        Int[]
   posterLink         String?
-  views              Int
-  popularity         Float
+  views              Int @default(0)
+  popularity         Float @default(0)
   country            Country[]
   reviews            Review[]
   favoritedByUsers User[] @relation(name: "favoriteFilms")
   viewedByUsers User[] @relation(name: "viewedFilms")
+
+  @@unique([name, yearStart])
 }
 
 enum Emoji {
@@ -207,7 +209,7 @@ model Stuff {
 
 model Genre {
   id    Int    @id @default(autoincrement())
-  name  String
+  name  String @unique
   emoji String @default("😎")
   films Film[]
 }

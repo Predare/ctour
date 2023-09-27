@@ -1,7 +1,0 @@
--- AlterTable
-ALTER TABLE "Film" ALTER COLUMN "expectedPopularity" DROP NOT NULL,
-ALTER COLUMN "quality" DROP NOT NULL,
-ALTER COLUMN "kinopoiskRating" DROP NOT NULL,
-ALTER COLUMN "imdbRating" DROP NOT NULL,
-ALTER COLUMN "rating" DROP NOT NULL,
-ALTER COLUMN "posterLink" DROP NOT NULL;

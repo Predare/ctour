@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   ],
   meilisearch: {
     hostUrl: 'http://localhost:7700',
-    searchApiKey: 'fbd1dacd27250e2bd6be36fe05b6368f360e98a9b848f0d860fe07ffceacbd6c',
+    searchApiKey: '106fdf7d17553f239876c2cad2f20de611f3ae067e10cfaca50aaadcb13ab203',
     adminApiKey: '3d35732e9a548c0e7c24c6a4970dbd2675d5cd2dbfaac925ef2fffd614cee4f2',
     serverSideUsage: true,
     instantSearch: {
