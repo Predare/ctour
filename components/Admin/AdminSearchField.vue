@@ -13,9 +13,6 @@ const focusedSearchBox = ref(false);
 function onFocus(status) {
     focusedSearchBox.value = status;
 }
-function focusOut() {
-    console.log('focus out');
-}
 </script>
 <template>
     <div tabindex="1" @focusin="onFocus(true)">
@@ -24,10 +21,12 @@ function focusOut() {
             <ais-search-box :placeholder="placeholder" class="searchboxClass text-white">
                 <template v-slot="{ currentRefinement, isSearchStalled, refine }">
                     <div class="flex flex-row gap-2">
-                        <input :placeholder="placeholder" class="w-full px-2" type="search" :value="currentRefinement" @input="refine($event.currentTarget.value)">
-                        <v-btn density="compact" variant="plain" icon="mdi-plus"
+                        <input :placeholder="placeholder" class="w-full px-2" type="search" :value="currentRefinement"
+                            @input="refine($event.currentTarget.value)">
+                        <v-btn :disabled="!currentRefinement" density="compact" variant="plain" icon="mdi-plus"
                             @click="addItem({ title: currentRefinement }); onFocus(false)"></v-btn>
-                        <v-btn density="compact" variant="plain" icon="mdi-close" @click="refine(''); onFocus(false)"></v-btn>
+                        <v-btn density="compact" variant="plain" icon="mdi-close"
+                            @click="refine(''); onFocus(false)"></v-btn>
                     </div>
                     <span :hidden="!isSearchStalled">Loading...</span>
                 </template>
