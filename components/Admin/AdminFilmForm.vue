@@ -8,23 +8,18 @@ const selectRatingImdb = ref('');
 const selectYearStart = ref('');
 const selectYearEnd = ref('');
 const selectAgeRestriction = ref('');
-const selectGenre = ref([]);
-const selectDirector = ref([]);
-const selectActor = ref([]);
-const selectSelection = ref([]);
-const selectVoiceStudio = ref([]);
-const selectCountry = ref([]);
+const selectedGenres = ref([]);
+const selectedDirectors = ref([]);
+const selectedActors = ref([]);
+const selectedSelections = ref([]);
+const selectedVoiceStudios = ref([]);
+const selectedCountries = ref([]);
+const selectedMovies = ref([]);
 
 const { data } = await useFetch('/api/admin/film/filters');
 const name = ref('');
 const description = ref('');
 const filmTypes = [{ name: 'Фильм', value: 'FILM' }, { name: 'Сериал', value: 'SERIAL' }];
-const genres = ref(data.value.genres);
-const directors = ['Torrantino', 'Mikki Rurk', 'Jo Johnson'];
-const actors = ['Torrantino', 'Mikki Rurk', 'Jo Johnson'];
-const selection = ref(data.selections);
-const voices = ref(data.voiceStudios);
-const countries = ref(data.countries);
 
 const form = ref(null);
 
@@ -72,11 +67,18 @@ async function validate() {
     if (!valid) return valid;
     props.sendForm(getFormData());
 }
+
+function addItemToArray(array, item) {
+    array.push(item)
+}
+
+function removeItemFromArray(array, item) {
+    array.splice(array.indexOf(item), 1);
+}
 </script>
 
 <template>
     <v-sheet width="600" class="mx-auto bg-surface-lighten-1 rounded">
-        <AdminSearchField></AdminSearchField>
         <v-form ref="form" @submit.prevent="validate">
             <v-container>
                 <v-row>
@@ -138,40 +140,53 @@ async function validate() {
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-combobox prepend-icon="mdi-account-group" :rules="[rules.required]" clearable multiple
-                            label="Режиссеры" v-model="selectDirector" :items="directors" required></v-combobox>
+                        <AdminSearchWidget :selectedItems="selectedDirectors"
+                            :addItem="(item) => addItemToArray(selectedDirectors, item)"
+                            :removeItem="(item) => removeItemFromArray(selectedDirectors, item)" placeholder="Режиссёры"
+                            searchIndex="movies" icon="mdi-account-group">
+                        </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">
-                        <v-combobox prepend-icon="mdi-account-group" :rules="[rules.required]" clearable multiple
-                            label="Актёры" v-model="selectActor" :items="actors" required></v-combobox>
+                        <AdminSearchWidget :selectedItems="selectedActors"
+                            :addItem="(item) => addItemToArray(selectedActors, item)"
+                            :removeItem="(item) => removeItemFromArray(selectedActors, item)" placeholder="Актёры"
+                            searchIndex="movies" icon="mdi-account-group">
+                        </AdminSearchWidget>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-combobox prepend-icon="fa:fa-solid fa-masks-theater" :rules="[rules.required]" clearable multiple
-                            label="Жанр" v-model="selectGenre" :items="genres" item-title="name" item-value="name"
-                            required></v-combobox>
+                        <AdminSearchWidget :selectedItems="selectedGenres"
+                            :addItem="(item) => addItemToArray(selectedGenres, item)"
+                            :removeItem="(item) => removeItemFromArray(selectedGenres, item)" placeholder="Жанр"
+                            searchIndex="movies" icon="fa:fa-solid fa-masks-theater">
+                        </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">
-                        <v-combobox prepend-icon="fa:fa-solid fa-earth-americas" :rules="[rules.required]" clearable
-                            multiple label="Страна" v-model="selectCountry" :items="countries" item-title="name"
-                            item-value="name" required></v-combobox>
+                        <AdminSearchWidget :selectedItems="selectedCountries"
+                            :addItem="(item) => addItemToArray(selectedCountries, item)"
+                            :removeItem="(item) => removeItemFromArray(selectedCountries, item)" placeholder="Страна"
+                            searchIndex="movies" icon="fa:fa-solid fa-earth-americas">
+                        </AdminSearchWidget>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <v-combobox prepend-icon="fa:fa-solid fa-puzzle-piece" :rules="[rules.required]" clearable multiple
-                            label="Подборка" v-model="selectSelection" :items="selection" item-title="name"
-                            item-value="name" required></v-combobox>
+                        <AdminSearchWidget :selectedItems="selectedSelections"
+                            :addItem="(item) => addItemToArray(selectedSelections, item)"
+                            :removeItem="(item) => removeItemFromArray(selectedSelections, item)" placeholder="Подборка"
+                            searchIndex="movies" icon="fa:fa-solid fa-puzzle-piece">
+                        </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">
-                        <v-combobox prepend-icon="fa:fa-solid fa-microphone" :rules="[rules.required]" clearable multiple
-                            label="Студия озвучки" v-model="selectVoiceStudio" :items="voices" item-title="name"
-                            item-value="name" required></v-combobox>
+                        <AdminSearchWidget :selectedItems="selectedVoiceStudios"
+                            :addItem="(item) => addItemToArray(selectedVoiceStudios, item)"
+                            :removeItem="(item) => removeItemFromArray(selectedVoiceStudios, item)"
+                            placeholder="Студия озвучки" searchIndex="movies" icon="fa:fa-solid fa-microphone">
+                        </AdminSearchWidget>
                     </v-col>
                 </v-row>
-            </v-container>
-            <v-btn type="submit" color="primary" block class="mt-2">Submit</v-btn>
-        </v-form>
-    </v-sheet>
-</template>
+        </v-container>
+        <v-btn type="submit" color="primary" block class="mt-2">Submit</v-btn>
+    </v-form>
+</v-sheet></template>
