@@ -1,24 +1,32 @@
 services:
-  app:
-    image: node:18-alpine
-    command: sh -c "npm install && npm run dev"
+  ctour:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 127.0.0.1:3000:3000
-    working_dir: /frontend
+      - 3000:3000
     volumes:
-      - .:/frontend
+      - ./node_modules:/usr/src/nuxt-app/node_modules
+      - ./.nuxt/:/usr/src/nuxt-app/.nuxt
+      - .:/usr/src/nuxt-app
+    depends_on:
+      - db
+    command: sh -c " npx prisma migrate dev --name init && npm run dev"
+  db:
+    image: postgres:latest
+    restart: always
     environment:
-      MYSQL_HOST: mysql
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-      MYSQL_DB: todos
-  mysql:
-    image: mysql:latest
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 503553Danil2030
+      POSTGRES_DB: cinemaTour
     volumes:
-      - mysql-data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: todos
+      - postgres_data:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
-  mysql-data:
+  postgres_data:
+  

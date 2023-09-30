@@ -1,3 +1,6 @@
+/**Плагин используется для отсутсвия бага(ошибки) при смене страниц */
+
+
 import { Router } from "vue-router";
 
 interface CustomRouter extends Router {

@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       theme: 'algolia',
     }
   },
-  plugins: [{ src: '~/plugins/vue-dompurify-html', mode: 'client' }, {src: '~/plugins/instant-search', mode: 'client'}],
+  plugins: [{ src: '~/plugins/vue-dompurify-html', mode: 'client' }, { src: '~/plugins/instant-search', mode: 'client' }],
   pinia: {
     autoImports: [
       'defineStore', // import { defineStore as definePiniaStore } from 'pinia'

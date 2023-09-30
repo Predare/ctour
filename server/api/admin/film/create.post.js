@@ -6,8 +6,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   var result = null;
 
-  var genreObjects = [];
-
+  var genreObjects = []
   body.genres.forEach(element => {
     genreObjects.push({
       name: element.title,
