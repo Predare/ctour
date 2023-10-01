@@ -87,6 +87,7 @@ model Review {
   report     Report[]
 
   @@unique([filmLink, authorId])
+  @@map("review")
 }
 
 model Views {
@@ -97,6 +98,8 @@ model Views {
   reviewId Int
 
   @@unique([reviewId, userId])
+
+  @@map("views")
 }
 
 model Rank {
@@ -106,6 +109,8 @@ model Rank {
   requiredExpirence Int
   owners            User[] @relation("rank")
   nextOwners        User[] @relation("nextRank")
+
+  @@map("rank")
 }
 
 model VerificationToken {
@@ -154,6 +159,8 @@ model Film {
   viewedByUsers User[] @relation(name: "viewedFilms")
 
   @@unique([name, yearStart])
+
+  @@map("film")
 }
 
 enum Emoji {
@@ -181,6 +188,8 @@ model Comment {
   replyComment Comment? @relation(name: "subComments", fields: [replyCommentId], references: [id], onDelete: Cascade)
   replyCommentId Int?
   subComments Comment[] @relation(name: "subComments")
+
+  @@map("comment")
 }
 
 model Vote {
@@ -196,6 +205,8 @@ model Vote {
 
   @@unique([reviewId, userId])
   @@unique([commentId, userId])
+
+  @@map("vote")
 }
 
 model Stuff {
@@ -206,6 +217,8 @@ model Stuff {
   yearDead      Int?
   directedFilms Film[] @relation("directors")
   actoredFilms  Film[] @relation("actors")
+
+  @@map("stuff")
 }
 
 model Genre {
@@ -213,18 +226,24 @@ model Genre {
   name  String @unique
   emoji String @default("😎")
   films Film[]
+
+  @@map("genre")
 }
 
 model VoiceStudio {
   id    Int    @id @default(autoincrement())
   name  String
   films Film[]
+
+  @@map("voicestudio")
 }
 
 model Selection {
   id    Int    @id @default(autoincrement())
   name  String
   films Film[]
+
+  @@map("selection")
 }
 
 model Country {
@@ -232,6 +251,8 @@ model Country {
   name  String
   emoji String @default("😎")
   films Film[]
+
+  @@map("country")
 }
 
 model Report {
@@ -243,6 +264,8 @@ model Report {
   text String?
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
+
+  @@map("report")
 }
 
 enum AchievementTarget {
@@ -263,4 +286,5 @@ model Achievement {
   completedUsers User[]
 
   @@unique([target, targetAmount])
+  @@map("achievement")
 }

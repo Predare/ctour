@@ -13,7 +13,9 @@ services:
       - db
     command: sh -c " npx prisma migrate dev --name init && npm run dev"
   db:
-    image: postgres:latest
+    build:
+      context: ./postgreExtendedImage
+      dockerfile: Dockerfile
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -21,12 +23,26 @@ services:
       POSTGRES_DB: cinemaTour
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+  meilisearch:
+    image: getmeili/meilisearch:v1.4
+    restart: always
+    ports:
+      - 7700:7700
+    volumes:
+      - ./meilisearch_data:/meilisearch_data
+    environment:
+      MEILI_MASTER_KEY: 2b2jSYFG39Sw85xn5_sNZuFAjQ90FdAuGWtcMvjLYW8
+      MEILI_ENV: development
+  meilisync:
+    image: long2ice/meilisync
+    volumes:
+      - ./config.yml:/meilisync/config.yml
 
 volumes:
   postgres_data:
-  
