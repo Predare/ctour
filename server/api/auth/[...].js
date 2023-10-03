@@ -31,7 +31,12 @@ export default NuxtAuthHandler({
             user.name = name;
             return Promise.resolve(true);
         }
-    }
+    },
+    events: {
+        async createUser(message) {
+            giveRankToUser(message.user);
+        }
+    },
 });
 
 async function checkNameExist(name) {
@@ -43,13 +48,28 @@ function generateName() {
     return name;
 }
 
+async function giveRankToUser(user) {
+    return await db.user.update({
+        where: { id: user.id },
+        data: { rank: { connect: { id: (await getZeroRank()).id } }, nextRank: { connect: { id: (await getNextRank()).id } } }
+    });
+}
+
+async function getZeroRank() {
+    return await db.rank.findFirst({ where: { requiredExpirence: 0 } });
+}
+
+async function getNextRank() {
+    return (await db.rank.findMany({ where: { requiredExpirence: { gt: 0 } }, orderBy: { requiredExpirence: 'asc' }, take: 1 }))[0];
+}
+
 function getRandomNumber(min, max) {
     // Calculate the range of the numbers
     const range = max - min;
-  
+
     // Generate a random number within the range
     const randomNumber = Math.random() * range;
-  
+
     // Adjust the random number to be within the desired range and return it
     return Math.floor(randomNumber) + min;
-  }
+}

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "rankId" SET DEFAULT 0,
+ALTER COLUMN "nextRankId" SET DEFAULT 1;

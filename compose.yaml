@@ -11,7 +11,7 @@ services:
       - .:/usr/src/nuxt-app
     depends_on:
       - db
-    command: sh -c " npx prisma migrate dev --name init && npm run dev"
+    command: sh -c " npx prisma migrate dev --name init && npx prisma db seed && npm run dev"
   db:
     build:
       context: ./postgreExtendedImage
@@ -38,7 +38,6 @@ services:
       - ./meilisearch_data:/meilisearch_data
     environment:
       MEILI_MASTER_KEY: 2b2jSYFG39Sw85xn5_sNZuFAjQ90FdAuGWtcMvjLYW8
-      MEILI_ENV: development
   meilisync:
     image: long2ice/meilisync
     volumes:

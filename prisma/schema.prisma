@@ -57,7 +57,7 @@ model User {
   rank          Rank?     @relation("rank", fields: [rankId], references: [id])
   rankId        Int?
   nextRank      Rank?     @relation("nextRank", fields: [nextRankId], references: [id])
-  nextRankId    Int?
+  nextRankId    Int?      
   expirence     Int       @default(0)
   followers     User[]    @relation("subscriptions")
   subscribes    User[]    @relation("subscriptions")
