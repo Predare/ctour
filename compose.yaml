@@ -30,14 +30,16 @@ services:
     ports:
       - 8080:8080
   meilisearch:
-    image: getmeili/meilisearch:v1.4
+    build:
+      context: .
+      dockerfile: meilisearchDockerfile
     restart: always
     ports:
       - 7700:7700
     volumes:
       - ./meilisearch_data:/meilisearch_data
     environment:
-      MEILI_MASTER_KEY: 2b2jSYFG39Sw85xn5_sNZuFAjQ90FdAuGWtcMvjLYW8
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
   meilisync:
     image: long2ice/meilisync
     volumes:

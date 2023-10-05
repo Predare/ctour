@@ -1,0 +1,7 @@
+FROM getmeili/meilisearch:v1.4
+
+COPY sh_utils/gen_meilis_keys.sh /usr/local/bin
+
+RUN chmod u+x /usr/local/bin/gen_meilis_keys.sh
+
+RUN apk update && apk add jq
