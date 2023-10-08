@@ -11,6 +11,15 @@ ENV NODE_ENV=development
 RUN apk update && apk upgrade
 RUN apk add git
 
+# install python
+RUN apk add python3
+RUN python -m ensurepip --upgrade
+
+# install keygen for meilisearch
+RUN python -m pip install requests
+RUN python -m pip install https://github.com/Predare/meilisearch_api_key_gen/tarball/master --upgrade
+RUN python -m pip install click
+    
 COPY package*.json ./
 
 # copy the app, note .dockerignore

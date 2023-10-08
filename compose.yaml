@@ -9,11 +9,12 @@ services:
       - ./node_modules:/usr/src/nuxt-app/node_modules
       - ./.nuxt/:/usr/src/nuxt-app/.nuxt
       - .:/usr/src/nuxt-app
+      - ./sh_utils/keygen.sh:/usr/src/nuxt-app/keygen.sh
     depends_on:
       - db
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
-    command: sh -c " npx prisma migrate dev --name init && npx prisma db seed && npm run dev"
+    command: sh -c "sh keygen.sh && source ~/.bashrc && npx prisma migrate dev --name init && npx prisma db seed && npm run dev"
   db:
     build:
       context: ./postgreExtendedImage

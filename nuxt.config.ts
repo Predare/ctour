@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
@@ -9,8 +10,8 @@ export default defineNuxtConfig({
   ],
   meilisearch: {
     hostUrl: 'http://localhost:7700',
-    searchApiKey: '14332a5c9b2665d0606cd18864a2ae7fac38529b389f4b7bca2155b9014e58a4',
-    adminApiKey: 'dac3c49ea9e2ae5d32fa29a7790615040758871ee11504689cce7f34e2c2d723',
+    searchApiKey: process.env.MEILI_SEARCH_KEY,
+    adminApiKey: process.env.MEILI_ADMIN_KEY,
     serverSideUsage: true,
     instantSearch: {
       theme: 'algolia',

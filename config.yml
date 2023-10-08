@@ -1,6 +1,6 @@
 debug: true
 meilisearch:
-  api_key: 0339d6c4056f0fae7afc89690983cbccd792002e5e6cd45577840d9874b6d2d0
+  api_key: 211a6f102ead2d89471cd532067446c9f50040deaeddcdcb4903de49e7c6cadf
   api_url: http://meilisearch:7700
   insert_interval: 10
   insert_size: 1000
