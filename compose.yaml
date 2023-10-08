@@ -11,6 +11,8 @@ services:
       - .:/usr/src/nuxt-app
     depends_on:
       - db
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     command: sh -c " npx prisma migrate dev --name init && npx prisma db seed && npm run dev"
   db:
     build:
@@ -37,14 +39,19 @@ services:
     restart: always
     ports:
       - 7700:7700
-    volumes:
-      - ./meilisearch_data:/meilisearch_data
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+    volumes:
+      - ./meilisearch_data:/meilisearch_data
   meilisync:
-    image: long2ice/meilisync
+    build:
+      context: .
+      dockerfile: meilisyncDockerfile
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     volumes:
       - ./config.yml:/meilisync/config.yml
+    command: sh -c " python3 -m meilisync_config_keygen --address http://meilisearch:7700 --path config.yml && meilisync start"
 
 volumes:
   postgres_data:

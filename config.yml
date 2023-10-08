@@ -1,18 +1,18 @@
+debug: true
 meilisearch:
+  api_key: 0339d6c4056f0fae7afc89690983cbccd792002e5e6cd45577840d9874b6d2d0
   api_url: http://meilisearch:7700
-  api_key: '54d1190e0478b7bf7fa189e3e8f096ea20a29fe8e29fa51f79de4b82c4131e4f'
-  insert_size: 1000
   insert_interval: 10
-source:
-  type: postgres
-  host: db # assuming your PostgreSQL server is running on the same machine as `meilisync`
-  port: 5432
-  database: cinemaTour
-  user: postgres
-  password: 503553Danil2030
-sync:
-  - table: film
-    full: true
+  insert_size: 1000
 progress:
   type: file
-debug: true
+source:
+  database: cinemaTour
+  host: db
+  password: 503553Danil2030
+  port: 5432
+  type: postgres
+  user: postgres
+sync:
+- full: true
+  table: film

@@ -1,0 +1,5 @@
+FROM long2ice/meilisync
+
+RUN apt update && apt install curl -y && apt install git -y 
+
+RUN pip install meilisync_config_keygen
