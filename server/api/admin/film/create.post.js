@@ -126,10 +126,9 @@ async function findExistedGenres(genres) {
  * Adds new genres to the database.
  *
  * @param {Array} genres - An array of genre objects to be added.
- * @param {Object} serverMeilisearchClient - The MeiliSearch client used to connect to the server.
  * @return {Promise} - A promise that resolves to the result of the database operation.
  */
-async function addNewGenres(genres, serverMeilisearchClient) {
+async function addNewGenres(genres) {
   return await db.genre.createMany({
     data: genres.map(genre => {
       return {
@@ -161,10 +160,9 @@ async function findExistedStuff(stuffers) {
  * Adds new stuff to the database.
  *
  * @param {Array} stuffers - An array of objects representing the stuff to be added.
- * @param {Object} serverMeilisearchClient - The Meilisearch client object for the server.
  * @returns {Promise} - A promise that resolves to the result of the database operation.
  */
-async function addNewStuff(stuffers, serverMeilisearchClient) {
+async function addNewStuff(stuffers) {
   return await db.stuff.createMany({
     data: stuffers.map(stuff => {
       return {
