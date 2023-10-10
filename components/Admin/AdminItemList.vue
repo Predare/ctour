@@ -8,16 +8,12 @@ const props = defineProps({
         type: Function,
         required: true,
     },
-    emptyText: {
-        type: String,
-        default: 'Список пуст',
-    }
 });
 </script>
 
 <template>
     <v-card class="mx-auto" max-width="300">
-        <v-list bg-color="surface-lighten-2">
+        <v-list bg-color="surface-lighten-2" v-if="items.length > 0">
             <v-list-item v-for="(item, i) in items" :key="i">
                 <template v-slot:title>
                     <div class="flex flex-row items-center justify-between">
@@ -29,7 +25,6 @@ const props = defineProps({
                     <v-divider v-show="i < items.length - 1" />
                 </template>
             </v-list-item>
-            <p class="text-subtitle-2 text-center" v-show="items.length === 0">{{ emptyText }}</p>
         </v-list>
     </v-card>
 </template>

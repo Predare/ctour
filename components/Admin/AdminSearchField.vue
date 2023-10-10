@@ -6,6 +6,8 @@ const props = defineProps({
     selectedItems: { type: Array, required: true },
     placeholder: { type: String, required: true },
     searchIndex: { type: String, required: true },
+    hitsClass: { type: String, default: 'bg-surface-lighten-2' },
+    enableForm: { type: Boolean, default: false },
 })
 
 const client = useMeilisearchClient();
@@ -23,11 +25,11 @@ function onFocus(status) {
                     <div class="flex flex-row gap-2">
                         <input :placeholder="placeholder" class="w-full px-2" type="search" :value="currentRefinement"
                             @input="refine($event.currentTarget.value)">
-                        <v-btn density="compact" variant="plain" icon="mdi-plus">
+                        <v-btn density="compact" variant="plain" icon="mdi-plus" v-if="enableForm">
                             <v-icon>mdi-plus</v-icon>
                             <slot name="addDialogForm"></slot>
                         </v-btn>
-                        <v-btn density="compact" variant="plain" icon="mdi-close"
+                        <v-btn density="compact" variant="plain" icon="mdi-close" v-if="currentRefinement"
                             @click="refine(''); onFocus(false)"></v-btn>
                     </div>
                     <span :hidden="!isSearchStalled">Loading...</span>
@@ -35,7 +37,7 @@ function onFocus(status) {
             </ais-search-box>
             <ais-hits>
                 <template v-slot="{ items }">
-                    <ul v-show="focusedSearchBox" class=" bg-surface-lighten-2 z-10">
+                    <ul v-show="focusedSearchBox" class=" z-10" :class="hitsClass">
                         <li v-for="{ id, name, } in items" :key="id"
                             @click="addItem({ id, name, poster }); onFocus(false);">
                             <v-btn block :disabled="selectedItems.find(item => item.id === id) !== undefined"

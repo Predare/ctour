@@ -7,19 +7,6 @@ const expand = computed(() => {
     return [searchFormStore.expand ? "searchForm" : null];
 });
 
-const actors = [
-    'Neco Arc',
-    'Joe Bidden',
-    'Trump',
-    'Obama',
-    'Putin',
-    'Millenial'
-];
-const directors = [
-    'Neco Arc',
-]
-const selectActor = ref('');
-const selectDirector = ref('');
 const selectGenre = ref('');
 const selectCountry = ref('');
 const selectVoice = ref('');
@@ -27,29 +14,31 @@ const selectSelection = ref('');
 const year = ref([1894, 2023]);
 const selectFavorite = ref(false);
 const selectViewed = ref(false);
+const selectedDirectors = ref([]);
+const selectedActors = ref([]);
 
-const { data: filters} = await useFetch('/api/catalogueFilters/all');
-const { genres, voices, selections, countries} = filters.value;
+const { data: filters } = await useFetch('/api/catalogueFilters/all');
+const { genres, voices, selections, countries } = filters.value;
 
-const genresNames = computed (() => {
+const genresNames = computed(() => {
     var names = [''];
     names = names.concat(genres.map(genre => genre.name));
     return names;
 })
 
-const voiceNames = computed (() => {
+const voiceNames = computed(() => {
     var names = [''];
     names = names.concat(voices.map(voice => voice.name));
     return names;
 })
 
-const selectionNames = computed (() => {
+const selectionNames = computed(() => {
     var names = [''];
     names = names.concat(selections.map(selection => selection.name));
     return names;
 })
 
-const countryNames = computed (() => {
+const countryNames = computed(() => {
     var names = [''];
     names = names.concat(countries.map(country => country.name));
     return names;
@@ -58,12 +47,12 @@ const countryNames = computed (() => {
 import { useFilmFilterStore } from '@/stores/filmFilter';
 const filmFilterStore = useFilmFilterStore();
 
-function applyFilters(){
+function applyFilters() {
     filmFilterStore.pureFilters();
     filmFilterStore.setGenre(selectGenre.value);
     filmFilterStore.setCountry(selectCountry.value);
-    filmFilterStore.setActor(selectActor.value);
-    filmFilterStore.setDirector(selectDirector.value);
+    filmFilterStore.setActor(selectedActors.value);
+    filmFilterStore.setDirector(selectedDirectors.value);
     filmFilterStore.setVoice(selectVoice.value);
     filmFilterStore.setYearFrom(year.value[0]);
     filmFilterStore.setYearTo(year.value[1]);
@@ -73,7 +62,7 @@ function applyFilters(){
     filmFilterStore.setFullreload(true);
 }
 
-function clearForm(){
+function clearForm() {
     selectActor.value = '';
     selectGenre.value = '';
     selectCountry.value = '';
@@ -83,6 +72,13 @@ function clearForm(){
     year.value = [1894, 2023];
 }
 
+function addItemToArray(array, item) {
+    array.push(item)
+}
+
+function removeItemFromArray(array, item) {
+    array.splice(array.indexOf(item), 1);
+}
 </script>
 
 <template>
@@ -107,13 +103,21 @@ function clearForm(){
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-select clearable v-model="selectSelection" :items="selectionNames" label="Подборки"></v-select>
+                                <v-select clearable v-model="selectSelection" :items="selectionNames"
+                                    label="Подборки"></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-autocomplete clearable v-model="selectActor" label="Актёр" :items=actors></v-autocomplete>
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-1" :selectedItems="selectedActors"
+                                    :addItem="(item) => addItemToArray(selectedActors, item)"
+                                    :removeItem="(item) => removeItemFromArray(selectedActors, item)" placeholder="Актёр"
+                                    searchIndex="stuff" icon="mdi-account-group" :enableForm="false" />
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-autocomplete clearable v-model="selectDirector" label="Режиссёр" :items=directors></v-autocomplete>
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-1" :selectedItems="selectedDirectors"
+                                    :addItem="(item) => addItemToArray(selectedDirectors, item)"
+                                    :removeItem="(item) => removeItemFromArray(selectedDirectors, item)"
+                                    placeholder="Режиссёр" searchIndex="stuff" icon="mdi-account-group"
+                                    :enableForm="false" />
                             </v-col>
                         </v-row>
                         <v-row>
