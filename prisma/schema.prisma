@@ -211,14 +211,16 @@ model Vote {
 
 model Stuff {
   id            Int    @id @default(autoincrement())
-  name          String
-  photoLink     String
-  yearBorn      Int
+  name          String 
+  photoLink     String?
+  yearBorn      Int?
   yearDead      Int?
   directedFilms Film[] @relation("directors")
   actoredFilms  Film[] @relation("actors")
 
   @@map("stuff")
+
+  @@unique([name, yearBorn])
 }
 
 model Genre {
@@ -232,7 +234,7 @@ model Genre {
 
 model VoiceStudio {
   id    Int    @id @default(autoincrement())
-  name  String
+  name  String @unique
   films Film[]
 
   @@map("voicestudio")
@@ -240,7 +242,7 @@ model VoiceStudio {
 
 model Selection {
   id    Int    @id @default(autoincrement())
-  name  String
+  name  String @unique
   films Film[]
 
   @@map("selection")
@@ -248,7 +250,7 @@ model Selection {
 
 model Country {
   id    Int    @id @default(autoincrement())
-  name  String
+  name  String @unique
   emoji String @default("😎")
   films Film[]
 

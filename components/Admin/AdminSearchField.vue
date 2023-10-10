@@ -24,7 +24,7 @@ function onFocus(status) {
                         <input :placeholder="placeholder" class="w-full px-2" type="search" :value="currentRefinement"
                             @input="refine($event.currentTarget.value)">
                         <v-btn :disabled="!currentRefinement" density="compact" variant="plain" icon="mdi-plus"
-                            @click="addItem({ title: currentRefinement }); onFocus(false)"></v-btn>
+                            @click="addItem({ name: currentRefinement });refine('');  onFocus(false)"></v-btn>
                         <v-btn density="compact" variant="plain" icon="mdi-close"
                             @click="refine(''); onFocus(false)"></v-btn>
                     </div>

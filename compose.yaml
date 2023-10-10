@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+      - 24678:24678
     volumes:
       - ./node_modules:/usr/src/nuxt-app/node_modules
       - ./.nuxt/:/usr/src/nuxt-app/.nuxt
@@ -48,6 +49,7 @@ services:
     build:
       context: .
       dockerfile: meilisyncDockerfile
+    restart: always
     environment:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     volumes:

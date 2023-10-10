@@ -2,7 +2,7 @@
 const props = defineProps({
     items: {
         type: Array,
-        required: true
+        default: [],
     },
     removeItem: {
         type: Function,
@@ -21,7 +21,7 @@ const props = defineProps({
             <v-list-item v-for="(item, i) in items" :key="i">
                 <template v-slot:title>
                     <div class="flex flex-row items-center justify-between">
-                        <v-list-item-title v-text="item.title"></v-list-item-title>
+                        <v-list-item-title v-text="item.name" style="text-transform: capitalize;"></v-list-item-title>
                         <v-btn size="small" variant="plain" icon="mdi-close" @click="removeItem(item)"></v-btn>
                     </div>
                 </template>

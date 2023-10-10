@@ -37,7 +37,7 @@ function getFormData() {
         actors: selectedActors.value,
         selections: selectedSelections.value,
         voiceStudios: selectedVoiceStudios.value,
-        countries: selectedCountries.value
+        countrys: selectedCountries.value
     }
 }
 
@@ -141,14 +141,14 @@ function removeItemFromArray(array, item) {
                         <AdminSearchWidget :selectedItems="selectedDirectors"
                             :addItem="(item) => addItemToArray(selectedDirectors, item)"
                             :removeItem="(item) => removeItemFromArray(selectedDirectors, item)" placeholder="Режиссёры"
-                            searchIndex="movies" icon="mdi-account-group">
+                            searchIndex="stuff" icon="mdi-account-group">
                         </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">
                         <AdminSearchWidget :selectedItems="selectedActors"
                             :addItem="(item) => addItemToArray(selectedActors, item)"
                             :removeItem="(item) => removeItemFromArray(selectedActors, item)" placeholder="Актёры"
-                            searchIndex="movies" icon="mdi-account-group">
+                            searchIndex="stuff" icon="mdi-account-group">
                         </AdminSearchWidget>
                     </v-col>
                 </v-row>
@@ -157,14 +157,14 @@ function removeItemFromArray(array, item) {
                         <AdminSearchWidget :selectedItems="selectedGenres"
                             :addItem="(item) => addItemToArray(selectedGenres, item)"
                             :removeItem="(item) => removeItemFromArray(selectedGenres, item)" placeholder="Жанр"
-                            searchIndex="genres" icon="fa:fa-solid fa-masks-theater">
+                            searchIndex="genre" icon="fa:fa-solid fa-masks-theater">
                         </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">
                         <AdminSearchWidget :selectedItems="selectedCountries"
                             :addItem="(item) => addItemToArray(selectedCountries, item)"
                             :removeItem="(item) => removeItemFromArray(selectedCountries, item)" placeholder="Страна"
-                            searchIndex="movies" icon="fa:fa-solid fa-earth-americas">
+                            searchIndex="country" icon="fa:fa-solid fa-earth-americas">
                         </AdminSearchWidget>
                     </v-col>
                 </v-row>
@@ -173,14 +173,14 @@ function removeItemFromArray(array, item) {
                         <AdminSearchWidget :selectedItems="selectedSelections"
                             :addItem="(item) => addItemToArray(selectedSelections, item)"
                             :removeItem="(item) => removeItemFromArray(selectedSelections, item)" placeholder="Подборка"
-                            searchIndex="movies" icon="fa:fa-solid fa-puzzle-piece">
+                            searchIndex="selection" icon="fa:fa-solid fa-puzzle-piece">
                         </AdminSearchWidget>
                     </v-col>
                     <v-col cols="6">
                         <AdminSearchWidget :selectedItems="selectedVoiceStudios"
                             :addItem="(item) => addItemToArray(selectedVoiceStudios, item)"
                             :removeItem="(item) => removeItemFromArray(selectedVoiceStudios, item)"
-                            placeholder="Студия озвучки" searchIndex="movies" icon="fa:fa-solid fa-microphone">
+                            placeholder="Студия озвучки" searchIndex="voicestudio" icon="fa:fa-solid fa-microphone">
                         </AdminSearchWidget>
                     </v-col>
                 </v-row>

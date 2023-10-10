@@ -1,6 +1,6 @@
 debug: true
 meilisearch:
-  api_key: 211a6f102ead2d89471cd532067446c9f50040deaeddcdcb4903de49e7c6cadf
+  api_key: 4189841ef0ddad91b9008ebcf8c414a8b261b283cc0ac5a09a70a7ae51a154a3
   api_url: http://meilisearch:7700
   insert_interval: 10
   insert_size: 1000
@@ -16,3 +16,13 @@ source:
 sync:
 - full: true
   table: film
+- full: true
+  table: stuff
+- full: true
+  table: country
+- full: true
+  table: selection
+- full: true
+  table: voicestudio
+- full: true
+  table: genre

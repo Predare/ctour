@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "stuff" ALTER COLUMN "photoLink" DROP NOT NULL,
+ALTER COLUMN "yearBorn" DROP NOT NULL;

@@ -4,7 +4,6 @@ definePageMeta({
 });
 
 function sendForm(data) {
-  console.log(data);
   $fetch('/api/admin/film/create', {
     method: 'POST',
     body: data,
