@@ -18,5 +18,6 @@ export default defineEventHandler(async (event) => {
         return await db.voiceStudio.findMany({});
     }
 
-    return { countries: await countryFilters(), genres: await genreFilters(), selections: await selectionFilters(), voices: await voiceFilters() };
+    return { countries: await countryFilters(), genres: await genreFilters(), 
+        selections: await selectionFilters(), voices: await voiceFilters(), };
 })

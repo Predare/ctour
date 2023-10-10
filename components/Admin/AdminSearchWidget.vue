@@ -14,7 +14,11 @@ const props = defineProps({
         <v-icon>{{icon}}</v-icon>
         <div class="flex flex-col gap-2 items-center">
             <AdminSearchField :placeholder="placeholder" :addItem="addItem"
-                :selected-items="selectedItems" :searchIndex="searchIndex"></AdminSearchField>
+                :selected-items="selectedItems" :searchIndex="searchIndex">
+                <template v-slot:addDialogForm>
+                    <slot name="dialogForm"></slot>
+                </template>
+            </AdminSearchField>
             <AdminItemList class="w-full" emptyText="Список режиссёров пуст" :items="selectedItems"
                 :removeItem="removeItem">
             </AdminItemList>

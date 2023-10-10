@@ -23,8 +23,10 @@ function onFocus(status) {
                     <div class="flex flex-row gap-2">
                         <input :placeholder="placeholder" class="w-full px-2" type="search" :value="currentRefinement"
                             @input="refine($event.currentTarget.value)">
-                        <v-btn :disabled="!currentRefinement" density="compact" variant="plain" icon="mdi-plus"
-                            @click="addItem({ name: currentRefinement });refine('');  onFocus(false)"></v-btn>
+                        <v-btn density="compact" variant="plain" icon="mdi-plus">
+                            <v-icon>mdi-plus</v-icon>
+                            <slot name="addDialogForm"></slot>
+                        </v-btn>
                         <v-btn density="compact" variant="plain" icon="mdi-close"
                             @click="refine(''); onFocus(false)"></v-btn>
                     </div>
