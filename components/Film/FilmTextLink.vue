@@ -1,7 +1,8 @@
 <script setup>
 const props = defineProps({
     title: {
-        type: String
+        type: String,
+        default: '',
     },
     setter: {
         type: Function
@@ -22,6 +23,8 @@ function setFilter() {
 </script>
 
 <template>
-    <NuxtLink to="/"><v-btn @click="setFilter" :ripple="false" size="x-small" variant="plain"
-            class="pa-0 text-body-2 mb-0.5 text-capitalize">{{ title }}</v-btn></NuxtLink>
+    <NuxtLink to="/">
+        <v-btn @click="setFilter" :ripple="false" size="x-small" variant="plain"
+            class="pa-0 text-body-2 mb-0.5 text-capitalize" :text="title" />
+    </NuxtLink>
 </template>
