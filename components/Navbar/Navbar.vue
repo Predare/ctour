@@ -25,7 +25,7 @@ const theme_items = ref([
 
 const { data: filters } = await useFetch('/api/catalogueFilters/all');
 const { genres, voices, selections } = filters.value;
-const filmLink = ref('/film/' + filmStore.film?.link);
+const filmLink = ref(filmStore.film?.link ? '/film/' + filmStore.film?.link : '/');
 
 function setFilmType(name) {
   filmFilterStore.pureFilters();
@@ -41,7 +41,7 @@ async function navigateToRandomFilm() {
 filmStore.$subscribe((mutation, state) => {
   if (state.film) {
     if (state.film?.link) filmLink.value = '/film/' + state.film.link;
-    else filmLink.value = '';
+    else filmLink.value = '/';
   }
 });
 
@@ -49,9 +49,9 @@ filmStore.$subscribe((mutation, state) => {
 
 <template>
   <div class="absolute w-full flex flex-row justify-between bg-surface-lighten-1">
-    <NuxtLink :to="filmLink ? `${filmLink}` : '/'">
-      <v-btn :prepend-icon="!route.path.startsWith('/film/') && filmLink ? 'mdi-chevron-left' : ''" rounded="0"
-        size="large" class="min-h-[50px]" variant="text">LionFilm</v-btn>
+    <NuxtLink :to="filmLink">
+      <v-btn :prepend-icon="!route.path.startsWith('/film/') && filmLink != '/' ? 'mdi-chevron-left' : ''" rounded="0"
+        size="large" class="min-h-[50px]" variant="text" text="LionFilm"></v-btn>
     </NuxtLink>
 
     <div class="flex flex-row items-center">
