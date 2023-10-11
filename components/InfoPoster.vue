@@ -15,13 +15,13 @@ const props = defineProps({
                 class="flex flex-col h-full p-1  ">
                 <div class="flex flex-row justify-between items-center text-white">
                     <div class="flex w-100 flex-col items-center text-subtitle-2" v-if="!showButtons">
-                        <p class="text-center text-body-1">{{filmInfo.title}} <br><span class="text-body-2">{{filmInfo.yearStart}}, {{filmInfo.genres[0] ? filmInfo.genres[0].name: ''}}</span></p>
+                        <p class="text-center text-body-1">{{filmInfo.name}} <br><span class="text-body-2">{{filmInfo.yearStart}}, {{filmInfo.genres[0] ? filmInfo.genres[0].name: ''}}</span></p>
                         <div class="flex flex-row w-100 justify-between px-1">
-                            <p class="text-left">
-                                <span class="text-orange-500 font-bold">КП</span> {{filmInfo.kp}}
+                            <p class="text-left flex flex-row">
+                                <span class="text-orange-500 font-bold">КП&nbsp;</span> {{filmInfo.kinopoiskRating}}
                             </p>
-                            <p class="text-left">
-                                <span class="text-yellow-500 font-bold">IMDB</span> {{filmInfo.imdb}}
+                            <p class="text-left flex flex-row">
+                                <span class="text-yellow-500 font-bold">IMDB&nbsp;</span> {{filmInfo.imdbRating}}
                             </p>
                         </div>
                     </div>

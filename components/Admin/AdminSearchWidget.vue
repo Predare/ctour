@@ -8,20 +8,23 @@ const props = defineProps({
     icon: { type: String, required: true },
     hitsClass: { type: String, default: 'bg-surface-lighten-2' },
     enableForm: { type: Boolean, default: false },
+    listStyleClass: { type: String, default: 'bg-surface-lighten-2' },
 })
 </script>
 
 <template>
-    <div class="flex flex-row gap-3">
-        <v-icon>{{ icon }}</v-icon>
-        <div class="flex flex-col gap-2 items-center">
-            <AdminSearchField :placeholder="placeholder" :addItem="addItem" :selected-items="selectedItems"
-                :searchIndex="searchIndex" :hitsClass="hitsClass" :enableForm="enableForm">
-                <template v-slot:addDialogForm>
-                    <slot name="dialogForm"></slot>
-                </template>
-            </AdminSearchField>
-            <AdminItemList class="w-full" :items="selectedItems" :removeItem="removeItem">
+    <div class="flex flex-row gap-3 items-start">
+        <v-icon class="mt-4">{{ icon }}</v-icon>
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-row gap-2">
+                <AdminSearchField :placeholder="placeholder" :addItem="addItem" :selected-items="selectedItems"
+                    :searchIndex="searchIndex" :hitsClass="hitsClass" :enableForm="enableForm">
+                    <template v-slot:addDialogForm>
+                        <slot name="dialogForm"></slot>
+                    </template>
+                </AdminSearchField>
+            </div>
+            <AdminItemList class="w-full" :listStyleClass="listStyleClass" :items="selectedItems" :removeItem="removeItem">
             </AdminItemList>
         </div>
     </div>

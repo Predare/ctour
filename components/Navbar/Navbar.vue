@@ -7,6 +7,7 @@ const { status } = useAuth();
 const route = useRoute();
 const searchFormStore = useSearchFormStore();
 const filmFilterStore = useFilmFilterStore();
+
 const theme_items = ref([
   {
     name: 'Ретровейв',
@@ -22,9 +23,9 @@ const theme_items = ref([
   },
 ]);
 
-const { data: filters} = await useFetch('/api/catalogueFilters/all');
+const { data: filters } = await useFetch('/api/catalogueFilters/all');
 const { genres, voices, selections } = filters.value;
-const filmLink = computed(() => filmStore?.film?.link ? '/film/' + filmStore?.film?.link : '');
+const filmLink = ref('/film/' + filmStore.film?.link);
 
 function setFilmType(name) {
   filmFilterStore.pureFilters();
@@ -33,9 +34,17 @@ function setFilmType(name) {
 }
 
 async function navigateToRandomFilm() {
-  const filmLink = await $fetch('/api/film/get/random'); 
+  const filmLink = await $fetch('/api/film/get/random');
   await navigateTo(`/film/${filmLink}`);
 }
+
+filmStore.$subscribe((mutation, state) => {
+  if (state.film) {
+    if (state.film?.link) filmLink.value = '/film/' + state.film.link;
+    else filmLink.value = '';
+  }
+});
+
 </script>
 
 <template>

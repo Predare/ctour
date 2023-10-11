@@ -107,17 +107,18 @@ function removeItemFromArray(array, item) {
                                     label="Подборки"></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-1" :selectedItems="selectedActors"
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedActors"
                                     :addItem="(item) => addItemToArray(selectedActors, item)"
                                     :removeItem="(item) => removeItemFromArray(selectedActors, item)" placeholder="Актёр"
-                                    searchIndex="stuff" icon="mdi-account-group" :enableForm="false" />
+                                    searchIndex="stuff" icon="mdi-account-group" :enableForm="false"
+                                    listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-1" :selectedItems="selectedDirectors"
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedDirectors"
                                     :addItem="(item) => addItemToArray(selectedDirectors, item)"
                                     :removeItem="(item) => removeItemFromArray(selectedDirectors, item)"
-                                    placeholder="Режиссёр" searchIndex="stuff" icon="mdi-account-group"
-                                    :enableForm="false" />
+                                    placeholder="Режиссёр" searchIndex="stuff" icon="mdi-account-group" :enableForm="false"
+                                    listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                         </v-row>
                         <v-row>

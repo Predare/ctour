@@ -8,12 +8,16 @@ const props = defineProps({
         type: Function,
         required: true,
     },
+    listStyleClass: {
+        type: String,
+        default: 'bg-surface-lighten-2',
+    }
 });
 </script>
 
 <template>
     <v-card class="mx-auto" max-width="300">
-        <v-list bg-color="surface-lighten-2" v-if="items.length > 0">
+        <v-list :class="listStyleClass" v-if="items.length > 0">
             <v-list-item v-for="(item, i) in items" :key="i">
                 <template v-slot:title>
                     <div class="flex flex-row items-center justify-between">
