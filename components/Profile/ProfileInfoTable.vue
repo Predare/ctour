@@ -5,7 +5,7 @@ const positiveVotesCountText = ref('');
 const negativeVotesCountText = ref('');
 const userTimeString = ref('');
 
-const { data } = await useFetch(`/api/profile/${route.params.id}`, {
+const { data } = await useFetch(`/api/profile/${route.params.name}`, {
     onResponse: (response) => {
         const newData = response.response._data;
         ratingCountText.value = ratingTextFormatter(newData.rating);
@@ -38,13 +38,13 @@ const { data } = await useFetch(`/api/profile/${route.params.id}`, {
         <p class="text-h6">Достижения на текущем уровне:</p>
         <ProfileExpProgress style="margin-top: 1rem" :expierence="data?.expirence"
             :next-rank-expirence="data?.nextRank.requiredExpirence" />
-        <ProfileRank :id="data?.id" :rank-color="data?.rank.color" :rank-name="data?.rank.name" />
+        <ProfileRank :name="data?.name" :rank-color="data?.rank.color" :rank-name="data?.rank.name" />
         <div class="flex flex-col gap-5 mt-3">
             <ProfileAchievement v-for="i in data?.achievements" :key="i.id" :id="i.id" :icon="i.icon" :name="i.name"
                 :description="i.description" :reward="i.reward" />
         </div>
         <div class="mt-5">
-            <NuxtLink :to="`/profile/${data?.id}/achievements`">
+            <NuxtLink :to="`/profile/${data?.name}/achievements`">
                 <v-btn variant="plain">Все достижения</v-btn>
             </NuxtLink>
         </div>

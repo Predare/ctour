@@ -4,18 +4,15 @@ import { getServerSession } from '#auth'
 export default defineEventHandler(async (event) => {
     const session = await getServerSession(event);
     var result;
-    
-    if(event.context.params?.id == session?.user?.id) return {status: false};
-
-    async function subscribe() {
+    async function unsubscribe() {
         return await db.user.update({
             where: {
-                id: event.context.params?.id
+                name: event.context.params?.name
             },
             data: {
                 followers: {
-                    connect: {
-                        id: session?.user?.id,
+                    disconnect: {
+                        name: session?.user?.name,
                     }
                 }
             },
@@ -29,9 +26,9 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    await subscribe().then(async response => {
+    await unsubscribe().then(async response => {
         result = response;
     });
     
-    return {status: true, user: result};
+    return {status: true, user : result};
 })

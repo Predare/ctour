@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     async function findFirst() {
         return await db.user.findFirst({
             where: {
-                id: event.context.params?.id
+                name: event.context.params?.name
             },
             select: {
                 id: true,

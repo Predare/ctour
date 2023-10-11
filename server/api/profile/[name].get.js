@@ -4,10 +4,10 @@ import { getServerSession } from '#auth'
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event);
   
-  const profileId = event.context.params?.id != undefined ? event.context.params?.id : session?.user?.id;
+  const profileName = event.context.params?.name != undefined ? event.context.params?.name : session?.user?.name;
   async function findUser() {
     return await db.user.findFirst({
-      where: { id: profileId },
+      where: { name: profileName },
       select: {
         id: true,
         expirence: true,
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
         id: true
       },
       where: {
-        userId: profileId,
+        userName: profileName,
       }
     })
   }
@@ -54,7 +54,7 @@ export default defineEventHandler(async (event) => {
     return await db.vote.aggregate({
       where: {
         comment: {
-          userId: user.id,
+          userName: user.name,
         },
       },
       _sum: {
@@ -67,7 +67,7 @@ export default defineEventHandler(async (event) => {
     return await db.vote.aggregate({
       where: {
         review: {
-          authorId: user.id,
+          authorName: user.name,
         },
       },
       _sum: {
@@ -81,7 +81,7 @@ export default defineEventHandler(async (event) => {
         where: {
             completedUsers: {
                 none: {
-                    id: event.context.params?.id
+                  name: event.context.params?.name
                 }
             }
         },

@@ -14,12 +14,12 @@ export default defineEventHandler(async (event) => {
     return await db.comment.findFirst({
       where: { id: Number(event.context.params?.id) },
       select: {
-        userId: true,
+        userName: true,
       }
     });
   }
 
-  if((await getComment())?.userId === session?.user.id) {
+  if((await getComment())?.userName === session?.user.name) {
     return { status: false };
   }
   async function upsert() {
@@ -28,14 +28,14 @@ export default defineEventHandler(async (event) => {
       where: {
         ['commentId_userId']: {
           commentId: Number(event.context.params?.id),
-          userId: session?.user.id
+          userName: session?.user.name
         }
       },
       create: {
         comment: {
           connect: { id: Number(event.context.params?.id) }
         },
-        user: { connect: { id: session?.user.id } },
+        user: { connect: { name: session?.user.name } },
         status: body.status,
       },
       update: { status: body.status, },

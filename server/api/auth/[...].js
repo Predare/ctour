@@ -21,6 +21,7 @@ export default NuxtAuthHandler({
     callbacks: {
         session: async ({ session, token, user }) => {
             session.user.id = user.id;
+            session.user.name = user.name;
             return session;
         },
         async signIn({ user, account, profile }) {

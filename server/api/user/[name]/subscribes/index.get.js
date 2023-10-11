@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
       where: {
         followers: {
           some: {
-            id: event.context.params?.id
+            name: event.context.params?.name
           },
         },
       },
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
             rating: true,
             votes: {
               where: {
-                userId: event.context.params?.id
+                userName: event.context.params?.name
               }
             },
             film: {
@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
         author: {
           followers: {
             some: {
-              id: event.context.params?.id
+              name: event.context.params?.name
             }
           }
         }
@@ -90,7 +90,7 @@ export default defineEventHandler(async (event) => {
             color: true,
             followers: {
               where: {
-                id: session?.user?.id
+                name: session?.user?.name
               },
               select: {
                 id: true,
@@ -125,7 +125,7 @@ export default defineEventHandler(async (event) => {
   const userVotes = await db.vote.findMany({
     where: {
       reviewId: { in: reviews.map((review) => review.id) },
-      userId: session?.user.id,
+      userName: session?.user.name,
     },
   });
 
@@ -133,7 +133,7 @@ export default defineEventHandler(async (event) => {
   result['reviews'] = reviews.map((review) => {
     return {
       ...review,
-      voteStatus: userVotes.find(vote => vote.userId === session?.user.id && vote.reviewId === review.id)?.status ?? 0,
+      voteStatus: userVotes.find(vote => vote.userName === session?.user.name && vote.reviewId === review.id)?.status ?? 0,
       positiveVotes: groupedVotes.find(groupedVote => groupedVote.reviewId === review.id
         && groupedVote.status === 1)?._count?.id ?? 0,
       negativeVotes: groupedVotes.find(groupedVote => groupedVote.reviewId === review.id

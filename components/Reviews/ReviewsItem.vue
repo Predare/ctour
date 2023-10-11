@@ -64,14 +64,14 @@ async function addView() {
 const actualSubscribeStatus = ref(props.data.author.followers.length === 0 ? false : true);
 
 async function subscribe() {
-    const result = await $fetch(`/api/user/followers/${props.data.author.id}/subscribe`, { method: 'POST' });
+    const result = await $fetch(`/api/user/followers/${props.data.author.name}/subscribe`, { method: 'POST' });
     if (!result || !result.status) return;
     actualFollowersCount.value = result.user._count.followers;
     actualSubscribeStatus.value = true;
 }
 
 async function unsubscribe() {
-    const result = await $fetch(`/api/user/followers/${props.data.author.id}/unsubscribe`, { method: 'DELETE' });
+    const result = await $fetch(`/api/user/followers/${props.data.author.name}/unsubscribe`, { method: 'DELETE' });
     if (!result || !result.status) return;
     actualFollowersCount.value = result.user._count.followers;
     actualSubscribeStatus.value = false;

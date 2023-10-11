@@ -2,7 +2,7 @@
 const route = useRoute();
 const achievements = ref([]);
 const cursor = ref(0);
-$fetch(`/api/user/${route.params.id}/achievements/all/?cursor=${toValue(cursor)}`).then((res) => {
+$fetch(`/api/user/${route.params.name}/achievements/all/?cursor=${toValue(cursor)}`).then((res) => {
     achievements.value.push(...res.achievements);
     cursor.value = res.cursor;
 });

@@ -1,9 +1,9 @@
 <script setup>
 const props = defineProps({
     filmLink: String,
-    authorId: String,
+    name: String,
 });
-const { data } = await useFetch(`/api/review/get/?${props.filmLink ? 'filmLink=' + props.filmLink : 'authorId=' + props.authorId}`);
+const { data } = await useFetch(`/api/review/get/?${props.filmLink ? 'filmLink=' + props.filmLink : 'authorId=' + props.name}`);
 </script>
 
 <template>

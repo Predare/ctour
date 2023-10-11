@@ -1,5 +1,5 @@
 <script setup>
-const followedUsersReviewsLink = `/api/user/${useRoute().params.id}/subscribes/`; 
+const followedUsersReviewsLink = `/api/user/${useRoute().params.name}/subscribes/`; 
 const users = ref([]);
 const reviews = ref([]);
 const subscribed = ref(false);

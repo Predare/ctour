@@ -6,14 +6,14 @@ export default defineEventHandler(async (event) => {
   const session = await getServerSession(event);
   const where = {};
 
-  if(query.authorId) where['authorId'] = query.authorId;
+  if(query.authorName) where['authorName'] = query.authorName;
   if(query.filmLink) where['filmLink'] = query.filmLink;
 
   async function getSingle() {
     return await db.review.findFirst({
       where: {
         filmLink: String(query.filmLink),
-        authorId: String(query.authorId),
+        authorName: String(query.authorName),
       },
       select: {
         id: true,
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
               color: true,
               followers: {
                 where: {
-                  id: session?.user?.id
+                  name: session?.user?.name
                 },
                 select: {
                   id: true,
@@ -81,7 +81,7 @@ export default defineEventHandler(async (event) => {
               color: true,
               followers: {
                 where: {
-                  id: session?.user?.id
+                  name: session?.user?.name
                 },
                 select: {
                   id: true,
@@ -127,14 +127,14 @@ export default defineEventHandler(async (event) => {
   const userVotes = await db.vote.findMany({
     where: {
       reviewId: { in: reviews.map((review) => review.id) },
-      userId: session?.user.id,
+      userName: session?.user.name,
     },
   });
 
   const result = reviews.map((review) => {
     return {
       ...review,
-      voteStatus: userVotes.find(vote => vote.userId === session?.user.id && vote.reviewId === review.id)?.status ?? 0,
+      voteStatus: userVotes.find(vote => vote.userName === session?.user.name && vote.reviewId === review.id)?.status ?? 0,
       positiveVotes: groupedVotes.find(groupedVote => groupedVote.reviewId === review.id
         && groupedVote.status === 1)?._count?.id ?? 0,
       negativeVotes: groupedVotes.find(groupedVote => groupedVote.reviewId === review.id

@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
                     select: {
                         completedUsers: {
                             where: {
-                                id: event.context.params?.id
+                                name: event.context.params?.name
                             }
                         }
                     }

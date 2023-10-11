@@ -60,14 +60,14 @@ export default defineEventHandler(async (event) => {
         const userVotes = await db.vote.findMany({
             where: {
                 commentId: { in: comments.map(comment => comment.id) },
-                userId: session?.user.id,
+                userName: session?.user.name,
             },
         });
 
         const result = comments.map((comment) => {
             return {
                 ...comment,
-                voteStatus: userVotes.find(userVote => userVote.userId === session?.user.id && userVote.commentId === comment.id)?.status ?? 0,
+                voteStatus: userVotes.find(userVote => userVote.userName === session?.user.name && userVote.commentId === comment.id)?.status ?? 0,
                 positiveVotes: groupedCommentVotes.find(groupedCommentVote => groupedCommentVote.commentId === comment.id
                     && groupedCommentVote.status === 1)?._count?.id ?? 0,
                 negativeVotes: groupedCommentVotes.find(groupedCommentVote => groupedCommentVote.commentId === comment.id
