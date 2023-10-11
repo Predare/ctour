@@ -12,9 +12,9 @@ export default defineEventHandler(async (event) => {
   async function upsertReview() {
     return await db.review.upsert({
       where: {
-        'filmLink_authorId': {
+        'filmLink_authorName': {
           filmLink: link,
-          authorId: session?.user.id,
+          authorName: session?.user.name,
         }
       },
       create: {

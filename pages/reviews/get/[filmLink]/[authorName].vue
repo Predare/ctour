@@ -1,10 +1,10 @@
 <script setup>
 const route = useRoute();
-const authorId = route.params.authorId;
+const authorName = route.params.authorName;
 const filmLink = route.params.filmLink;
 const filmName = ref('');
 const review = ref();
-await useFetch(`/api/review/get/?filmLink=${filmLink}&authorId=${authorId}&single=true`).then(response => {
+await useFetch(`/api/review/get/?filmLink=${filmLink}&authorName=${authorName}&single=true`).then(response => {
     review.value = response.data.value[0];
     filmName.value = response.data.value[0].film.name;
 });

@@ -15,12 +15,12 @@ export default defineEventHandler(async (event) => {
     return await db.review.findFirst({
       where: { id: Number(event.context.params?.id) },
       select: {
-        authorId: true,
+        authorName: true,
       }
     });
   }
 
-    if ((await getReview())?.authorId === session?.user.id) {
+    if ((await getReview())?.authorName === session?.user.name) {
         return { status: false };
     }
 
@@ -29,14 +29,14 @@ export default defineEventHandler(async (event) => {
             where: {
                 ['reviewId_userId']: {
                     reviewId: Number(event.context.params?.id),
-                    userId: session?.user.id
+                    userNae: session?.user.name
                 }
             },
             create: {
                 review: {
                     connect: { id: Number(event.context.params?.id) }
                 },
-                user: { connect: { id: session?.user.id } },
+                user: { connect: { name: session?.user.name } },
                 status: body.status,
             },
             update: { status: body.status, },

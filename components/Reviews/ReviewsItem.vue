@@ -82,13 +82,13 @@ async function unsubscribe() {
     <div ref="componentRef" class="rounded-md p-5" :style="{ backgroundColor: colors[data.rating] }">
         <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-4 items-start">
-                <NuxtLink :to="`/profile/${data.author.id}`">
+                <NuxtLink :to="`/profile/${data.author.name}`">
                     <AvatarIcon width="50px" height="50px" icon-size="30px" :iconName="data.author.avatar"
                         :icon-color="data.author.color" />
                     <v-tooltip activator="parent" location="bottom">Профиль</v-tooltip>
                 </NuxtLink>
                 <div class="flex flex-col justify-start items-start">
-                    <NuxtLink :to="`/profile/${data.author.id}`">
+                    <NuxtLink :to="`/profile/${data.author.name}`">
                         <div class="flex flex-row items-center gap-2">
                             <p class="text-body-1">{{ data.author.name }}</p>
                             <DateLine class="text-caption" :date="data.createdAt"></DateLine>
@@ -100,7 +100,7 @@ async function unsubscribe() {
                         <v-tooltip activator="parent" location="bottom">Профиль</v-tooltip>
                     </NuxtLink>
 
-                    <v-btn v-if="session?.user?.id != data.author.id" class="text-subtitle-2 px-1" variant="text"
+                    <v-btn v-if="session?.user?.name != data.author.name" class="text-subtitle-2 px-1" variant="text"
                         @click="actualSubscribeStatus ? unsubscribe() : subscribe()"
                         v-text="actualSubscribeStatus ? 'Отписаться' : 'Подписаться'"></v-btn>
                 </div>
@@ -124,7 +124,7 @@ async function unsubscribe() {
         <v-btn v-if="overflow" class="text-body-2 mt-2" density="comfortable" variant="plain" @click="expand = !expand"
             v-text="expand ? 'Скрыть...' : 'Развернуть...'"></v-btn>
         <v-divider class="my-3" />
-        <ReviewsFooter :id="data.id" :filmLink="data.filmLink" :author-id="data.author.id" :viewsCount="actualViewsCount"
+        <ReviewsFooter :id="data.id" :filmLink="data.filmLink" :author-name="data.author.name" :viewsCount="actualViewsCount"
             :commentsCount="data._count.comments" />
     </div>
 </template>

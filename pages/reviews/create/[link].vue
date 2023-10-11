@@ -5,9 +5,9 @@ const rating = ref(1);
 const preview = ref(false);
 const route = useRoute();
 const session = ref(useSessionStore.session);
-const { data } = await useFetch(`/api/review/get/content/one/?link=${route.params.link}&authorId=${session.value?.user.id}`);
-text.value = data.value.text;
-rating.value = data.value.rating;
+const { data } = await useFetch(`/api/review/get/content/one/?link=${route.params.link}&authorName=${session.value?.user.name}`);
+text.value = data?.value?.text && '';
+rating.value = data?.value?.rating ?? 1;
 
 async function sendReview() {
     await $fetch(`/api/review/${route.params.link}`, {

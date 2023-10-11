@@ -14,7 +14,7 @@ const props = defineProps({
 
 <template>
     <div class="flex flex-row gap-3 items-start">
-        <v-icon class="mt-4">{{ icon }}</v-icon>
+        <v-icon class="mt-4" style="opacity: var(--v-medium-emphasis-opacity);">{{ icon }}</v-icon>
         <div class="flex flex-col gap-2">
             <div class="flex flex-row gap-2">
                 <AdminSearchField :placeholder="placeholder" :addItem="addItem" :selected-items="selectedItems"

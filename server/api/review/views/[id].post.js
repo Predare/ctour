@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         return await db.views.findFirst({
             where: {
                 reviewId: Number(event.context.params?.id),
-                userId: session?.user.id,
+                userName: session?.user.name,
             }
         });
     }
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     async function addView() {
         return await db.views.create({
             data: {
-                user: { connect: { id: session?.user.id } },
+                user: { connect: { name: session?.user.name } },
                 review: {
                     connect: {
                         id: Number(event.context.params?.id)

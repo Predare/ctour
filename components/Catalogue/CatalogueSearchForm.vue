@@ -16,6 +16,7 @@ const selectFavorite = ref(false);
 const selectViewed = ref(false);
 const selectedDirectors = ref([]);
 const selectedActors = ref([]);
+const selectedSelections = ref([]);
 
 const { data: filters } = await useFetch('/api/catalogueFilters/all');
 const { genres, voices, selections, countries } = filters.value;
@@ -92,19 +93,25 @@ function removeItemFromArray(array, item) {
                     <v-container class="pa-2">
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-select clearable v-model="selectGenre" :items="genresNames" label="Жанр"></v-select>
+                                <v-select multiple clearable v-model="selectGenre" :items="genresNames"
+                                    label="Жанр" prependIcon="fa:fa-solid fa-masks-theater"></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-select clearable v-model="selectCountry" :items="countryNames" label="Страна"></v-select>
+                                <v-select clearable v-model="selectCountry" :items="countryNames" label="Страна"
+                                    prependIcon="fa:fa-solid fa-earth-americas"></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-select clearable v-model="selectVoice" :items="voiceNames" label="Озвучка"></v-select>
+                                <v-select multiple clearable v-model="selectVoice" :items="voiceNames" label="Озвучка"
+                                    prependIcon="fa:fa-solid fa-microphone"></v-select>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-select clearable v-model="selectSelection" :items="selectionNames"
-                                    label="Подборки"></v-select>
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedSelections"
+                                    :addItem="(item) => addItemToArray(selectedSelections, item)"
+                                    :removeItem="(item) => removeItemFromArray(selectedSelections, item)"
+                                    placeholder="Подборки" searchIndex="selection" icon="fa:fa-solid fa-puzzle-piece"
+                                    :enableForm="false" listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                             <v-col cols="12" md="4">
                                 <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedActors"
@@ -144,5 +151,4 @@ function removeItemFromArray(array, item) {
                 </v-form>
             </v-expansion-panel-text>
         </v-expansion-panel>
-    </v-expansion-panels>
-</template>
+    </v-expansion-panels></template>

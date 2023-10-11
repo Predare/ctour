@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
         },
         user: {
           connect: {
-            email: session?.user.email,
+            name: session?.user.name,
           },
         }
       },
