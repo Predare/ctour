@@ -1,8 +1,15 @@
 <script setup>
+import { useTheme } from 'vuetify';
 import { mergeProps } from 'vue';
-const props = defineProps({
-    themes: Array
+
+const theme = useTheme();
+const themes = computed(() => {
+    return Object.keys(theme.computedThemes.value);
 });
+
+function toggleTheme(newTheme) {
+    theme.global.name.value = newTheme;
+}
 </script>
 
 <template>
@@ -17,8 +24,14 @@ const props = defineProps({
         </template>
         <v-list>
             <v-list-item v-for="(theme, index) in themes" :key="index" :value="index">
-                <v-list-item-title>{{ theme.name }}</v-list-item-title>
+                <v-list-item-title @click="toggleTheme(theme)">{{ theme }}</v-list-item-title>
             </v-list-item>
         </v-list>
     </v-menu>
 </template>
+
+<style scoped>
+.v-list-item-title {
+    text-transform: capitalize;
+}
+</style>
