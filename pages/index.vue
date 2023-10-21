@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <v-container class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 0; padding-top: 2rem;">
+    <v-container class="bg-surface-lighten-1 rounded-md">
         <v-col>
             <CatalogueSearchForm />
         </v-col>
@@ -24,7 +24,7 @@ onMounted(() => {
             <CatalogueGenreTable />
         </v-col>
         <v-col>
-            <div class="flex flex-row justify-between">
+            <div class="flex justify-between">
                 <p class="text-h6">Каталог</p>
                 <CatalogueSortButtons />
             </div>
@@ -33,3 +33,11 @@ onMounted(() => {
         </v-col>
     </v-container>
 </template>
+
+<style scoped>
+.v-container {
+    padding: 3rem;
+    padding-bottom: 0;
+    padding-top: 2rem;
+}
+</style>
