@@ -8,15 +8,14 @@ export default defineEventHandler(async (event) => {
     var cursor = Number(query.cursor);
     var page = Number(query.page);
     var elementsInPage = 2;
-
     const filtersWhere = {
         type: query.type === 'FILM' ? FilmType.FILM : FilmType.SERIAL,
         voice: query.voice ? { some: { name: String(query.voice), } } : undefined,
         selections: query.selection ? { some: { name: String(query.selection), } } : undefined,
         genres: query.genre ? { some: { name: String(query.genre), } } : undefined,
         yearStart: query.yearFrom ? {
-            gte: Number(query.yearFrom) ?? undefined,
-            lte: Number(query.yearTo) ?? undefined,
+            gte: Number(query.yearFrom),
+            lte: query.yearTo ? Number(query.yearTo) : undefined,
         } : undefined,
         country: query.country ? { some: { name: String(query.country), } } : undefined,
         actors: query.actor ? { some: { name: String(query.actor), } } : undefined,

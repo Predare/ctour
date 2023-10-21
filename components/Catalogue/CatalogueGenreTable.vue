@@ -6,8 +6,7 @@ const filmFilterStore = useFilmFilterStore();
 
 function setNewGenre(genre){
     filmFilterStore.pureFilters();
-    filmFilterStore.setGenre(genre);
-    filmFilterStore.setFullreload(true);
+    filmFilterStore.setGenre([genre]);
 }
 </script>
 
