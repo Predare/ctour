@@ -10,8 +10,7 @@ export const useFilmFilterStore = defineStore('filmFilter', {
         genre: [],
         voice: [],
         selection: [],
-        yearFrom: 0,
-        yearTo: 0,
+        yearRange: [1894, 2023],
         country: '',
         actor: [],
         director: [],
@@ -185,17 +184,20 @@ export const useFilmFilterStore = defineStore('filmFilter', {
                 this.setFullreload(true);
             }
         },
+        setYearRange(yearRange) {
+            this.yearRange = yearRange;
+            this.setFullreload(true);
+        },
         /**
          * Sets all the filters to their initial values.
          *
          * @return {void} 
          */
-        pureFilters() {
+        clearFilters() {
             this.clearGenres();
             this.clearVoices();
             this.clearSelections();
-            this.setYearFrom(null);
-            this.setYearTo(null);
+            this.setYearRange([1894, 2023]);
             this.clearCountry();
             this.clearActors();
             this.clearDirectors();
@@ -245,8 +247,7 @@ export const useFilmFilterStore = defineStore('filmFilter', {
                 genre: state.genre,
                 voice: state.voice,
                 selection: state.selection,
-                yearFrom: state.yearFrom,
-                yearTo: state.yearTo,
+                yearRange: state.yearRange,
                 country: state.country,
                 actor: state.actor,
                 director: state.director,
@@ -269,8 +270,8 @@ export const useFilmFilterStore = defineStore('filmFilter', {
                 selection: state.selection.map((item) => {
                     return item.name;
                 }),
-                yearFrom: state.yearFrom,
-                yearTo: state.yearTo,
+                yearFrom: state.yearRange[0],
+                yearTo: state.yearRange[1],
                 country: state.country,
                 actor: state.actor.map((item) => {
                     return item.name;

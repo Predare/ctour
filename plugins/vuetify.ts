@@ -46,12 +46,20 @@ export default defineNuxtPlugin(nuxtApp => {
     },
     aliases: {
       VChipFilter: components.VChip,
+      VYearRangeField: components.VTextField
     },
     defaults: {
       VChipFilter: {
         variant: 'elevated',
         closable: true,
         class: 'v-chip-filter',
+      },
+      VYearRangeField: {
+        variant:"outlined",
+        density: "compact",
+        hideDetails: true,
+        singleLine: true, 
+        type: "number",
       }
     }
   })
