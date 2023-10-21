@@ -5,7 +5,7 @@ import { useFilmFilterStore } from '@/stores/filmFilter';
 const filmFilterStore = useFilmFilterStore();
 
 function setNewGenre(genre){
-    filmFilterStore.pureFilters();
+    filmFilterStore.clearFilters();
     filmFilterStore.setGenre([genre]);
 }
 </script>

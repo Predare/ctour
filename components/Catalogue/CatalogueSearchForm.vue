@@ -7,17 +7,6 @@ const expand = computed(() => {
     return [searchFormStore.expand ? "searchForm" : null];
 });
 
-const selectGenre = ref(null);
-const selectCountry = ref(null);
-const selectVoice = ref(null);
-const selectSelection = ref(null);
-const year = ref([1894, 2023]);
-const selectFavorite = ref(false);
-const selectViewed = ref(false);
-const selectedDirectors = ref([]);
-const selectedActors = ref([]);
-const selectedSelections = ref([]);
-
 const { data: filters } = await useFetch('/api/catalogueFilters/all');
 const { genres, voices, countries } = filters.value;
 
@@ -41,37 +30,8 @@ const countryNames = computed(() => {
 
 const filmFilterStore = useFilmFilterStore();
 
-function applyFilters() {
-    filmFilterStore.pureFilters();
-    filmFilterStore.setGenre(selectGenre.value);
-    filmFilterStore.setCountry(selectCountry.value);
-    filmFilterStore.setActor(unref(selectedActors));
-    filmFilterStore.setDirector(unref(selectedDirectors));
-    filmFilterStore.setVoice(selectVoice.value);
-    filmFilterStore.setYearFrom(year.value[0]);
-    filmFilterStore.setYearTo(year.value[1]);
-    filmFilterStore.setSelection(unref(selectedSelections));
-    filmFilterStore.favorite = selectFavorite.value;
-    filmFilterStore.viewed = selectViewed.value;
-    filmFilterStore.setFullreload(true);
-}
-
 function clearForm() {
-    selectedActors.value = [];
-    selectedDirectors.value = [];
-    selectGenre.value = null;
-    selectCountry.value = null;
-    selectVoice.value = null;
-    selectSelection.value = [];
-    year.value = [1894, 2023];
-}
-
-function addItemToArray(array, item) {
-    array.push(item)
-}
-
-function removeItemFromArray(array, item) {
-    array.splice(array.indexOf(item), 1);
+    filmFilterStore.clearFilters();
 }
 </script>
 
@@ -82,66 +42,64 @@ function removeItemFromArray(array, item) {
                 <p class="text-h6">Поиск</p>
             </v-expansion-panel-title>
             <v-expansion-panel-text class="pa-0 bg-surface-lighten-2">
-                <v-form @submit.prevent="applyFilters">
+                <v-form>
                     <v-container class="pa-2">
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-select multiple clearable v-model="selectGenre" :items="genresNames"
-                                    label="Жанр" prependIcon="fa:fa-solid fa-masks-theater"></v-select>
+                                <v-select multiple clearable v-model="filmFilterStore.genre" :items="genresNames" label="Жанр"
+                                    prependIcon="fa:fa-solid fa-masks-theater"></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-select clearable v-model="selectCountry" :items="countryNames" label="Страна"
+                                <v-select clearable v-model="filmFilterStore.country" :items="countryNames" label="Страна"
                                     prependIcon="fa:fa-solid fa-earth-americas"></v-select>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-select multiple clearable v-model="selectVoice" :items="voiceNames" label="Озвучка"
+                                <v-select multiple clearable v-model="filmFilterStore.voice" :items="voiceNames" label="Озвучка"
                                     prependIcon="fa:fa-solid fa-microphone"></v-select>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedSelections"
-                                    :addItem="(item) => addItemToArray(selectedSelections, item)"
-                                    :removeItem="(item) => removeItemFromArray(selectedSelections, item)"
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.selection"
+                                    :addItem="(item) => filmFilterStore.setSelection(filmFilterStore.selection.concat(item))"
+                                    :removeItem="(item) => filmFilterStore.setSelection(filmFilterStore.selection.filter(i => i.name !== item.name))"
                                     placeholder="Подборки" searchIndex="selection" icon="fa:fa-solid fa-puzzle-piece"
                                     :enableForm="false" listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedActors"
-                                    :addItem="(item) => addItemToArray(selectedActors, item)"
-                                    :removeItem="(item) => removeItemFromArray(selectedActors, item)" placeholder="Актёр"
-                                    searchIndex="stuff" icon="mdi-account-group" :enableForm="false"
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.actor"
+                                    :addItem="(item) => filmFilterStore.setActor(filmFilterStore.actor.concat(item))"
+                                    :removeItem="(item) => filmFilterStore.setActor(filmFilterStore.actor.filter(i => i.name !== item.name))"
+                                    placeholder="Актёр" searchIndex="stuff" icon="mdi-account-group" :enableForm=" false "
                                     listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="selectedDirectors"
-                                    :addItem="(item) => addItemToArray(selectedDirectors, item)"
-                                    :removeItem="(item) => removeItemFromArray(selectedDirectors, item)"
-                                    placeholder="Режиссёр" searchIndex="stuff" icon="mdi-account-group" :enableForm="false"
+                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.director"
+                                    :addItem="(item) => filmFilterStore.setDirector(filmFilterStore.director.concat(item))"
+                                    :removeItem="(item) => filmFilterStore.setDirector(filmFilterStore.director.filter(i => i.name !== item.name))"
+                                    placeholder="Режиссёр" searchIndex="stuff" icon="mdi-account-group" :enableForm=" false "
                                     listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="7">
-                                <CatalogueRangeSlider class="max-w-[550px]" v-model:year="year" />
+                                <CatalogueRangeSlider class="max-w-[550px]"/>
                             </v-col>
                             <v-col cols="12" md="5">
                                 <div class="flex flex-row gap-2 justify-end">
-                                    <v-checkbox v-model="selectFavorite" label="Избранное"></v-checkbox>
-                                    <v-checkbox v-model="selectViewed" label="Просмотренное"></v-checkbox>
+                                    <v-checkbox v-model="filmFilterStore.favorite" label="Избранное"></v-checkbox>
+                                    <v-checkbox v-model="filmFilterStore.viewed" label="Просмотренное"></v-checkbox>
                                 </div>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col>
-                                <v-btn type="submit" color="success" block class="mt-2" text="Найти"></v-btn>
-                            </v-col>
-                            <v-col>
-                                <v-btn color="warning" block class="mt-2" @click="clearForm" text="Очистить"></v-btn>
+                                <v-btn color="warning" block class="mt-2" @click=" clearForm " text="Очистить"></v-btn>
                             </v-col>
                         </v-row>
                     </v-container>
                 </v-form>
             </v-expansion-panel-text>
         </v-expansion-panel>
-    </v-expansion-panels></template>
+    </v-expansion-panels>
+</template>
