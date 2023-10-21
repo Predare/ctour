@@ -43,6 +43,16 @@ export default defineNuxtPlugin(nuxtApp => {
         lighten: 6,
         darken: 6,
       }
+    },
+    aliases: {
+      VChipFilter: components.VChip,
+    },
+    defaults: {
+      VChipFilter: {
+        variant: 'elevated',
+        closable: true,
+        class: 'v-chip-filter',
+      }
     }
   })
 
