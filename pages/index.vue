@@ -17,25 +17,19 @@ onMounted(() => {
 
 <template>
     <v-container class="bg-surface-lighten-1 rounded-md" style="padding: 3rem; padding-bottom: 0; padding-top: 2rem;">
-        <v-row>
-            <v-col>
-                <CatalogueSearchForm />
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col>
-                <CatalogueGenreTable />
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col>
-                <div class="flex flex-row justify-between">
-                    <p class="text-h6">Каталог</p>
-                    <CatalogueSortButtons />
-                </div>
-                <CatalogueFilterChipsLine class="mt-3"/>
-                <FilmsTable />
-            </v-col>
-        </v-row>
+        <v-col>
+            <CatalogueSearchForm />
+        </v-col>
+        <v-col>
+            <CatalogueGenreTable />
+        </v-col>
+        <v-col>
+            <div class="flex flex-row justify-between">
+                <p class="text-h6">Каталог</p>
+                <CatalogueSortButtons />
+            </div>
+            <CatalogueFilterChipsLine class="mt-3" />
+            <FilmsTable />
+        </v-col>
     </v-container>
 </template>
