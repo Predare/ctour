@@ -28,7 +28,7 @@ const { genres, voices, selections } = filters.value;
 const filmLink = ref(filmStore.film?.link ? '/film/' + filmStore.film?.link : '/');
 
 function setFilmType(name) {
-  filmFilterStore.pureFilters();
+  filmFilterStore.clearFilters();
   filmFilterStore.setType(name);
   filmFilterStore.setFullreload(true);
 }
@@ -85,7 +85,7 @@ filmStore.$subscribe((mutation, state) => {
         <template v-slot:activator="{ props }">
           <NuxtLink to="/">
             <v-btn rounded="0" v-bind="props" variant="text" class="min-h-[50px]" icon="mdi-bookmark-outline"
-              @click="() => { filmFilterStore.pureFilters(); filmFilterStore.favorite = true; filmFilterStore.setFullreload(true); }" />
+              @click="() => { filmFilterStore.clearFilters(); filmFilterStore.setFavorite(true); }" />
           </NuxtLink>
         </template>
       </v-tooltip>
@@ -93,7 +93,7 @@ filmStore.$subscribe((mutation, state) => {
         <template v-slot:activator="{ props }">
           <NuxtLink to="/">
             <v-btn rounded="0" v-bind="props" variant="text" class="min-h-[50px]" icon="mdi-history"
-              @click="() => { filmFilterStore.pureFilters(); filmFilterStore.viewed = true; filmFilterStore.setFullreload(true); }" />
+              @click="() => { filmFilterStore.clearFilters(); filmFilterStore.setViewed(true); }" />
           </NuxtLink>
         </template>
       </v-tooltip>
