@@ -34,11 +34,16 @@ export const useFilmFilterStore = defineStore('filmFilter', {
         /**
          * Set the genres of the object.
          *
-         * @param {Array<String>} genres - the genres to be set
+         * @param {Array<String> | string} genres - the genres to be set
          * @return {void} This function does not return anything.
          */
         setGenre(genres) {
-            this.genre = genres;
+            if(Array.isArray(genres)) {
+                this.genre = genres;
+            }else{
+                this.genre = [genres];
+            }
+            
             this.setFullreload(true);
         },
         /**
@@ -51,11 +56,15 @@ export const useFilmFilterStore = defineStore('filmFilter', {
         /**
          * Set the voices of the object.
          *
-         * @param {Array<String>} voices - the voices to be set
+         * @param {Array<String> | string} voices - the voices to be set
          * @return {void} This function does not return anything.
          */
         setVoice(voices) {
-            this.voice = voices;
+            if(Array.isArray(voices)) {
+                this.voice = voices;
+            }else{
+                this.voice = [voices];
+            }
             this.setFullreload(true);
         },
         /**
@@ -68,11 +77,15 @@ export const useFilmFilterStore = defineStore('filmFilter', {
         /**
          * Set the selections of the object.
          *
-         * @param {Array<String>} selections - the selections to be set
+         * @param {Array<String> | string} selections - the selections to be set
          * @return {void} This function does not return anything.
          */
         setSelection(selections) {
-            this.selection = selections;
+            if(Array.isArray(selections)) {
+                this.selection = selections;
+            }else{
+                this.selection = [selections];
+            }
             this.setFullreload(true);
         },
         /**

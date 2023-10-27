@@ -12,7 +12,7 @@ const filmFilterStore = useFilmFilterStore();
         <v-chip-filter v-if="filmFilterStore.genre.length > 0" @click:close="filmFilterStore.clearGenres" color="purple"
             :text="filmFilterStore.genre.join(', ')" />
         <v-chip-filter v-if="filmFilterStore.selection.length > 0" @click:close="filmFilterStore.clearSelections"
-            color="light-green" :text="filmFilterStore.selection.map(selection => selection.name).join(', ')" />
+            color="light-green" :text="filmFilterStore.selection.join(', ')" />
         <v-chip-filter v-if="filmFilterStore.country" @click:close="filmFilterStore.clearCountry" color="blue"
             :text="filmFilterStore.country" />
         <v-chip-filter v-if="filmFilterStore.voice.length > 0" @click:close="filmFilterStore.clearVoices" color="yellow"

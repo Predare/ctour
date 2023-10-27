@@ -9,9 +9,8 @@ import { useFilmFilterStore } from '@/stores/filmFilter';
 const filmFilterStore = useFilmFilterStore();
 
 function setFilter(name) {
-    filmFilterStore.pureFilters();
+    filmFilterStore.clearFilters();
     props.setter(name);
-    filmFilterStore.setFullreload(true);
 }
 
 </script>
