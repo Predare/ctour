@@ -18,11 +18,11 @@ const props = defineProps({
         </NuxtLink>
         <NuxtLink :to="`/`">
             <v-btn variant="plain" density="comfortable"
-                @click="() => { filmFilterStore.pureFilters(); filmFilterStore.favorite = true; filmFilterStore.setFullreload(true); }">Избранное</v-btn>
+                @click="() => { filmFilterStore.clearFilters(); filmFilterStore.setFavorite(true); }">Избранное</v-btn>
         </NuxtLink>
         <NuxtLink :to="`/`">
             <v-btn variant="plain" density="comfortable"
-                @click="() => { filmFilterStore.pureFilters(); filmFilterStore.viewed = true; filmFilterStore.setFullreload(true); }">Просмотренное</v-btn>
+                @click="() => { filmFilterStore.clearFilters(); filmFilterStore.setViewed(true); }">Просмотренное</v-btn>
         </NuxtLink>
         <NuxtLink :to="`/profile/${name}/subscriptions`">
             <v-btn variant="plain" density="comfortable">Подписки</v-btn>
