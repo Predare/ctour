@@ -25,7 +25,6 @@ const props = defineProps({
                             </p>
                         </div>
                     </div>
-
                     <v-btn v-if="showButtons" size="large" icon="mdi-play" color="primary">
                         <v-icon size="40"></v-icon>
                     </v-btn>
