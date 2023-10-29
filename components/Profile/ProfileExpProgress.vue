@@ -10,5 +10,7 @@ const lineFill = computed(() => {
 </script>
 
 <template>
-    <v-progress-linear rounded color="green" v-model="lineFill" :height="22"><p v-text="props.expierence  + '/' + props.nextRankExpirence"></p></v-progress-linear>
+    <v-progress-linear rounded color="green" v-model="lineFill" :height="22">
+        <p v-text="props.expierence + '/' + props.nextRankExpirence"></p>
+    </v-progress-linear>
 </template>
