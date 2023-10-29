@@ -3,13 +3,13 @@ const props = defineProps({
     date: String,
 });
 
-const creationDate = computed(() => {
+const dateText = computed(() => {
     return DateTimeTextFormatter(props.date);
-})
+});
 </script>
 
 <template>
     <ClientOnly>
-        <p>{{ creationDate }}</p>
+        <p>{{ dateText }}</p>
     </ClientOnly>
 </template>

@@ -46,7 +46,8 @@ export default defineNuxtPlugin(nuxtApp => {
     },
     aliases: {
       VChipFilter: components.VChip,
-      VYearRangeField: components.VTextField
+      VYearRangeField: components.VTextField,
+      VEmojiButton: components.VBtn
     },
     defaults: {
       VChipFilter: {
@@ -60,6 +61,10 @@ export default defineNuxtPlugin(nuxtApp => {
         hideDetails: true,
         singleLine: true, 
         type: "number",
+      },
+      VEmojiButton: {
+        variant: "text",
+        class: "text-body-1"
       }
     }
   })

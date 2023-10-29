@@ -14,8 +14,7 @@ function setNewGenre(genre){
     <v-card title="Жанры" color="surface-lighten-2">
         <v-card-text>
             <div class="grid grid-cols-6 gap-1">
-                <EmojiButton v-for="i in genres" :key="i.id" :text="i.name" :emoji="i.emoji"
-                    @click="setNewGenre(i.name)" />
+                <v-emoji-button v-for="i in genres" :key="i.id" @click="setNewGenre(i.name)" >{{ i.emoji + " " + i.name}}</v-emoji-button>
             </div>
         </v-card-text>
     </v-card>
