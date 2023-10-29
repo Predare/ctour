@@ -138,68 +138,68 @@ function removeItemFromArray(array, item) {
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <AdminSearchWidget :selectedItems="selectedDirectors"
+                        <MeilisearchWidget :selectedItems="selectedDirectors"
                             :addItem="(item) => addItemToArray(selectedDirectors, item)"
                             :removeItem="(item) => removeItemFromArray(selectedDirectors, item)" placeholder="Режиссёры"
                             searchIndex="stuff" icon="mdi-account-group">
                             <template v-slot:dialogForm>
                                 <AdminDialogAddStuff />
                             </template>
-                        </AdminSearchWidget>
+                        </MeilisearchWidget>
                     </v-col>
                     <v-col cols="6">
-                        <AdminSearchWidget :selectedItems="selectedActors"
+                        <MeilisearchWidget :selectedItems="selectedActors"
                             :addItem="(item) => addItemToArray(selectedActors, item)"
                             :removeItem="(item) => removeItemFromArray(selectedActors, item)" placeholder="Актёры"
                             searchIndex="stuff" icon="mdi-account-group">
                             <template v-slot:dialogForm>
                                 <AdminDialogAddStuff />
                             </template>
-                        </AdminSearchWidget>
+                        </MeilisearchWidget>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <AdminSearchWidget :selectedItems="selectedGenres"
+                        <MeilisearchWidget :selectedItems="selectedGenres"
                             :addItem="(item) => addItemToArray(selectedGenres, item)"
                             :removeItem="(item) => removeItemFromArray(selectedGenres, item)" placeholder="Жанр"
                             searchIndex="genre" icon="fa:fa-solid fa-masks-theater">
                             <template v-slot:dialogForm>
                                 <AdminDialogAddGenre />
                             </template>
-                        </AdminSearchWidget>
+                        </MeilisearchWidget>
                     </v-col>
                     <v-col cols="6">
-                        <AdminSearchWidget :selectedItems="selectedCountries"
+                        <MeilisearchWidget :selectedItems="selectedCountries"
                             :addItem="(item) => addItemToArray(selectedCountries, item)"
                             :removeItem="(item) => removeItemFromArray(selectedCountries, item)" placeholder="Страна"
                             searchIndex="country" icon="fa:fa-solid fa-earth-americas">
                             <template v-slot:dialogForm>
                                 <AdminDialogAddCountry />
                             </template>
-                        </AdminSearchWidget>
+                        </MeilisearchWidget>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="6">
-                        <AdminSearchWidget :selectedItems="selectedSelections"
+                        <MeilisearchWidget :selectedItems="selectedSelections"
                             :addItem="(item) => addItemToArray(selectedSelections, item)"
                             :removeItem="(item) => removeItemFromArray(selectedSelections, item)" placeholder="Подборка"
                             searchIndex="selection" icon="fa:fa-solid fa-puzzle-piece">
                             <template v-slot:dialogForm>
                                 <AdminDialogAddSelection />
                             </template>
-                        </AdminSearchWidget>
+                        </MeilisearchWidget>
                     </v-col>
                     <v-col cols="6">
-                        <AdminSearchWidget :selectedItems="selectedVoiceStudios"
+                        <MeilisearchWidget :selectedItems="selectedVoiceStudios"
                             :addItem="(item) => addItemToArray(selectedVoiceStudios, item)"
                             :removeItem="(item) => removeItemFromArray(selectedVoiceStudios, item)"
                             placeholder="Студия озвучки" searchIndex="voicestudio" icon="fa:fa-solid fa-microphone">
                             <template v-slot:dialogForm>
                                 <AdminDialogAddVoiceStudio />
                             </template>
-                        </AdminSearchWidget>
+                        </MeilisearchWidget>
                     </v-col>
                 </v-row>
             </v-container>

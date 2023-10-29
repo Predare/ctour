@@ -1,4 +1,5 @@
 <script setup>
+
 const props = defineProps({
     selectedItems: { type: Array, required: true },
     addItem: { type: Function, required: true },
@@ -17,15 +18,15 @@ const props = defineProps({
         <v-icon class="mt-4" style="opacity: var(--v-medium-emphasis-opacity);">{{ icon }}</v-icon>
         <div class="flex flex-col gap-2">
             <div class="flex flex-row gap-2">
-                <AdminSearchField :placeholder="placeholder" :addItem="addItem" :selected-items="selectedItems"
+                <MeilisearchField :placeholder="placeholder" :addItem="addItem" :selected-items="selectedItems"
                     :searchIndex="searchIndex" :hitsClass="hitsClass" :enableForm="enableForm">
                     <template v-slot:addDialogForm>
                         <slot name="dialogForm"></slot>
                     </template>
-                </AdminSearchField>
+                </MeilisearchField>
             </div>
-            <AdminItemList class="w-full" :listStyleClass="listStyleClass" :items="selectedItems" :removeItem="removeItem">
-            </AdminItemList>
+            <MeilisearchItemList class="w-full" :listStyleClass="listStyleClass" :items="selectedItems" :removeItem="removeItem">
+            </MeilisearchItemList>
         </div>
     </div>
 </template>

@@ -60,21 +60,21 @@ function clearForm() {
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.selection"
+                                <MeilisearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.selection"
                                     :addItem="(item) => filmFilterStore.setSelection(filmFilterStore.selection.concat(item))"
                                     :removeItem="(item) => filmFilterStore.setSelection(filmFilterStore.selection.filter(i => i.name !== item.name))"
                                     placeholder="Подборки" searchIndex="selection" icon="fa:fa-solid fa-puzzle-piece"
                                     :enableForm="false" listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.actor"
+                                <MeilisearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.actor"
                                     :addItem="(item) => filmFilterStore.setActor(filmFilterStore.actor.concat(item))"
                                     :removeItem="(item) => filmFilterStore.setActor(filmFilterStore.actor.filter(i => i.name !== item.name))"
                                     placeholder="Актёр" searchIndex="stuff" icon="mdi-account-group" :enableForm=" false "
                                     listStyleClass="bg-surface-lighten-3" />
                             </v-col>
                             <v-col cols="12" md="4">
-                                <AdminSearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.director"
+                                <MeilisearchWidget hitsClass="bg-surface-lighten-4" :selectedItems="filmFilterStore.director"
                                     :addItem="(item) => filmFilterStore.setDirector(filmFilterStore.director.concat(item))"
                                     :removeItem="(item) => filmFilterStore.setDirector(filmFilterStore.director.filter(i => i.name !== item.name))"
                                     placeholder="Режиссёр" searchIndex="stuff" icon="mdi-account-group" :enableForm=" false "
